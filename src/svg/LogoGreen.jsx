@@ -1,6 +1,6 @@
 export const LogoGreen = () => (
   <svg
-    className="w-45 h-21"
+    className="w-55 h-24"
     viewBox="0 0 212 42"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
