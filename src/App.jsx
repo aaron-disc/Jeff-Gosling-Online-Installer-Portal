@@ -1,14 +1,22 @@
 import { useState } from "react";
+
 import { DEMO_USERS } from "./data/users";
 import { PRODUCTS } from "./data/products";
 import { VEHICLES } from "./data/vehicles";
-import LoginForm from "./components/LoginForm";
+
+import LoginForm from "./components/authentication/LoginForm";
+import RequestAccessForm from "./components/authentication/RequestAccessForm";
+
 import Header from "./components/Header";
+import { TestHeader } from "./components/TestHeader";
 import { ProductCard } from "./components/Header";
+
 import VehicleList from "./components/VehicleList";
 import VehicleDetail from "./components/VehicleDetail";
 import VehicleSearch, { BackButton } from "./components/VehicleSearch";
 import PdfViewer from "./components/PdfViewer";
+
+import loginBg from "./images/Login.png";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -16,6 +24,8 @@ export default function App() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [requestFirstName, setRequestFirstName] = useState("");
+  const [requestSurname, setRequestSurname] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [vehicleSearch, setVehicleSearch] = useState("");
@@ -32,6 +42,19 @@ export default function App() {
     } else {
       setLoginError("Invalid email or password.");
     }
+  };
+
+  const handleRequestAccess = () => {
+    setScreen("request-access");
+    setLoginEmail("");
+    setLoginPassword("");
+    setLoginError("")
+  };
+
+  const handleBackToLogin = () => {
+    setScreen("login");
+    setRequestFirstName("");
+    setRequestSurname("");
   };
 
   const handleSignOut = () => {
@@ -71,7 +94,9 @@ export default function App() {
       vehicleSearch === "" ||
       v.make.toLowerCase().includes(vehicleSearch.toLowerCase()) ||
       v.model.toLowerCase().includes(vehicleSearch.toLowerCase()) ||
-      `${v.make} ${v.model}`.toLowerCase().includes(vehicleSearch.toLowerCase()),
+      `${v.make} ${v.model}`
+        .toLowerCase()
+        .includes(vehicleSearch.toLowerCase()),
   );
 
   if (pdfView) {
@@ -80,23 +105,37 @@ export default function App() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <LoginForm
-          email={loginEmail}
-          setEmail={setLoginEmail}
-          password={loginPassword}
-          setPassword={setLoginPassword}
-          error={loginError}
-          onSubmit={handleLogin}
-        />
+      <div
+        className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${loginBg})` }}
+      >
+        {screen === "request-access" ? (
+          <RequestAccessForm
+            firstName={requestFirstName}
+            setFirstName={setRequestFirstName}
+            surname={requestSurname}
+            setSurname={setRequestSurname}
+            onBack={handleBackToLogin}
+          />
+        ) : (
+          <LoginForm
+            email={loginEmail}
+            setEmail={setLoginEmail}
+            password={loginPassword}
+            setPassword={setLoginPassword}
+            error={loginError}
+            onSubmit={handleLogin}
+            onRequestAccess={handleRequestAccess}
+          />
+        )}
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header user={user} onSignOut={handleSignOut} />
-
+      {/*   <Header user={user} onSignOut={handleSignOut} />   */}
+      <TestHeader user={user} onSignOut={handleSignOut}/>
       <main className="flex-1 px-6 py-6 max-w-4xl w-full mx-auto">
         {screen === "product-select" && (
           <div>
@@ -104,15 +143,21 @@ export default function App() {
               Select product
             </h1>
             <p className="text-sm text-gray-500 mb-6">
-              Choose a product to view fitting instructions for your customer&apos;s
+              Choose a product to view fitting instructions for your customer's
               vehicle.
             </p>
             <div
               className="grid gap-4"
-              style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+              style={{
+                gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+              }}
             >
               {PRODUCTS.map((p) => (
-                <ProductCard key={p.id} product={p} onSelect={handleSelectProduct} />
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  onSelect={handleSelectProduct}
+                />
               ))}
             </div>
           </div>
@@ -127,10 +172,7 @@ export default function App() {
             <p className="text-sm text-gray-500 mb-5">
               Find your customer&apos;s vehicle to view fitting instructions.
             </p>
-            <VehicleSearch
-              search={vehicleSearch}
-              onSearch={setVehicleSearch}
-            />
+            <VehicleSearch search={vehicleSearch} onSearch={setVehicleSearch} />
             {filteredVehicles.length > 0 ? (
               <VehicleList
                 vehicles={filteredVehicles}
@@ -148,7 +190,9 @@ export default function App() {
             <VehicleDetail
               vehicle={selectedVehicle}
               onViewPdf={() => setPdfView(selectedVehicle)}
-              onDownloadPdf={() => window.open(selectedVehicle.bootHoistPdf, "_blank")}
+              onDownloadPdf={() =>
+                window.open(selectedVehicle.bootHoistPdf, "_blank")
+              }
             />
           </div>
         )}
