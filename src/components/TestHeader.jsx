@@ -38,6 +38,8 @@ export function TestHeader({ user, onSignOut }) {
     <Profile12 />,
   ];
 
+  console.log(dropdownOpen)
+
   useEffect(() => {
     if (!playing) return;
 
@@ -59,15 +61,16 @@ export function TestHeader({ user, onSignOut }) {
   }, []);
 
   return (
-    <div className="flex items-center justify-between px-[min(5vw,5rem)] gap-[min(5vw,5rem)] pt-5">
+    <div className="flex items-center px-[min(5vw,5rem)] pt-2.5 gap-[7vw]">
       <div
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
+        className=""
       >
         {hover ? <LogoYellow /> : <LogoGreen />}
       </div>
 
-      <div className="grow flex items-center gap-[min(2vw,1rem)] px-20">
+      <div className="flex-1 flex items-center gap-3 min-w-[400px]">
         <input
           type="text"
           placeholder="Find"
@@ -79,16 +82,14 @@ export function TestHeader({ user, onSignOut }) {
         </button>
       </div>
 
-      <div className="flex items-center gap-[min(3vw,2rem)]">
-        <h1 className="text-2xl hover:text-[#006B2D] cursor-default">
+      <div className="flex items-center">
+        <h1 className="text-2xl hover:text-[#006B2D] mr-5 cursor-default">
           {user.name}
         </h1>
         <div className="relative" ref={dropdownRef}>
           <div
             className="cursor-pointer"
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            onMouseEnter={() => setPlaying(true)}
-            onMouseLeave={() => setPlaying(false)}
           >
             {profileFrames[index]}
           </div>
