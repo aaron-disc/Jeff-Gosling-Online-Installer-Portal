@@ -21,6 +21,6 @@ export const DEMO_USERS = [
     id: 4,
     email: "a@b.com",
     password: "test",
-    name: "TEST NAME"
+    name: "Jospeha Caroline"
   }
 ];

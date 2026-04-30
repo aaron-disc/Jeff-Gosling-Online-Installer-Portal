@@ -20,7 +20,7 @@ export default function LoginForm({
         </div>
         <div className="flex flex-col gap-3">
           <input
-            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] shadow-[0px_3px_6px_rgba(0,0,0,0.25)] rounded-[8.5px] focus:shadow-none focus:border-black focus:border-1 focus:outline-none focus:ring-1"
+            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] rounded-[8.5px] shadow-[0px_3px_5.5px_rgba(0,0,0,0.25)] focus:shadow-none focus:border-black focus:border-1 focus:outline-none focus:ring-1"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -29,7 +29,7 @@ export default function LoginForm({
           />
           <input
             type="password"
-            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] shadow-[0px_3px_6px_rgba(0,0,0,0.25)] rounded-[8.5px] focus:shadow-none focus:border-black focus:border-1 focus:outline-none focus:ring-1 mt-5"
+            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] rounded-[8.5px] shadow-[0px_3px_5.5px_rgba(0,0,0,0.25)] focus:shadow-none focus:border-black focus:border-1 focus:outline-none focus:ring-1 mt-5"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -41,7 +41,7 @@ export default function LoginForm({
           </button>
 
           <button
-            className="w-full bg-[#006B2D] hover:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] font-medium py-2.5 rounded text-lg transition-colors cursor-pointer mt-5 font-[Poppins]"
+            className="w-full bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] font-medium py-2.5 rounded text-lg transition-colors cursor-pointer mt-5 font-[Poppins]"
             onClick={onSubmit}
           >
             Login
@@ -57,16 +57,3 @@ export default function LoginForm({
     </div>
   );
 }
-
-/*
-<div className="mt-5 p-3 bg-gray-50 rounded-lg text-xs text-gray-500 leading-5">
-          <span className="font-medium text-gray-700">Demo accounts:</span>
-          <br />
-          admin@accessparts.co.uk / admin123
-          <br />
-          installer@garageone.co.uk / install123
-          <br />
-          a@b.com / test
-        </div>
-
-*/

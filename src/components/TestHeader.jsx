@@ -38,8 +38,6 @@ export function TestHeader({ user, onSignOut }) {
     <Profile12 />,
   ];
 
-  console.log(dropdownOpen)
-
   useEffect(() => {
     if (!playing) return;
 
@@ -61,29 +59,26 @@ export function TestHeader({ user, onSignOut }) {
   }, []);
 
   return (
-    <div className="flex items-center px-[min(5vw,5rem)] pt-2.5 gap-[7vw]">
-      <div
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        className=""
-      >
-        {hover ? <LogoYellow /> : <LogoGreen />}
+    <div className="flex items-center px-[4vw] min-[1280px]:px-[8vw] min-[1425px]:px-[12vw] pt-2.5 gap-[4vw]">
+      <div className="group">
+        <LogoGreen className="block group-hover:hidden" />
+        <LogoYellow className="hidden group-hover:block" />
       </div>
 
-      <div className="flex-1 flex items-center gap-3 min-w-[400px]">
+      <div className="flex-1 flex items-center gap-3">
         <input
           type="text"
           placeholder="Find"
-          className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] rounded focus:border-black focus:outline-none focus:ring-1"
+          className="box-border w-full min-w-[400px] max-w-[800px] max-h-[42px] px-5 py-3 bg-white border border-[#7A7A7A] rounded shadow-[0px_2px_4px_rgba(0,0,0,0.25)] focus:shadow-none focus:border-black focus:outline-none focus:ring-1"
         />
 
-        <button className="w-fit px-10 bg-[#006B2D] hover:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] font-medium py-2.5 rounded text-lg transition-colors cursor-pointer font-[Poppins] text-4xl">
+        <button className="py-[6px] px-[25px] w-fit px-10 bg-[#006B2D] hover:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer font-[Poppins] text-[20px]">
           Search
         </button>
       </div>
 
       <div className="flex items-center">
-        <h1 className="text-2xl hover:text-[#006B2D] mr-5 cursor-default">
+        <h1 className="text-xl hover:text-[#006B2D] mr-5 cursor-default">
           {user.name}
         </h1>
         <div className="relative" ref={dropdownRef}>
