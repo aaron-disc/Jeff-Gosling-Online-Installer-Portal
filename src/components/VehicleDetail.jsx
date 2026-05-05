@@ -14,7 +14,7 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
         </div>
         {vehicle.hoistType ? (
           <span className="inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-[#F1C800] text-[#3D3500] font-medium flex-shrink-0">
-            <Check size={16}/> {vehicle.hoistType} Compatible
+            <Check size={16} /> {vehicle.hoistType} Compatible
           </span>
         ) : (
           <span className="inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-gray-100 text-gray-500 font-medium flex-shrink-0">

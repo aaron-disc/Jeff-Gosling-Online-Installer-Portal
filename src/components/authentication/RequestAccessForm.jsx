@@ -32,7 +32,7 @@ export default function RequestAccessForm({
           <button className="pl-2 cursor-pointer text-md self-end w-auto hover:underline hover:text-[#006B2D] invisible">
             Forgot Password
           </button>
-          <button className="w-full bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] font-medium py-2.5 rounded text-lg transition-colors cursor-pointer mt-5">
+          <button className="w-full mt-5 bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] font-medium py-2.5 rounded text-lg transition-colors cursor-pointer text-xl font-[Poppins]">
             Request Access
           </button>
 
