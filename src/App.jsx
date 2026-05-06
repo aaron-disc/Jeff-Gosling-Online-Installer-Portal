@@ -1,20 +1,18 @@
 import { useState } from "react";
 
 import { DEMO_USERS } from "./data/users";
-import { PRODUCTS } from "./data/products";
 import { VEHICLES } from "./data/vehicles";
 
 import LoginForm from "./components/authentication/LoginForm";
 import RequestAccessForm from "./components/authentication/RequestAccessForm";
 
 import Header from "./components/Header";
-import { TestHeader } from "./components/TestHeader";
-import { ProductCard } from "./components/Header";
 
 import VehicleList from "./components/VehicleList";
 import VehicleDetail from "./components/VehicleDetail";
 import VehicleSearch, { BackButton } from "./components/VehicleSearch";
 import PdfViewer from "./components/PdfViewer";
+import ProductSelect from "./components/ProductSelect";
 
 import loginBg from "./images/Login.png";
 
@@ -48,7 +46,7 @@ export default function App() {
     setScreen("request-access");
     setLoginEmail("");
     setLoginPassword("");
-    setLoginError("")
+    setLoginError("");
   };
 
   const handleBackToLogin = () => {
@@ -134,33 +132,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/*   <Header user={user} onSignOut={handleSignOut} />   */}
-      <TestHeader user={user} onSignOut={handleSignOut}/>
+      <Header user={user} onSignOut={handleSignOut} />
       <main className="flex-1 px-6 py-6 max-w-4xl w-full mx-auto">
         {screen === "product-select" && (
-          <div>
-            <h1 className="text-xl font-medium text-gray-900 mb-2">
-              Select product
-            </h1>
-            <p className="text-sm text-gray-500 mb-6">
-              Choose a product to view fitting instructions for your customer's
-              vehicle.
-            </p>
-            <div
-              className="grid gap-4"
-              style={{
-                gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-              }}
-            >
-              {PRODUCTS.map((p) => (
-                <ProductCard
-                  key={p.id}
-                  product={p}
-                  onSelect={handleSelectProduct}
-                />
-              ))}
-            </div>
-          </div>
+          <ProductSelect onSelect={handleSelectProduct} />
         )}
 
         {screen === "vehicle-search" && (
@@ -190,9 +165,18 @@ export default function App() {
             <VehicleDetail
               vehicle={selectedVehicle}
               onViewPdf={() => setPdfView(selectedVehicle)}
-              onDownloadPdf={() =>
-                window.open(selectedVehicle.bootHoistPdf, "_blank")
-              }
+              onDownloadPdf={async () => {
+                const response = await fetch(selectedVehicle.bootHoistPdf);
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `${selectedVehicle.make}_${selectedVehicle.model}_Installation_Guide.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+              }}
             />
           </div>
         )}

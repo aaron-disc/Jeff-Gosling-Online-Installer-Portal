@@ -1,52 +1,111 @@
-import { Lock } from "lucide-react";
-
-const CarIcon = () => (
-  <svg
-    className="w-5 h-5"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path d="M5 17H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-1M5 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM19 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
-    <path d="M3 9h18v6H3z" />
-  </svg>
-);
+import { useState, useRef, useEffect } from "react";
+import { LogoGreen } from "../svg/LogoGreen";
+import { LogoYellow } from "../svg/LogoYellow";
+import {
+  Profile1,
+  Profile2,
+  Profile3,
+  Profile4,
+  Profile5,
+  Profile6,
+  Profile7,
+  Profile8,
+  Profile9,
+  Profile10,
+  Profile11,
+  Profile12,
+} from "../svg/ProfileSVG";
 
 export default function Header({ user, onSignOut }) {
-  return (
-    <header className="bg-white border-b border-gray-200 px-6 flex items-center gap-4 h-14">
-      <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#006B2D] flex items-center justify-center text-white">
-          <Lock size={20} />
-        </div>
+  const [hover, setHover] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
-        <span className="font-medium text-gray-900">JG Systems</span>
+  const [index, setIndex] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const profileFrames = [
+    <Profile1 />,
+    <Profile2 />,
+    <Profile3 />,
+    <Profile4 />,
+    <Profile5 />,
+    <Profile6 />,
+    <Profile7 />,
+    <Profile8 />,
+    <Profile9 />,
+    <Profile10 />,
+    <Profile11 />,
+    <Profile12 />,
+  ];
+
+  useEffect(() => {
+    if (!playing) return;
+
+    const interval = setInterval(() => {
+      setIndex((i) => (i + 1) % profileFrames.length);
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [playing]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="flex items-center px-[4vw] min-[1280px]:px-[8vw] min-[1425px]:px-[12vw] pt-2.5 gap-[4vw]">
+      <div className="group">
+        <LogoGreen className="block group-hover:hidden" />
+        <LogoYellow className="hidden group-hover:block" />
       </div>
-      <div className="ml-auto flex items-center gap-3">
-        <span className="text-sm text-gray-500">{user.name}</span>
-<button
-      className="text-sm text-gray-500 hover:text-gray-900 transition-colors px-2 py-1 cursor-pointer"
-      onClick={onSignOut}
-    >
-          Sign out
+
+      <div className="flex-1 flex items-center gap-3">
+        <input
+          type="text"
+          placeholder="Find"
+          className="box-border w-full min-w-[400px] max-w-[800px] max-h-[45px] px-5 py-3 bg-white border border-[#7A7A7A] rounded shadow-[0px_2px_4px_rgba(0,0,0,0.25)] focus:shadow-none focus:border-black focus:outline-none focus:ring-1"
+        />
+
+        <button className="py-[6px] px-[25px] w-fit px-10 min-h-[45px] bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2B] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer font-[Poppins] text-[20px]">
+          Search
         </button>
       </div>
-    </header>
-  );
-}
 
-export function ProductCard({ product, onSelect }) {
-  return (
-    <button
-      className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-start gap-2 hover:shadow-sm transition-shadow text-left cursor-pointer"
-      onClick={() => onSelect(product)}
-    >
-      <div className="w-10 h-10 rounded-lg bg-[#006B2D] flex items-center justify-center text-white">
-        <CarIcon />
+      <div className="flex items-center gap-5">
+        <h1 className="text-xl hover:text-[#006B2D] cursor-default">
+          {user.name}
+        </h1>
+        <div className="relative" ref={dropdownRef}>
+          <div
+            className="cursor-pointer"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            {profileFrames[index]}
+          </div>
+          {dropdownOpen && (
+            <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+              <button
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                onClick={onSignOut}
+              >
+                Sign Out
+              </button>
+              <button className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
+                Settings
+              </button>
+              <button className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
+                Theme
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-      <span className="font-medium text-gray-900 text-base">{product.label}</span>
-      <span className="text-sm text-gray-500">{product.description}</span>
-    </button>
+    </div>
   );
 }

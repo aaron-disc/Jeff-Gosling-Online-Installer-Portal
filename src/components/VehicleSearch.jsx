@@ -1,6 +1,6 @@
 import { Search, ChevronLeft } from "lucide-react";
 
-export default function VehicleSearch({ search, onSearch, onBack }) {
+export default function VehicleSearch({ search, onSearch }) {
   return (
     <div className="relative mb-5">
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
@@ -8,7 +8,7 @@ export default function VehicleSearch({ search, onSearch, onBack }) {
       </div>
       <input
         className="w-full pl-10 pr-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D] bg-white"
-        placeholder="Search by make or model..."
+        placeholder="Search by manufacturer or model..."
         value={search}
         onChange={(e) => onSearch(e.target.value)}
       />

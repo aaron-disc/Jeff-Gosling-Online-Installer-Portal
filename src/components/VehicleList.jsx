@@ -1,64 +1,106 @@
-import { Check } from "lucide-react";
+import { Check, X, Clock, AlertCircle } from "lucide-react";
+
+const getStatusConfig = (designStatus) => {
+  switch (designStatus) {
+    case "Complete":
+      return {
+        bg: "bg-[#13A538]",
+        text: "text-white",
+        icon: Check,
+      };
+    case "Not Possible":
+      return {
+        bg: "bg-gray-400",
+        text: "text-white",
+        icon: X,
+      };
+    case "To Be Designed":
+      return {
+        bg: "bg-[#F1C800]",
+        text: "text-[#3D3500]",
+        icon: Clock,
+      };
+    case "Assumed like Other (see notes)":
+      return {
+        bg: "bg-gray-100",
+        text: "text-gray-600",
+        icon: AlertCircle,
+      };
+    case "See Notes":
+      return {
+        bg: "bg-gray-100",
+        text: "text-gray-600",
+        icon: AlertCircle,
+      };
+    default:
+      return {
+        bg: "bg-gray-100",
+        text: "text-gray-500",
+        icon: AlertCircle,
+      };
+  }
+};
 
 export default function VehicleList({ vehicles, onSelect }) {
   return (
-    <div
-      className="grid gap-3"
-      style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
-    >
-      {vehicles.map((v) => (
-        <button
-          key={v.id}
-          className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-sm transition-shadow text-left w-full cursor-pointer"
-          onClick={() => onSelect(v)}
-        >
-          <div className="flex items-start justify-between gap-2 mb-2">
-            <div>
-              <p className="font-medium text-gray-900 text-sm">
-                {v.make} {v.model}
-              </p>
-              <p className="text-xs text-gray-500">
-                {v.year} &middot; {v.body}
-              </p>
-            </div>
-            {v.hoistType ? (
-              <span className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-[#F1C800] text-[#3D3500] font-medium flex-shrink-0">
-                <Check size={16} /> {v.hoistType}
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-500 font-medium flex-shrink-0">
-                N/A
-              </span>
-            )}
-          </div>
-          <div className="grid grid-cols-3 gap-2 text-xs text-gray-500">
-            <div>
-              <span className="text-gray-400">Engine</span>
-              <p className="text-gray-700 font-medium truncate">{v.engine}</p>
-            </div>
-            <div>
-              <span className="text-gray-400">Fuel</span>
-              <p className="text-gray-700 font-medium">{v.fuel}</p>
-            </div>
-            <div>
-              <span className="text-gray-400">Seats</span>
-              <p className="text-gray-700 font-medium">{v.seats}</p>
-            </div>
-            <div>
-              <span className="text-gray-400">Boot</span>
-              <p className="text-gray-700 font-medium">{v.bootSpace}</p>
-            </div>
-            <div>
-              <span className="text-gray-400">CO2</span>
-              <p className="text-gray-700 font-medium">{v.co2}</p>
-            </div>
-            <div>
-              <span className="text-gray-400">Drive</span>
-              <p className="text-gray-700 font-medium">{v.drivetrain}</p>
-            </div>
-          </div>
-        </button>
-      ))}
+    <div className="overflow-x-auto">
+      <table className="w-full">
+        <thead>
+          <tr className="border-b border-gray-200">
+            <th className="text-left text-sm font-medium text-gray-500 py-3 px-4">
+              Manufacturer
+            </th>
+            <th className="text-left text-sm font-medium text-gray-500 py-3 px-4">
+              Model
+            </th>
+            <th className="text-left text-sm font-medium text-gray-500 py-3 px-4">
+              Variant
+            </th>
+            <th className="text-left text-sm font-medium text-gray-500 py-3 px-4">
+              Start
+            </th>
+            <th className="text-left text-sm font-medium text-gray-500 py-3 px-4">
+              End
+            </th>
+            <th className="text-left text-sm font-medium text-gray-500 py-3 px-4">
+              Design Status
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {vehicles.map((v) => {
+            const status = getStatusConfig(v.designStatus);
+            const StatusIcon = status.icon;
+
+            return (
+              <tr
+                key={v.id}
+                className="border-b border-gray-100 hover:bg-gray-50 cursor-pointer"
+                onClick={() => onSelect(v)}
+              >
+                <td className="py-3 px-4 text-sm text-gray-900 font-medium">
+                  {v.make}
+                </td>
+                <td className="py-3 px-4 text-sm text-gray-900">{v.model}</td>
+                <td className="py-3 px-4 text-sm text-gray-500">{v.variant}</td>
+                <td className="py-3 px-4 text-sm text-gray-500">
+                  {v.start || "—"}
+                </td>
+                <td className="py-3 px-4 text-sm text-gray-500">
+                  {v.end || "—"}
+                </td>
+                <td className="py-3 px-4">
+                  <span
+                    className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-full font-medium ${status.bg} ${status.text}`}
+                  >
+                    <StatusIcon size={14} /> {v.designStatus}
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }

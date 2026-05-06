@@ -8,14 +8,25 @@ export default function PdfViewer({ vehicle, onBack }) {
           className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"
           onClick={onBack}
         >
-          <ChevronLeft size={20}/> Back
+          <ChevronLeft size={20} /> Back
         </button>
         <span className="font-medium text-gray-900">
           {vehicle.make} {vehicle.model} &mdash; Installation Guide
         </span>
         <button
-          className="ml-auto bg-[#006B2D] hover:bg-[#005824] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors cursor-pointer"
-          onClick={() => window.open(vehicle.bootHoistPdf, "_blank")}
+          className="ml-auto py-[6px] px-[25px] w-fit px-10 max-h-[45px] bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2B] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer font-[Poppins] text-[18px]"
+          onClick={async () => {
+            const response = await fetch(vehicle.bootHoistPdf);
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${vehicle.make}_${vehicle.model}_Installation_Guide.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          }}
         >
           Download PDF
         </button>
