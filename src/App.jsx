@@ -10,9 +10,10 @@ import Header from "./components/Header";
 
 import VehicleList from "./components/VehicleList";
 import VehicleDetail from "./components/VehicleDetail";
-import VehicleSearch, { BackButton } from "./components/VehicleSearch";
+import { BackButton } from "./components/VehicleSearch";
 import PdfViewer from "./components/PdfViewer";
 import ProductSelect from "./components/ProductSelect";
+import VehicleFilterPopup from "./components/VehicleFilterPopup";
 
 import loginBg from "./images/Login.png";
 
@@ -26,7 +27,8 @@ export default function App() {
   const [requestSurname, setRequestSurname] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const [vehicleSearch, setVehicleSearch] = useState("");
+  const [vehicleFilters, setVehicleFilters] = useState({ manufacturer: "", model: "", designStatus: "" });
+  const [filterPopupOpen, setFilterPopupOpen] = useState(false);
   const [pdfView, setPdfView] = useState(null);
 
   const handleLogin = () => {
@@ -62,13 +64,13 @@ export default function App() {
     setLoginPassword("");
     setSelectedProduct(null);
     setSelectedVehicle(null);
-    setVehicleSearch("");
+    setVehicleFilters({ manufacturer: "", model: "", designStatus: "" });
   };
 
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
     setSelectedVehicle(null);
-    setVehicleSearch("");
+    setVehicleFilters({ manufacturer: "", model: "", designStatus: "" });
     setScreen("vehicle-search");
   };
 
@@ -87,14 +89,10 @@ export default function App() {
     }
   };
 
-  const filteredVehicles = VEHICLES.filter(
-    (v) =>
-      vehicleSearch === "" ||
-      v.make.toLowerCase().includes(vehicleSearch.toLowerCase()) ||
-      v.model.toLowerCase().includes(vehicleSearch.toLowerCase()) ||
-      `${v.make} ${v.model}`
-        .toLowerCase()
-        .includes(vehicleSearch.toLowerCase()),
+const filteredVehicles = VEHICLES.filter((v) =>
+    (!vehicleFilters.manufacturer || v.make === vehicleFilters.manufacturer) &&
+    (!vehicleFilters.model || v.model === vehicleFilters.model) &&
+    (!vehicleFilters.designStatus || v.designStatus === vehicleFilters.designStatus)
   );
 
   if (pdfView) {
@@ -147,7 +145,29 @@ export default function App() {
             <p className="text-sm text-gray-500 mb-5">
               Find your customer&apos;s vehicle to view fitting instructions.
             </p>
-            <VehicleSearch search={vehicleSearch} onSearch={setVehicleSearch} />
+            <VehicleFilterPopup
+              isOpen={filterPopupOpen}
+              onClose={() => setFilterPopupOpen(false)}
+              filters={vehicleFilters}
+              onFilterChange={setVehicleFilters}
+              vehicles={VEHICLES}
+            />
+            <button
+              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-left flex items-center justify-between cursor-pointer hover:bg-gray-50 mb-5"
+              onClick={() => setFilterPopupOpen(true)}
+            >
+              <span className={vehicleFilters.manufacturer || vehicleFilters.model || vehicleFilters.designStatus ? "text-[#006B2D] font-medium" : "text-gray-600"}>
+                Filter vehicles
+              </span>
+              <div className="flex items-center gap-2">
+                {(vehicleFilters.manufacturer || vehicleFilters.model || vehicleFilters.designStatus) && (
+                  <span className="bg-[#006B2D] text-white text-xs px-1.5 py-0.5 rounded">
+                    {[vehicleFilters.manufacturer, vehicleFilters.model, vehicleFilters.designStatus].filter(Boolean).length}
+                  </span>
+                )}
+                <span className="text-gray-400">↓</span>
+              </div>
+            </button>
             {filteredVehicles.length > 0 ? (
               <VehicleList
                 vehicles={filteredVehicles}
