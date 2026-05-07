@@ -1,52 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { LogoGreen } from "../svg/LogoGreen";
 import { LogoYellow } from "../svg/LogoYellow";
-import {
-  Profile1,
-  Profile2,
-  Profile3,
-  Profile4,
-  Profile5,
-  Profile6,
-  Profile7,
-  Profile8,
-  Profile9,
-  Profile10,
-  Profile11,
-  Profile12,
-} from "../svg/ProfileSVG";
+import { Profile1 } from "../svg/ProfileSVG";
 
 export default function Header({ user, onSignOut }) {
   const [hover, setHover] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
-  const [index, setIndex] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const profileFrames = [
-    <Profile1 />,
-    <Profile2 />,
-    <Profile3 />,
-    <Profile4 />,
-    <Profile5 />,
-    <Profile6 />,
-    <Profile7 />,
-    <Profile8 />,
-    <Profile9 />,
-    <Profile10 />,
-    <Profile11 />,
-    <Profile12 />,
-  ];
-
-  useEffect(() => {
-    if (!playing) return;
-
-    const interval = setInterval(() => {
-      setIndex((i) => (i + 1) % profileFrames.length);
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [playing]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -82,12 +42,12 @@ export default function Header({ user, onSignOut }) {
           {user.name}
         </h1>
         <div className="relative" ref={dropdownRef}>
-          <div
-            className="cursor-pointer"
+          <button
+            className="cursor-pointer block focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-3xl"
             onClick={() => setDropdownOpen(!dropdownOpen)}
           >
-            {profileFrames[index]}
-          </div>
+            <Profile1 />
+          </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
               <button

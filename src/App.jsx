@@ -145,7 +145,7 @@ export default function App() {
 
         {screen === "vehicle-search" && (
           <div>
-            <BackButton onClick={handleBack} />
+            <BackButton onClick={handleBack} style="mb-4" />
             <h1 className="text-xl font-medium text-gray-900 mb-1">
               {selectedProduct?.label}
             </h1>
@@ -204,7 +204,7 @@ export default function App() {
 
         {screen === "vehicle-detail" && selectedVehicle && (
           <div>
-            <BackButton onClick={handleBack} />
+            <BackButton onClick={handleBack} style="mb-4" />
             <VehicleDetail
               vehicle={selectedVehicle}
               onViewPdf={() => setPdfView(selectedVehicle)}

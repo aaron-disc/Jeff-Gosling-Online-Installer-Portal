@@ -40,8 +40,6 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
   const status = getStatusConfig(vehicle.designStatus);
   const StatusIcon = status.icon;
 
-  console.log(vehicle);
-
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6">
       <div className="flex items-start justify-between gap-4 mb-6">

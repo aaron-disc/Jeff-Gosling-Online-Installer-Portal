@@ -1,15 +1,12 @@
 import { ChevronLeft } from "lucide-react";
 
+import { BackButton } from "./BackButon";
+
 export default function PdfViewer({ vehicle, onBack }) {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <div className="flex items-center gap-3 px-5 py-3 bg-white border-b border-gray-200">
-        <button
-          className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"
-          onClick={onBack}
-        >
-          <ChevronLeft size={20} /> Back
-        </button>
+        <BackButton onClick={onBack} />
         <span className="font-medium text-gray-900">
           {vehicle.make} {vehicle.model} &mdash; Installation Guide
         </span>
