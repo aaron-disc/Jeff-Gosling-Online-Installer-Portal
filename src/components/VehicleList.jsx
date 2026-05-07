@@ -21,11 +21,6 @@ const getStatusConfig = (designStatus) => {
         icon: Clock,
       };
     case "Assumed like Other (see notes)":
-      return {
-        bg: "bg-gray-100",
-        text: "text-gray-600",
-        icon: AlertCircle,
-      };
     case "See Notes":
       return {
         bg: "bg-gray-100",

@@ -78,7 +78,7 @@ export default function Header({ user, onSignOut }) {
       </div>
 
       <div className="flex items-center gap-5">
-        <h1 className="text-xl hover:text-[#006B2D] cursor-default">
+        <h1 className="text-xl hover:text-[#006B2D] cursor-default font-[Poppins]">
           {user.name}
         </h1>
         <div className="relative" ref={dropdownRef}>
