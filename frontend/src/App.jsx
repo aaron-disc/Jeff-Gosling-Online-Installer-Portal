@@ -212,12 +212,15 @@ export default function App() {
                 const response = await fetch(selectedVehicle.bootHoistPdf);
                 const blob = await response.blob();
                 const url = URL.createObjectURL(blob);
+
                 const a = document.createElement("a");
                 a.href = url;
                 a.download = `${selectedVehicle.make}_${selectedVehicle.model}_Installation_Guide.pdf`;
+                
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
+
                 URL.revokeObjectURL(url);
               }}
             />
