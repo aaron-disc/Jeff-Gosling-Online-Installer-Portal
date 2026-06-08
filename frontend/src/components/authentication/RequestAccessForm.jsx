@@ -17,13 +17,13 @@ export default function RequestAccessForm({
         </div>
         <div className="flex flex-col gap-3">
           <input
-            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] shadow-[0px_3px_6px_rgba(0,0,0,0.25)] rounded-[8.5px] focus:shadow-none focus:border-black focus:border-1 focus:outline-none focus:ring-1"
+            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] shadow-[0px_3px_6px_rgba(0,0,0,0.25)] rounded-[8.5px] focus:shadow-none focus:border-black focus:border focus:outline-none focus:ring-1"
             placeholder="First Name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
           />
           <input
-            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] shadow-[0px_3px_6px_rgba(0,0,0,0.25)] rounded-[8.5px] focus:shadow-none focus:border-black focus:border-1 focus:outline-none focus:ring-1 mt-5"
+            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] shadow-[0px_3px_6px_rgba(0,0,0,0.25)] rounded-[8.5px] focus:shadow-none focus:border-black focus:border focus:outline-none focus:ring-1 mt-5"
             placeholder="Surname"
             value={surname}
             onChange={(e) => setSurname(e.target.value)}
@@ -32,7 +32,7 @@ export default function RequestAccessForm({
           <button className="pl-2 cursor-pointer text-md self-end w-auto hover:underline hover:text-[#006B2D] invisible">
             Forgot Password
           </button>
-          <button className="w-full mt-5 bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] font-medium py-2.5 rounded text-lg transition-colors cursor-pointer text-xl font-[Poppins]">
+          <button className="w-full mt-5 bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] font-medium py-2.5 rounded transition-colors cursor-pointer text-xl font-[Poppins]">
             Request Access
           </button>
 

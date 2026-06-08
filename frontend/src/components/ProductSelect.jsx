@@ -15,8 +15,9 @@ export default function ProductSelect({ onSelect }) {
           gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
         }}
       >
-        {PRODUCTS.map((p) => (
+        {PRODUCTS.map((p, i) => (
           <button
+            key={i}
             className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-start gap-2 hover:shadow-sm transition-shadow text-left cursor-pointer"
             onClick={() => onSelect(p)}
           >

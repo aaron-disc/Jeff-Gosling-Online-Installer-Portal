@@ -1,29 +1,59 @@
 export function parseCSV(csvText) {
-  const lines = csvText.trim().split("\n");
-  const headers = lines[0].split(",").map((h) => h.trim());
+  const rows = [];
+  let current = [];
+  let field = "";
+  let inQuotes = false;
 
-  return lines.slice(1).map((line, index) => {
-    const values = line.split(",").map((v) => v.trim());
+  for (let i = 0; i < csvText.length; i++) {
+    const char = csvText[i];
+    const next = csvText[i + 1];
+
+    if (inQuotes) {
+      if (char === '"' && next === '"') {
+        field += '"';
+        i++;
+      } else if (char === '"') {
+        inQuotes = false;
+      } else {
+        field += char;
+      }
+    } else {
+      if (char === '"') {
+        inQuotes = true;
+      } else if (char === ",") {
+        current.push(field.trim());
+        field = "";
+      } else if (char === "\r") {
+        continue;
+      } else if (char === "\n") {
+        current.push(field.trim());
+        field = "";
+        rows.push(current);
+        current = [];
+      } else {
+        field += char;
+      }
+    }
+  }
+
+  if (field || current.length > 0) {
+    current.push(field.trim());
+    rows.push(current);
+  }
+
+  const nonEmptyRows = rows.filter((row) => row.some((c) => c !== ""));
+
+  if (nonEmptyRows.length < 2) return [];
+
+  const rawHeaders = nonEmptyRows[0];
+  const headers = rawHeaders.map((h) =>
+    h ? h.charAt(0).toLowerCase() + h.slice(1) : h,
+  );
+  return nonEmptyRows.slice(1).map((row) => {
     const obj = {};
     headers.forEach((header, i) => {
-      obj[header] = values[i] || "";
+      obj[header] = row[i] !== undefined ? row[i] : "";
     });
-
-    const start = obj.Start || "";
-    const end = obj.End || "";
-    //const year = end ? `${start} - ${end}` : start;
-
-    const designStatus = obj["Design Status"] || "";
-
-    return {
-      id: index + 1,
-      make: obj.Manufacturer || "",
-      model: obj.Model || "",
-      variant: obj.Variant || "",
-      start: start,
-      end: end,
-      designStatus: designStatus,
-      bootHoistPdf: null,
-    };
+    return obj;
   });
 }

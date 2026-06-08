@@ -1,5 +1,4 @@
 import { LogoGreen } from "../../svg/LogoGreen";
-import { LogoYellow } from "../../svg/LogoYellow";
 
 export default function LoginForm({
   email,
@@ -18,7 +17,7 @@ export default function LoginForm({
         </div>
         <div className="flex flex-col gap-3">
           <input
-            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] rounded-[8.5px] shadow-[0px_3px_5.5px_rgba(0,0,0,0.25)] focus:shadow-none focus:border-black focus:border-1 focus:outline-none focus:ring-1 text-base"
+            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] rounded-[8.5px] shadow-[0px_3px_5.5px_rgba(0,0,0,0.25)] focus:shadow-none focus:border-black focus:border focus:outline-none focus:ring-1 text-base"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -27,7 +26,7 @@ export default function LoginForm({
           />
           <input
             type="password"
-            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] rounded-[8.5px] shadow-[0px_3px_5.5px_rgba(0,0,0,0.25)] focus:shadow-none focus:border-black focus:border-1 focus:outline-none focus:ring-1  mt-5"
+            className="box-border w-full px-5 py-3 bg-white border border-[#7A7A7A] rounded-[8.5px] shadow-[0px_3px_5.5px_rgba(0,0,0,0.25)] focus:shadow-none focus:border-black focus:border focus:outline-none focus:ring-1  mt-5"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

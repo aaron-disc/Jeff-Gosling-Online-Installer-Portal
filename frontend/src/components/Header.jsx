@@ -4,7 +4,6 @@ import { LogoYellow } from "../svg/LogoYellow";
 import { Profile1 } from "../svg/ProfileSVG";
 
 export default function Header({ user, onSignOut }) {
-  const [hover, setHover] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -29,10 +28,10 @@ export default function Header({ user, onSignOut }) {
         <input
           type="text"
           placeholder="Find"
-          className="box-border w-full min-w-[400px] max-w-[800px] max-h-[45px] px-5 py-3 bg-white border border-[#7A7A7A] rounded shadow-[0px_2px_4px_rgba(0,0,0,0.25)] focus:shadow-none focus:border-black focus:outline-none focus:ring-1"
+          className="box-border w-full min-w-100 max-w-200 max-h-11.25 px-5 py-3 bg-white border border-[#7A7A7A] rounded shadow-[0px_2px_4px_rgba(0,0,0,0.25)] focus:shadow-none focus:border-black focus:outline-none focus:ring-1"
         />
 
-        <button className="py-[6px] px-[25px] w-fit px-10 min-h-[45px] bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2B] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer font-[Poppins] text-[20px]">
+        <button className="py-1.5 px-[25px] w-fit px-10 min-h-11.25 bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2B] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer font-[Poppins] text-[20px]">
           Search
         </button>
       </div>
@@ -69,3 +68,5 @@ export default function Header({ user, onSignOut }) {
     </div>
   );
 }
+
+/* ICE, FullEV, HEV, mHEV, PHEV */
