@@ -1,6 +1,7 @@
 import { Check, X, Clock, AlertCircle, File } from "lucide-react";
 
 import VehicleDetailSection from "./VehicleDetailSection";
+import VehicleDetailNotes from "./VehicleDetailNotes";
 
 const getStatusConfig = (hoistProgress) => {
   switch (hoistProgress) {
@@ -37,14 +38,6 @@ const getStatusConfig = (hoistProgress) => {
   }
 };
 
-const engineTypes = [
-  { key: "engineICE", label: "ICE" },
-  { key: "engineFullEV", label: "Full EV" },
-  { key: "engineHEV", label: "HEV" },
-  { key: "engineMHEV", label: "MHEV" },
-  { key: "enginePHEV", label: "PHEV" },
-];
-
 export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
   const status = getStatusConfig(vehicle.hoistProgress);
   const StatusIcon = status.icon;
@@ -67,7 +60,8 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
         </span>
       </div>
 
-      <div className="border-t border-gray-100 pt-4">
+      <div className="pt-4 relative">
+        <div className="absolute top-0 w-full h-0.75 bg-[#E5E9E5]" />
         <h3 className="text-sm font-medium text-gray-700 mb-3">
           Vehicle details
         </h3>
@@ -103,17 +97,18 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
         </div>
       </div>
 
-      <div className="border-t border-gray-100 pt-4 mt-4">
+      <div className="border-t border-gray-100 pt-4 mt-4 flex flex-col gap-4">
         {vehicle.fittingNotes && (
-          <div className="divide-gray-100 border border-gray-200 rounded-lg p-4 mb-4">
-            <h3 className="text-lg font-medium text-gray-700 mb-2">Notes</h3>
-            <p className="text-base text-gray-600 whitespace-pre-wrap">
-              {vehicle.fittingNotes}
-            </p>
-          </div>
+          <VehicleDetailNotes title="Notes" notes={vehicle.fittingNotes} />
         )}
         <VehicleDetailSection
-          vehicleDetailArr={engineTypes}
+          vehicleDetailArr={[
+            { key: "engineICE", label: "ICE" },
+            { key: "engineFullEV", label: "Full EV" },
+            { key: "engineHEV", label: "HEV" },
+            { key: "engineMHEV", label: "MHEV" },
+            { key: "enginePHEV", label: "PHEV" },
+          ]}
           vehicle={vehicle}
           title="Engine"
         />
@@ -125,9 +120,84 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
               key: "hingePostYoke",
               label: "Standard Hinge Post Yoke Position",
             },
-            { key: "upDownActuatorStroke", label: "Up/Down Actuator Stroke" },
+            {
+              key: "upDownActuatorStroke",
+              label: "Up/Down Actuator Stroke",
+              type: "value",
+            },
           ]}
           vehicle={vehicle}
+        />
+        <p className="px-4 text-red-500">
+          All measurements provided are approximate. We would always recommend
+          checking measurements and key information such as seating arrangements
+          as these details can change on specification and mid-life facelifts.
+          All measurements are given in mm.
+        </p>
+        <VehicleDetailSection
+          vehicleDetailArr={[
+            { key: "maxVehicleLoad", label: "Max Vehicle Load", type: "value" },
+            { key: "measurementE", label: "Opening Height", type: "value" },
+            { key: "measurementD", label: "Opening Width", type: "value" },
+            {
+              key: "MeasurementI",
+              label: "Height of Boot Lip from Ground",
+              type: "value",
+            },
+          ]}
+          vehicle={vehicle}
+        />
+        {vehicle.seatNotes && (
+          <VehicleDetailNotes title="Seats" notes={vehicle.seatNotes} />
+        )}
+        <VehicleDetailSection
+          vehicleDetailArr={[
+            { key: "splitSeats", label: "Split Seats" },
+            {
+              key: "measurementK1",
+              label: "Depth without seats folded",
+              type: "value",
+            },
+            {
+              key: "measurementN",
+              label: "Depth with seats folded",
+              type: "value",
+            },
+            {
+              key: "depthWithSeatsSlideForward",
+              label: "Depth without seats folded but slid forwards",
+              type: "value",
+            },
+            {
+              key: "2ndRowSeatsFoldedLiptoFloor",
+              label: "Lip from boot floor to folded seats",
+              type: "value",
+            },
+          ]}
+          vehicle={vehicle}
+          title="Second Row"
+        />
+        <VehicleDetailSection
+          vehicleDetailArr={[
+            { key: "measurementK2", label: "Depth without seats folded" },
+            {
+              key: "3rdRowSeatsFoldedLiptoFloor",
+              label: "Lip from boot floor to folded seats",
+            },
+            { key: "3rdRowOptions", label: "Third row use when hoist fitted" },
+          ]}
+          vehicle={vehicle}
+          title="Third Row"
+        />
+        {vehicle.falseFloorNotes && (
+          <VehicleDetailNotes
+            title="False Floor Notes"
+            notes={vehicle.falseFloorNotes}
+          />
+        )}
+        <VehicleDetailNotes
+          title="Setup"
+          notes="These setup notes are with the boot hoist setup at an average position for guidance. As the hoist arm is adjustable, you may achieve different measurements."
         />
       </div>
     </div>

@@ -48,8 +48,6 @@ const vehicleListHeader = [
 ];
 
 export default function VehicleList({ vehicles, onSelect }) {
-  console.log(vehicles);
-
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
@@ -73,7 +71,7 @@ export default function VehicleList({ vehicles, onSelect }) {
             return (
               <tr
                 key={vehicle.id}
-                className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+                className="border-b border-gray-200 bg-[#F9FAFB] hover:bg-[#eceff1]/40 cursor-pointer"
                 onClick={() => onSelect(vehicle)}
               >
                 <td className="py-3 px-4 text-sm text-gray-900 font-medium">
@@ -85,10 +83,10 @@ export default function VehicleList({ vehicles, onSelect }) {
                 <td className="py-3 px-4 text-sm text-gray-900">
                   {vehicle.hoistVehicleVariant}
                 </td>
-                <td className="py-3 px-4 text-sm text-gray-900">
+                <td className="py-3 px-4 text-sm text-gray-900 text-nowrap">
                   {vehicle.minStartDate || "—"}
                 </td>
-                <td className="py-3 px-4 text-sm text-gray-900">
+                <td className="py-3 px-4 text-sm text-gray-900 text-nowrap">
                   {vehicle.maxEndDate || "—"}
                 </td>
                 <td className="py-3 px-4">

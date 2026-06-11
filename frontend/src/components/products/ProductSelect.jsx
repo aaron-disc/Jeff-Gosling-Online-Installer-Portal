@@ -1,7 +1,17 @@
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext";
 import { Car } from "lucide-react";
-import { PRODUCTS } from "../data/products";
+import { PRODUCTS } from "../../data/products";
 
-export default function ProductSelect({ onSelect }) {
+export default function ProductSelect() {
+  const navigate = useNavigate();
+  const { setSelectedProduct } = useAppContext();
+
+  const handleSelect = (product) => {
+    setSelectedProduct(product);
+    navigate("/vehicles");
+  };
+
   return (
     <div>
       <h1 className="text-xl font-medium text-gray-900 mb-2">Select product</h1>
@@ -19,7 +29,7 @@ export default function ProductSelect({ onSelect }) {
           <button
             key={i}
             className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-start gap-2 hover:shadow-sm transition-shadow text-left cursor-pointer"
-            onClick={() => onSelect(p)}
+            onClick={() => handleSelect(p)}
           >
             <div className="w-10 h-10 rounded-lg bg-[#006B2D] flex items-center justify-center text-white">
               <Car />

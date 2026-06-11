@@ -9,12 +9,28 @@ export default function VehicleDetailSection({
     <div className="border border-gray-200 rounded-lg overflow-hidden">
       {title && (
         <div className="bg-gray-50 px-4 py-2.5 border-b border-gray-200">
-                  <h3 className="text-base font-semibold text-gray-800">{title}</h3>
+          <h3 className="text-base font-semibold text-gray-800">{title}</h3>
         </div>
       )}
       <div className="divide-y divide-gray-100">
-        {vehicleDetailArr.map(({ key, label }) => {
-          const supported = vehicle[key]?.toLowerCase() === "yes";
+        {vehicleDetailArr.map(({ key, label, type = "boolean" }) => {
+          const raw = vehicle[key];
+
+          if (type === "value") {
+            return (
+              <div
+                key={key}
+                className="flex items-center justify-between px-4 py-2.5"
+              >
+                <span className="text-base text-gray-700">{label}</span>
+                <span className="text-sm font-semibold text-gray-900 pr-2.5">
+                  {raw || "—"}
+                </span>
+              </div>
+            );
+          }
+
+          const supported = raw?.toLowerCase() === "yes";
           return (
             <div
               key={key}
@@ -28,7 +44,7 @@ export default function VehicleDetailSection({
                     : "bg-gray-100 text-gray-400"
                 }`}
               >
-                {supported ? <Check size={12} /> : <X size={12} />}
+                {supported ? <Check size={16} /> : <X size={16} />}
                 {supported ? "Yes" : "No"}
               </span>
             </div>

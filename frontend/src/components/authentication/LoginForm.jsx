@@ -38,7 +38,7 @@ export default function LoginForm({
           </button>
 
           <button
-            className="w-full py-2.5 mt-5 bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer text-xl font-[Poppins]"
+            className="w-full py-2.5 mt-5 bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer text-xl font-poppins"
             onClick={onSubmit}
           >
             Login
