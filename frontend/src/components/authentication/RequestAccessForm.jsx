@@ -39,7 +39,7 @@ export default function RequestAccessForm({
           <div className="mt-3 flex justify-center">
             <ChevronLeft strokeWidth={1.25} />
             <button
-              className="cursor-pointer text-md text-center hover:underline hover:text-[#006B2D] px-2"
+              className="cursor-pointer text-md hover:underline hover:text-[#006B2D] px-2"
               onClick={onBack}
             >
               Back

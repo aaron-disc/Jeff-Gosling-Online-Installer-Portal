@@ -1,4 +1,4 @@
- import { Check, X, Clock, AlertCircle } from "lucide-react";
+import { Check, X, Clock, AlertCircle } from "lucide-react";
 
 const getStatusConfig = (hoistProgress) => {
   switch (hoistProgress) {
@@ -20,7 +20,7 @@ const getStatusConfig = (hoistProgress) => {
         text: "text-[#3D3900]",
         icon: Clock,
       };
-    case "To Be Assessed" : 
+    case "To Be Assessed":
       return {
         bg: "bg-gray-100",
         text: "text-gray-600",
@@ -33,7 +33,7 @@ const getStatusConfig = (hoistProgress) => {
         icon: AlertCircle,
       };
   }
-}; 
+};
 
 const vehicleListHeader = [
   "Manufacturer",
@@ -71,8 +71,16 @@ export default function VehicleList({ vehicles, onSelect }) {
             return (
               <tr
                 key={vehicle.id}
-                className="border-b border-gray-200 bg-[#F9FAFB] hover:bg-[#eceff1]/40 cursor-pointer"
+                tabIndex={0}
+                role="button"
+                className="text-left border-b border-gray-200 bg-[#F9FAFB] hover:bg-[#eceff1]/40 cursor-pointer focus:outline-2 focus:outline-[#006B2D] focus:-outline-offset-2"
                 onClick={() => onSelect(vehicle)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSelect(vehicle);
+                  }
+                }}
               >
                 <td className="py-3 px-4 text-sm text-gray-900 font-medium">
                   {vehicle.manufacturer}
@@ -91,9 +99,10 @@ export default function VehicleList({ vehicles, onSelect }) {
                 </td>
                 <td className="py-3 px-4">
                   <span
-                    className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-full font-medium ${status.bg} ${status.text}`}
+                    className={`w-30 inline-flex items-left gap-1.5 text-xs px-2 py-1.5 rounded font-medium text-nowrap ${status.bg} ${status.text}`}
                   >
-                    <StatusIcon size={14} /> {vehicle.hoistProgress}
+                    <StatusIcon size={14} />{" "}
+                    <p className="">{vehicle.hoistProgress}</p>
                   </span>
                 </td>
                 <td className="py-3 px-4 text-sm text-gray-900">
