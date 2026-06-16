@@ -10,7 +10,7 @@ export default function ProtectedLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-[#EBEDEA] flex flex-col">
       <Header />
       <main className="flex-1 px-6 py-6 max-w-350 w-full mx-auto">
         <Outlet />

@@ -1,4 +1,4 @@
-import { Check, X, Clock, AlertCircle, File } from "lucide-react";
+import { Check, X, Clock, AlertCircle, FileDown, FileSearchCorner } from "lucide-react";
 
 import VehicleDetailSection from "./VehicleDetailSection";
 import VehicleDetailNotes from "./VehicleDetailNotes";
@@ -26,7 +26,7 @@ const getStatusConfig = (hoistProgress) => {
     case "To Be Assessed":
       return {
         bg: "bg-gray-100",
-        text: "text-gray-600",
+        text: "text-white",
         icon: AlertCircle,
       };
     default:
@@ -79,16 +79,16 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
         </dl>
         <div className="border-t border-gray-100 pt-4 mt-4 flex gap-3">
           <button
-            className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-sm font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-sm font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
             onClick={onViewPdf}
           >
-            <File size={16} /> View Installation Guide
+            <FileSearchCorner size={16} /> View Installation Guide
           </button>
           <button
-            className="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            className="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
             onClick={onDownloadPdf}
           >
-            <File size={16} /> Download PDF
+            <FileDown size={16} /> Download PDF
           </button>
         </div>
       </div>

@@ -88,7 +88,7 @@ export default function VehicleFilterPopup({
               Manufacturer
             </label>
             <select
-              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
+              className="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
               value={localFilters.manufacturer}
               onChange={handleManufacturerChange}
             >
@@ -106,7 +106,7 @@ export default function VehicleFilterPopup({
               Model
             </label>
             <select
-              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D] disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D] disabled:bg-gray-100 disabled:cursor-not-allowed"
               value={localFilters.model}
               onChange={(e) =>
                 setLocalFilters({ ...localFilters, model: e.target.value })
@@ -151,17 +151,17 @@ export default function VehicleFilterPopup({
           </div>
         </div>
 
-        <div className="flex gap-3 mt-6">
+        <div className="flex gap-3 mt-6 font-poppins">
           {hasActiveFilters && (
             <button
-              className="flex-1 border border-gray-300 text-gray-700 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 cursor-pointer"
+              className="flex-1 outline outline-gray-300 text-gray-700 py-2.5 rounded text-sm font-medium hover:bg-gray-50 cursor-pointer"
               onClick={handleClearFilters}
             >
               Clear filters
             </button>
           )}
           <button
-            className="flex-1 border bg-[#006B2D] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#005824] cursor-pointer"
+            className="flex-1 bg-[#006B2D] text-white py-2.5 rounded text-sm font-medium hover:bg-[#005824] cursor-pointer"
             onClick={handleApply}
           >
             Apply filters

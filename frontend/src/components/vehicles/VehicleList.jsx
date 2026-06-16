@@ -10,7 +10,7 @@ const getStatusConfig = (hoistProgress) => {
       };
     case "Not Possible":
       return {
-        bg: "bg-gray-400",
+        bg: "bg-[#575756]",
         text: "text-white",
         icon: X,
       };
@@ -22,8 +22,8 @@ const getStatusConfig = (hoistProgress) => {
       };
     case "To Be Assessed":
       return {
-        bg: "bg-gray-100",
-        text: "text-gray-600",
+        bg: "bg-[#b0b8AD]",
+        text: "text-[#575756]",
         icon: AlertCircle,
       };
     default:
@@ -73,7 +73,7 @@ export default function VehicleList({ vehicles, onSelect }) {
                 key={vehicle.id}
                 tabIndex={0}
                 role="button"
-                className="text-left border-b border-gray-200 bg-[#F9FAFB] hover:bg-[#eceff1]/40 cursor-pointer focus:outline-2 focus:outline-[#006B2D] focus:-outline-offset-2"
+                className="text-left border-b border-gray-200 bg-[#EBEDEA] hover:bg-[#e2e2e2] cursor-pointer focus:outline-2 focus:outline-[#006B2D] focus:-outline-offset-2"
                 onClick={() => onSelect(vehicle)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
