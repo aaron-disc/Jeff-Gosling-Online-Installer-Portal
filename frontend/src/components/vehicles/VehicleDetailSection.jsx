@@ -5,8 +5,6 @@ export default function VehicleDetailSection({
   vehicle,
   title,
 }) {
-  //console.log(vehicle, vehicleDetailArr, vehicle[vehicleDetailArr[0].key]);
-
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden mt-3">
       {title && (
@@ -40,10 +38,10 @@ export default function VehicleDetailSection({
             >
               <span className="text-base text-gray-800">{label}</span>
               <span
-                className={`inline-flex items-center gap-1 text-sm px-2.5 py-1 rounded font-medium ${
+                className={`inline-flex items-center gap-1 text-sm px-2.5 py-1 rounded font-medium text-white ${
                   supported
-                    ? "bg-[#13A538] text-white"
-                    : "bg-gray-100 text-gray-800"
+                    ? "bg-[#13A538]"
+                    : "bg-[#575756]"
                 }`}
               >
                 {supported ? <Check size={16} /> : <X size={16} />}

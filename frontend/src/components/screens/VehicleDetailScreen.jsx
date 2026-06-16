@@ -12,7 +12,7 @@ export default function VehicleDetailScreen() {
   if (!vehicle) {
     return (
       <div>
-        <BackButton onClick={() => navigate("/vehicles")} style="mb-4" />
+        <BackButton onClick={() => navigate("/vehicles")} style="mb-2" />
         <p className="text-sm text-gray-400">Vehicle not found.</p>
       </div>
     );
@@ -23,7 +23,7 @@ export default function VehicleDetailScreen() {
       <BackButton onClick={() => navigate("/vehicles")} style="mb-4" />
       <VehicleDetail
         vehicle={vehicle}
-        onViewPdf={() => navigate(`/vehicles/${vehicle.id}/pdf`)}
+        onViewPdf={vehicle.bootHoistPdf ? () => navigate(`/vehicles/${vehicle.id}/pdf`) : undefined}
         onDownloadPdf={() => downloadPdf(vehicle)}
       />
     </div>

@@ -1,4 +1,4 @@
-import { Check, X, Clock, AlertCircle } from "lucide-react";
+import { Check, X, Clock, CircleQuestionMark } from "lucide-react";
 
 const getStatusConfig = (hoistProgress) => {
   switch (hoistProgress) {
@@ -24,13 +24,13 @@ const getStatusConfig = (hoistProgress) => {
       return {
         bg: "bg-[#b0b8AD]",
         text: "text-[#575756]",
-        icon: AlertCircle,
+        icon: CircleQuestionMark,
       };
     default:
       return {
-        bg: "bg-gray-100",
-        text: "text-gray-900",
-        icon: AlertCircle,
+        bg: "bg-[#b0b8AD]",
+        text: "text-[#575756]",
+        icon: CircleQuestionMark,
       };
   }
 };
@@ -49,7 +49,7 @@ const vehicleListHeader = [
 
 export default function VehicleList({ vehicles, onSelect }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto font-poppins">
       <table className="w-full">
         <thead>
           <tr className="border-b border-gray-300">
@@ -85,10 +85,10 @@ export default function VehicleList({ vehicles, onSelect }) {
                 <td className="py-3 px-4 text-sm text-gray-900 font-medium">
                   {vehicle.manufacturer}
                 </td>
-                <td className="py-3 px-4 text-sm text-gray-900">
+                <td className="py-3 px-4 text-sm text-gray-900 xl:text-nowrap">
                   {vehicle.model}
                 </td>
-                <td className="py-3 px-4 text-sm text-gray-900">
+                <td className="py-3 px-4 text-sm text-gray-900 xl:text-nowrap">
                   {vehicle.hoistVehicleVariant}
                 </td>
                 <td className="py-3 px-4 text-sm text-gray-900 text-nowrap">
@@ -99,7 +99,7 @@ export default function VehicleList({ vehicles, onSelect }) {
                 </td>
                 <td className="py-3 px-4">
                   <span
-                    className={`w-30 inline-flex items-left gap-1.5 text-xs px-2 py-1.5 rounded font-medium text-nowrap ${status.bg} ${status.text}`}
+                    className={`w-32 inline-flex items-left gap-1.5 text-xs px-2 py-1.5 rounded font-medium text-nowrap ${status.bg} ${status.text}`}
                   >
                     <StatusIcon size={14} />{" "}
                     <p className="">{vehicle.hoistProgress}</p>

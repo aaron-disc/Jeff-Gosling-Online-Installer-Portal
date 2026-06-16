@@ -1,4 +1,4 @@
-import { Check, X, Clock, AlertCircle, FileDown, FileSearchCorner } from "lucide-react";
+import { Check, X, Clock, CircleQuestionMark, FileDown, FileSearchCorner } from "lucide-react";
 
 import VehicleDetailSection from "./VehicleDetailSection";
 import VehicleDetailNotes from "./VehicleDetailNotes";
@@ -13,27 +13,27 @@ const getStatusConfig = (hoistProgress) => {
       };
     case "Not Possible":
       return {
-        bg: "bg-gray-400",
+        bg: "bg-[#575756]",
         text: "text-white",
         icon: X,
       };
     case "To Be Designed":
       return {
         bg: "bg-[#F1C800]",
-        text: "text-[#3D3500]",
+        text: "text-[#3D3900]",
         icon: Clock,
       };
     case "To Be Assessed":
       return {
-        bg: "bg-gray-100",
-        text: "text-white",
-        icon: AlertCircle,
+        bg: "bg-[#b0b8AD]",
+        text: "text-[#575756]",
+        icon: CircleQuestionMark,
       };
     default:
       return {
         bg: "bg-gray-100",
-        text: "text-gray-500",
-        icon: AlertCircle,
+        text: "text-gray-900",
+        icon: CircleQuestionMark,
       };
   }
 };
@@ -77,20 +77,22 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
             </div>
           ))}
         </dl>
-        <div className="border-t border-gray-100 pt-4 mt-4 flex gap-3">
-          <button
-            className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-sm font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
-            onClick={onViewPdf}
-          >
-            <FileSearchCorner size={16} /> View Installation Guide
-          </button>
-          <button
-            className="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
-            onClick={onDownloadPdf}
-          >
-            <FileDown size={16} /> Download PDF
-          </button>
-        </div>
+        {vehicle.bootHoistPdf && (
+          <div className="border-t border-gray-100 pt-4 mt-4 flex gap-3">
+            <button
+              className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-sm font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
+              onClick={onViewPdf}
+            >
+              <FileSearchCorner size={16} /> View Installation Guide
+            </button>
+            <button
+              className="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
+              onClick={onDownloadPdf}
+            >
+              <FileDown size={16} /> Download PDF
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="border-t border-gray-100 pt-4 mt-4 flex flex-col gap-4">

@@ -1,4 +1,5 @@
 export async function downloadPdf(vehicle) {
+  if (!vehicle.bootHoistPdf) return;
   const response = await fetch(vehicle.bootHoistPdf);
   const blob = await response.blob();
   const url = URL.createObjectURL(blob);

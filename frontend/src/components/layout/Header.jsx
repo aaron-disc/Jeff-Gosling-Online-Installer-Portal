@@ -4,12 +4,12 @@ import { useAuth } from "../../context/AuthContext";
 import { useAppContext } from "../../context/AppContext";
 import { LogoGreen } from "../../svg/LogoGreen";
 import { LogoYellow } from "../../svg/LogoYellow";
-import { Profile1 } from "../../svg/ProfileSVG";
+import { Profile } from "../../svg/ProfileSVG";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation()
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const { setSelectedProduct } = useAppContext();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -52,15 +52,15 @@ export default function Header() {
           </div> */}
 
           <div className="flex items-center gap-5 shrink-0 ml-auto">
-            <span className="text-xl hover:text-[#006B2D] cursor-default font-poppins inline">
+            {/* <span className="text-xl hover:text-[#006B2D] cursor-default font-poppins inline">
               {user?.name}
-            </span>
+            </span> */}
             <div className="relative" ref={dropdownRef}>
               <button
                 className="cursor-pointer block focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-3xl"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                <Profile1 />
+                <Profile />
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
