@@ -8,13 +8,23 @@ import { BackButton } from "../shared/BackButton";
 import VehicleList from "../vehicles/VehicleList";
 import VehicleFilterPopup from "../vehicles/VehicleFilterPopup";
 
+const STORAGE_KEY = "jgVehicleFilters";
+
+function loadSavedFilters() {
+  const saved = sessionStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    sessionStorage.removeItem(STORAGE_KEY);
+    try { return JSON.parse(saved); } catch {/* */}
+  }
+  return null;
+}
+
 export default function VehicleSearchScreen() {
   const navigate = useNavigate();
   const { selectedProduct } = useAppContext();
-  const [vehicleFilters, setVehicleFilters] = useState({
-    manufacturer: "",
-    model: "",
-    maxVehicleLoad: 1000,
+  const [vehicleFilters, setVehicleFilters] = useState(() => {
+    const saved = loadSavedFilters();
+    return saved || { manufacturer: "", model: "", maxVehicleLoad: 1000 };
   });
   const [filterPopupOpen, setFilterPopupOpen] = useState(false);
   const [filterPopupKey, setFilterPopupKey] = useState(0);
@@ -85,7 +95,11 @@ export default function VehicleSearchScreen() {
       {filteredVehicles.length > 0 ? (
         <VehicleList
           vehicles={filteredVehicles}
-          onSelect={(vehicle) => navigate(`/vehicles/${vehicle.id}`)}
+          onSelect={(vehicle) => {
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(vehicleFilters));
+            window.scrollTo(0, 0);
+            navigate(`/vehicles/${vehicle.id}`);
+          }}
         />
       ) : (
         <p className="text-sm text-gray-400">No vehicles found.</p>

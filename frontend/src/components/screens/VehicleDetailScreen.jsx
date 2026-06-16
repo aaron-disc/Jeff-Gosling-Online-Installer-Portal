@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { VEHICLES } from "../../data/vehicles";
 import { BackButton } from "../shared/BackButton";
@@ -8,6 +9,10 @@ export default function VehicleDetailScreen() {
   const navigate = useNavigate();
   const { vehicleId } = useParams();
   const vehicle = VEHICLES.find((v) => v.id === Number(vehicleId));
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!vehicle) {
     return (

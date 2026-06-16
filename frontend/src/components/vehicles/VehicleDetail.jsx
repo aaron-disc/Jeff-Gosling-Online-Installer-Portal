@@ -1,4 +1,11 @@
-import { Check, X, Clock, CircleQuestionMark, FileDown, FileSearchCorner } from "lucide-react";
+import {
+  Check,
+  X,
+  Clock,
+  CircleQuestionMark,
+  FileDown,
+  FileSearchCorner,
+} from "lucide-react";
 
 import VehicleDetailSection from "./VehicleDetailSection";
 import VehicleDetailNotes from "./VehicleDetailNotes";
@@ -181,7 +188,11 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           />
           <VehicleDetailSection
             vehicleDetailArr={[
-              { key: "measurementK2", label: "Depth without seats folded", type: "value" },
+              {
+                key: "measurementK2",
+                label: "Depth without seats folded",
+                type: "value",
+              },
               {
                 key: "_3rdRowSeatsFoldedLipToFloor",
                 label: "Lip from boot floor to folded seats",
@@ -214,15 +225,74 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           />
         </div>
         <div className="mt-8">
+          <div className="flex gap-10">
+            <div className="">
+              <VehicleDetailNotes
+                title="Setup"
+                notes="These setup notes are with the boot hoist setup at an average position for guidance. As the hoist arm is adjustable, you may achieve different measurements."
+              />
+              <VehicleDetailSection
+                vehicleDetailArr={[
+                  {
+                    key: "measurementO",
+                    label: "O: Height Under Spreader Bar",
+                    type: "value",
+                  },
+                  {
+                    key: "measurementP",
+                    label: "P: Upper arm to side of boot",
+                    type: "value",
+                  },
+                  {
+                    key: "measurementQ",
+                    label: "Q: Lower arm to side of boot",
+                    type: "value",
+                  },
+                  {
+                    key: "measurementR",
+                    label: "R: Length of arm",
+                    type: "value",
+                  },
+                  {
+                    key: "heightEndArmToGround",
+                    label:
+                      "Height of end of arm to ground with arm fully out and down",
+                    type: "value",
+                  },
+                ]}
+                vehicle={vehicle}
+              />
+            </div>
+
+            <img
+              src="../src/images/Dimensions.png"
+              alt="Vehicle Boot Dimensions"
+              className="my-5 object-cover"
+            />
+          </div>
+        </div>
+        {/*      <div className="mt-8">
           <VehicleDetailNotes
             title="Setup"
             notes="These setup notes are with the boot hoist setup at an average position for guidance. As the hoist arm is adjustable, you may achieve different measurements."
           />
           <VehicleDetailSection
             vehicleDetailArr={[
-              { key: "measurementO", label: "O: Height Under Spreader Bar", type: "value" },
-              { key: "measurementP", label: "P: Upper arm to side of boot", type: "value" },
-              { key: "measurementQ", label: "Q: Lower arm to side of boot", type: "value" },
+              {
+                key: "measurementO",
+                label: "O: Height Under Spreader Bar",
+                type: "value",
+              },
+              {
+                key: "measurementP",
+                label: "P: Upper arm to side of boot",
+                type: "value",
+              },
+              {
+                key: "measurementQ",
+                label: "Q: Lower arm to side of boot",
+                type: "value",
+              },
               { key: "measurementR", label: "R: Length of arm", type: "value" },
               {
                 key: "heightEndArmToGround",
@@ -233,8 +303,12 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
             ]}
             vehicle={vehicle}
           />
-          <img src="../src/images/Dimensions.png" alt="Vehicle Boot Dimensions" className="object-cover mt-2"/>
-        </div>
+          <img
+            src="../src/images/Dimensions.png"
+            alt="Vehicle Boot Dimensions"
+            className="object-cover mt-2"
+          />
+        </div> */}
       </div>
     </div>
   );
