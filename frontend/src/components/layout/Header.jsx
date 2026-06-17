@@ -33,7 +33,7 @@ export default function Header() {
   return (
     <div className="w-full">
       <div className="max-w-350 w-full mx-auto px-6">
-        <div className="flex items-center pt-2.5 gap-4">
+        <div className="flex items-center gap-4">
           <div className={`group shrink-0 ${location.pathname !== "/products" && "cursor-pointer"}`} onClick={() => navigate("/products")}>
             <LogoGreen className="block group-hover:hidden" />
             <LogoYellow className="hidden group-hover:block" />
@@ -63,18 +63,12 @@ export default function Header() {
                 <Profile />
               </button>
               {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50 font-poppins">
                   <button
                     className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
                     onClick={handleSignOut}
                   >
                     Sign Out
-                  </button>
-                  <button className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
-                    Settings
-                  </button>
-                  <button className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
-                    Theme
                   </button>
                 </div>
               )}

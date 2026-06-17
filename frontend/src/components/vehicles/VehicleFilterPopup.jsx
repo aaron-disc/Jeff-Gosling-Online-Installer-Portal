@@ -32,8 +32,8 @@ export default function VehicleFilterPopup({
   };
 
   const handleClearFilters = () => {
-    setLocalFilters({ manufacturer: "", model: "", maxVehicleLoad: 1000 });
-    onFilterChange({ manufacturer: "", model: "", maxVehicleLoad: 1000 });
+    setLocalFilters({ manufacturer: "", model: "", maxVehicleLoad: "" });
+    onFilterChange({ manufacturer: "", model: "", maxVehicleLoad: "" });
   };
 
   const handleApply = () => {
@@ -44,7 +44,7 @@ export default function VehicleFilterPopup({
   const hasActiveFilters =
     localFilters.manufacturer ||
     localFilters.model ||
-    localFilters.maxVehicleLoad < 1000;
+    localFilters.maxVehicleLoad !== "";
 
   if (!isOpen) return null;
 
@@ -67,7 +67,7 @@ export default function VehicleFilterPopup({
                   [
                     localFilters.manufacturer,
                     localFilters.model,
-                    localFilters.maxVehicleLoad < 1000,
+                    localFilters.maxVehicleLoad !== "",
                   ].filter(Boolean).length
                 }{" "}
                 active)
@@ -128,9 +128,9 @@ export default function VehicleFilterPopup({
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Max Vehicle Load: {localFilters.maxVehicleLoad} kg
+              Max Vehicle Load (kg)
             </label>
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               <span className="text-xs text-gray-400">0</span>
               <input
                 type="range"
@@ -138,16 +138,33 @@ export default function VehicleFilterPopup({
                 max="1000"
                 step="10"
                 value={localFilters.maxVehicleLoad}
-                onChange={(e) =>
-                  setLocalFilters({
-                    ...localFilters,
-                    maxVehicleLoad: Number(e.target.value),
-                  })
-                }
+               onChange={(e) =>
+                setLocalFilters({
+                  ...localFilters,
+                  maxVehicleLoad: e.target.value === "" ? "" : Number(e.target.value),
+                })
+              }
                 className="w-full accent-[#006B2D]"
               />
               <span className="text-xs text-gray-400">1000</span>
-            </div>
+            </div> */}
+            <select
+              className="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D] disabled:bg-gray-100 disabled:cursor-not-allowed"
+              value={localFilters.maxVehicleLoad}
+              onChange={(e) =>
+                setLocalFilters({
+                  ...localFilters,
+                  maxVehicleLoad: e.target.value === "" ? "" : Number(e.target.value),
+                })
+              }
+            >
+              <option value="">Any</option>
+              {[50, 100, 150, 200, 250, 300, 350, 400, 450, 500].map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

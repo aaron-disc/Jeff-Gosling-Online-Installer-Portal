@@ -49,26 +49,31 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
   const status = getStatusConfig(vehicle.hoistProgress);
   const StatusIcon = status.icon;
 
+  console.log(vehicle);
+
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6">
+    <div className="bg-white border border-gray-200 rounded-xl p-6 ">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900">
+          <h2 className="text-[30px] font-semibold text-black">
             {vehicle.manufacturer} {vehicle.model}
           </h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-base text-gray-500 mt-1">
             {vehicle.hoistVehicleVariant}
           </p>
         </div>
-        <span
-          className={`inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded font-medium shrink-0 ${status.bg} ${status.text}`}
+        {/*         <span
+          className={`inline-flex items-center gap-1.5 text-base px-3 py-1.5 rounded font-medium shrink-0 ${status.bg} ${status.text}`}
         >
+          <StatusIcon size={16} /> {vehicle.hoistProgress}
+        </span> */}
+        <span className="inline-flex items-center gap-1.5 text-base px-3 py-1.5 rounded font-medium shrink-0 text-[#13A538]">
           <StatusIcon size={16} /> {vehicle.hoistProgress}
         </span>
       </div>
 
-      <div className="relative pt-4 border-t border-t-[#006B2D]">
-        <dl className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4">
+      <div className="relative pt-4 border-t border-[#EBEDEA]">
+        <dl className="grid grid-cols-5 justify-items-center gap-x-6 gap-y-4">
           {[
             ["Manufacturer", vehicle.manufacturer],
             ["Model", vehicle.model],
@@ -77,32 +82,32 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
             ["End", vehicle.maxEndDate || "—"],
           ].map(([label, value]) => (
             <div key={label}>
-              <dt className="text-xs text-gray-400">{label}</dt>
-              <dd className="text-sm text-gray-900 font-medium">
+              <dt className="text-sm text-gray-400">{label}</dt>
+              <dd className="text-base text-gray-900 font-medium">
                 {value || "N/A"}
               </dd>
             </div>
           ))}
         </dl>
         {vehicle.bootHoistPdf && (
-          <div className="border-t border-gray-100 pt-4 mt-4 flex gap-3">
+          <div className=" pt-4 mt-4 flex gap-3">
             <button
-              className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-sm font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
+              className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
               onClick={onViewPdf}
             >
-              <FileSearchCorner size={16} /> View Installation Guide
+              <FileSearchCorner size={18} /> View Installation Guide
             </button>
             <button
-              className="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
+              className="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
               onClick={onDownloadPdf}
             >
-              <FileDown size={16} /> Download PDF
+              <FileDown size={18} /> Download PDF
             </button>
           </div>
         )}
       </div>
 
-      <div className="border-t border-gray-100 pt-4 mt-4 flex flex-col gap-4">
+      <div className="border-t border-[#EBEDEA] pt-4 mt-4 flex flex-col gap-4">
         <div>
           <VehicleDetailNotes notes={vehicle.fittingNotes} title="Notes" />
           <VehicleDetailSection
@@ -132,7 +137,7 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
             ]}
             vehicle={vehicle}
           />
-          <p className="mt-3 px-4 text-red-500">
+          <p className="mt-3 px-4 text-gray-700">
             All measurements provided are approximate. We would always recommend
             checking measurements and key information such as seating
             arrangements as these details can change on specification and
@@ -226,7 +231,7 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
         </div>
         <div className="mt-8">
           <div className="flex gap-10">
-            <div className="">
+            <div>
               <VehicleDetailNotes
                 title="Setup"
                 notes="These setup notes are with the boot hoist setup at an average position for guidance. As the hoist arm is adjustable, you may achieve different measurements."
@@ -263,52 +268,13 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
                 vehicle={vehicle}
               />
             </div>
-
             <img
               src="../src/images/Dimensions.png"
               alt="Vehicle Boot Dimensions"
-              className="my-5 object-cover"
+              className="object-cover my-5 max-h-65 lg:max-h-79 self-center"
             />
           </div>
         </div>
-        {/*      <div className="mt-8">
-          <VehicleDetailNotes
-            title="Setup"
-            notes="These setup notes are with the boot hoist setup at an average position for guidance. As the hoist arm is adjustable, you may achieve different measurements."
-          />
-          <VehicleDetailSection
-            vehicleDetailArr={[
-              {
-                key: "measurementO",
-                label: "O: Height Under Spreader Bar",
-                type: "value",
-              },
-              {
-                key: "measurementP",
-                label: "P: Upper arm to side of boot",
-                type: "value",
-              },
-              {
-                key: "measurementQ",
-                label: "Q: Lower arm to side of boot",
-                type: "value",
-              },
-              { key: "measurementR", label: "R: Length of arm", type: "value" },
-              {
-                key: "heightEndArmToGround",
-                label:
-                  "Height of end of arm to ground with arm fully out and down",
-                type: "value",
-              },
-            ]}
-            vehicle={vehicle}
-          />
-          <img
-            src="../src/images/Dimensions.png"
-            alt="Vehicle Boot Dimensions"
-            className="object-cover mt-2"
-          />
-        </div> */}
       </div>
     </div>
   );

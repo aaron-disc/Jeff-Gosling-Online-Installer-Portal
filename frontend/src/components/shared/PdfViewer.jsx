@@ -45,10 +45,11 @@ export default function PdfViewer() {
       <div className="flex items-center gap-3 px-5 py-3 bg-white border-b border-gray-200">
         <BackButton onClick={() => navigate(`/vehicles/${vehicle.id}`)} />
         <span className="font-medium text-gray-900">
-          {vehicle.manufacturer} {vehicle.model} {vehicle.hoistVehicleVariant} - Installation Guide
+          {vehicle.manufacturer} {vehicle.model} {vehicle.hoistVehicleVariant} -
+          Installation Guide
         </span>
         <button
-          className="ml-auto py-1.5 w-fit px-10 max-h-11.25 bg-[#006B2D] text-white shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer font-poppins text-[18px]"
+          className="ml-auto py-1.5 w-fit px-10 max-h-11.25 bg-[#006B2D] hover:bg-[#005824] text-white shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer font-poppins text-[18px]"
           onClick={() => downloadPdf(vehicle)}
         >
           Download PDF

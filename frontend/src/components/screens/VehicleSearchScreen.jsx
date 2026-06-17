@@ -24,7 +24,7 @@ export default function VehicleSearchScreen() {
   const { selectedProduct } = useAppContext();
   const [vehicleFilters, setVehicleFilters] = useState(() => {
     const saved = loadSavedFilters();
-    return saved || { manufacturer: "", model: "", maxVehicleLoad: 1000 };
+    return saved || { manufacturer: "", model: "", maxVehicleLoad: "" };
   });
   const [filterPopupOpen, setFilterPopupOpen] = useState(false);
   const [filterPopupKey, setFilterPopupKey] = useState(0);
@@ -32,16 +32,18 @@ export default function VehicleSearchScreen() {
   const isFiltered =
     vehicleFilters.manufacturer ||
     vehicleFilters.model ||
-    vehicleFilters.maxVehicleLoad < 1000;
+    vehicleFilters.maxVehicleLoad !== "";
 
   const filteredVehicles = VEHICLES.filter(
     (v) =>
       (!vehicleFilters.manufacturer ||
         v.manufacturer === vehicleFilters.manufacturer) &&
       (!vehicleFilters.model || v.model === vehicleFilters.model) &&
-      (!v.maxVehicleLoad ||
-        Number(v.maxVehicleLoad) <= vehicleFilters.maxVehicleLoad),
+      (!vehicleFilters.maxVehicleLoad ||
+        Number(v.maxVehicleLoad) === Number(vehicleFilters.maxVehicleLoad)),
   );
+
+  console.log(vehicleFilters)
 
   return (
     <div>
@@ -81,7 +83,7 @@ export default function VehicleSearchScreen() {
               {isFiltered && (
                 <span className="bg-[#006B2D] text-white text-xs px-2 py-0.5 rounded">
                   {filteredVehicles.length}{" "}
-                  {filteredVehicles.length > 1 ? "Vehicles" : "Vehicle"}
+                  {filteredVehicles.length === 1 ? "Vehicle" : "Vehicles"}
                 </span>
               )}
               <span>
@@ -102,7 +104,7 @@ export default function VehicleSearchScreen() {
           }}
         />
       ) : (
-        <p className="text-sm text-gray-400">No vehicles found.</p>
+        <p className="text-lg text-center mt-20 text-gray-600">No vehicles found.</p>
       )}
     </div>
   );

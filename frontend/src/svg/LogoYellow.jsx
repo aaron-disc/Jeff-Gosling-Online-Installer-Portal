@@ -1,6 +1,6 @@
-export const LogoYellow = ({ className = "", w = 55, h = 24 }) => (
+export const LogoYellow = ({ className = "" }) => (
   <svg
-    className={`w-${w} h-${h} ${className}`}
+    className={`w-60 h-25 ${className}`}
     viewBox="0 0 212 42"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

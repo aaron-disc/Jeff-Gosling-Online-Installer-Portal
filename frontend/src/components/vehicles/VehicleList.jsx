@@ -101,7 +101,7 @@ export default function VehicleList({ vehicles, onSelect }) {
                     className={`w-32 inline-flex gap-1.5 text-xs px-2 py-1.5 rounded font-medium text-nowrap ${status.bg} ${status.text}`}
                   >
                     <StatusIcon size={14}/>
-                    <p className="grow text-center">{vehicle.hoistProgress}</p>
+                    <p className="text-center grow">{vehicle.hoistProgress}</p>
                   </span>
                 </td>
                 <td className="py-3 px-4 text-gray-900">
