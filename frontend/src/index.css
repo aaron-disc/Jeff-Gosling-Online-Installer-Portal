@@ -5,3 +5,8 @@
   --font-poppins: "Poppins", sans-serif;
   --font-century-gothic: "Century Gothic", sans-serif;
 }
+
+td {
+  padding: 12px 16px;
+  color: #101828;
+}

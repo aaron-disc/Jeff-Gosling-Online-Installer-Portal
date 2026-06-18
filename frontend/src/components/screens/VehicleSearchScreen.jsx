@@ -14,7 +14,11 @@ function loadSavedFilters() {
   const saved = sessionStorage.getItem(STORAGE_KEY);
   if (saved) {
     sessionStorage.removeItem(STORAGE_KEY);
-    try { return JSON.parse(saved); } catch {/* */}
+    try {
+      return JSON.parse(saved);
+    } catch {
+      /* */
+    }
   }
   return null;
 }
@@ -42,8 +46,6 @@ export default function VehicleSearchScreen() {
       (!vehicleFilters.maxVehicleLoad ||
         Number(v.maxVehicleLoad) === Number(vehicleFilters.maxVehicleLoad)),
   );
-
-  console.log(vehicleFilters)
 
   return (
     <div>
@@ -104,7 +106,9 @@ export default function VehicleSearchScreen() {
           }}
         />
       ) : (
-        <p className="text-lg text-center mt-20 text-gray-600">No vehicles found.</p>
+        <p className="text-lg text-center mt-20 text-gray-600">
+          No vehicles found.
+        </p>
       )}
     </div>
   );

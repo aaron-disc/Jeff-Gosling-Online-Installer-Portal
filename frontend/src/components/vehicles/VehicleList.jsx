@@ -81,38 +81,24 @@ export default function VehicleList({ vehicles, onSelect }) {
                   }
                 }}
               >
-                <td className="py-3 px-4 text-gray-900 font-medium">
-                  {vehicle.manufacturer}
-                </td>
-                <td className="py-3 px-4 text-gray-900 xl:text-nowrap">
-                  {vehicle.model}
-                </td>
-                <td className="py-3 px-4 text-gray-900 xl:text-nowrap">
+                <td className="font-medium">{vehicle.manufacturer}</td>
+                <td className="xl:text-nowrap">{vehicle.model}</td>
+                <td className="xl:text-nowrap">
                   {vehicle.hoistVehicleVariant}
                 </td>
-                <td className="py-3 px-4 text-gray-900 text-nowrap">
-                  {vehicle.minStartDate || "—"}
-                </td>
-                <td className="py-3 px-4 text-gray-900 text-nowrap">
-                  {vehicle.maxEndDate || "—"}
-                </td>
-                <td className="py-3 px-4">
+                <td className="text-nowrap">{vehicle.minStartDate || "—"}</td>
+                <td className="text-nowrap">{vehicle.maxEndDate || "—"}</td>
+                <td>
                   <span
                     className={`w-32 inline-flex gap-1.5 text-xs px-2 py-1.5 rounded font-medium text-nowrap ${status.bg} ${status.text}`}
                   >
-                    <StatusIcon size={14}/>
+                    <StatusIcon size={14} />
                     <p className="text-center grow">{vehicle.hoistProgress}</p>
                   </span>
                 </td>
-                <td className="py-3 px-4 text-gray-900">
-                  {vehicle.measurementE || "—"}
-                </td>
-                <td className="py-3 px-4 text-gray-900">
-                  {vehicle.measurementO || "—"}
-                </td>
-                <td className="py-3 px-4 text-gray-900">
-                  {vehicle.maxVehicleLoad || "—"}
-                </td>
+                <td>{vehicle.measurementE || "—"}</td>
+                <td>{vehicle.measurementO || "—"}</td>
+                <td>{vehicle.maxVehicleLoad || "—"}</td>
               </tr>
             );
           })}

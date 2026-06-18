@@ -10,7 +10,7 @@ export default function RequestAccessForm({
   onBack,
 }) {
   return (
-    <div className="bg-[#E5E9E5] rounded-2xl border border-gray-200 shadow-lg p-6 w-full max-w-lg">
+    <div className="bg-[#ebedea] rounded-2xl border border-gray-200 shadow-lg p-6 w-full max-w-lg">
       <div className="mx-5 my-10">
         <div className="flex flex-col items-center mb-6">
           <LogoGreen />

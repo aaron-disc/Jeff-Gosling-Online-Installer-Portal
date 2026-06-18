@@ -49,8 +49,6 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
   const status = getStatusConfig(vehicle.hoistProgress);
   const StatusIcon = status.icon;
 
-  console.log(vehicle);
-
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 ">
       <div className="flex items-start justify-between gap-4 mb-4">
@@ -123,11 +121,12 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           />
           <VehicleDetailSection
             vehicleDetailArr={[
-              { key: "hoistSide", label: "Hoist Side" },
-              { key: "aframe", label: "A-Frame Type" },
+              { key: "hoistSide", label: "Hoist Side", type: "text" },
+              { key: "aframe", label: "A-Frame Type", type: "text" },
               {
                 key: "hingePostYoke",
                 label: "Standard Hinge Post Yoke Position",
+                type: "text",
               },
               {
                 key: "upDownActuatorStroke",
@@ -166,7 +165,7 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           <VehicleDetailNotes title="Seats" notes={vehicle.seatNotes} />
           <VehicleDetailSection
             vehicleDetailArr={[
-              { key: "splitSeats", label: "Split Seats" },
+              { key: "splitSeats", label: "Split Seats", type: "text" },
               {
                 key: "measurementK1",
                 label: "Depth without seats folded",
@@ -183,7 +182,7 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
                 type: "value",
               },
               {
-                key: "_2ndRowSeatsFoldedLipToFloor",
+                key: "2ndRowSeatsFoldedLipToFloor",
                 label: "Lip from boot floor to folded seats",
                 type: "value",
               },
@@ -199,14 +198,14 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
                 type: "value",
               },
               {
-                key: "_3rdRowSeatsFoldedLipToFloor",
+                key: "3rdRowSeatsFoldedLipToFloor",
                 label: "Lip from boot floor to folded seats",
                 type: "value",
               },
               {
-                key: "_3rdRowOptions",
+                key: "3rdRowOptions",
                 label: "Third row use when hoist fitted",
-                type: "value",
+                type: "text",
               },
             ]}
             vehicle={vehicle}
@@ -230,7 +229,7 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           />
         </div>
         <div className="mt-8">
-          <div className="flex gap-10">
+          <div className="max-lg:flex-col flex lg:gap-6">
             <div>
               <VehicleDetailNotes
                 title="Setup"
@@ -271,7 +270,7 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
             <img
               src="../src/images/Dimensions.png"
               alt="Vehicle Boot Dimensions"
-              className="object-cover my-5 max-h-65 lg:max-h-79 self-center"
+              className="object-cover my-5 sm:max-w-104 sm:max-h-80 self-center"
             />
           </div>
         </div>

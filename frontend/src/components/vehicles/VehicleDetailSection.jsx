@@ -16,7 +16,7 @@ export default function VehicleDetailSection({
         {vehicleDetailArr.map(({ key, label, type = "boolean" }) => {
           const raw = vehicle[key];
 
-          if (type === "value") {
+          if (type === "value" || type === "text") {
             return (
               <div
                 key={key}
