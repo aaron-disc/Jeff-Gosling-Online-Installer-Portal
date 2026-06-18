@@ -13,48 +13,28 @@ export default function VehicleDetailSection({
         </div>
       )}
       <div className="divide-y divide-gray-100">
-        {vehicleDetailArr.map(({ key, label, type = "boolean" }) => {
+        {vehicleDetailArr.map(({ key, label }) => {
           const raw = vehicle[key];
+          const bool =
+            raw?.toLowerCase() === "yes" || raw?.toLowerCase() === "no";
+          const yes = bool && raw.toLowerCase() === "yes"  
 
-          if (type === "value" || type === "text") {
-            return (
-              <div
-                key={key}
-                className="flex items-center justify-between px-4 py-2.5"
-              >
-                <span className="text-base text-gray-700">{label}</span>
-                <span className="text-sm font-semibold text-gray-900 px-2.5">
-                  {raw || "—"}
-                </span>
-              </div>
-            );
-          }
-
-          const supported = raw?.toLowerCase() === "yes";
           return (
             <div
               key={key}
               className="flex items-center justify-between px-4 py-2.5"
             >
-              <span className="text-base text-gray-800">{label}</span>
-              {/* <span
-                className={`inline-flex items-center gap-1 text-sm px-2.5 py-1 rounded font-medium text-white ${
-                  supported
-                    ? "bg-[#13A538]"
-                    : "bg-[#575756]"
-                }`}
-              >
-                {supported ? <Check size={16} /> : <X size={16} />}
-                {supported ? "Yes" : "No"}
-              </span> */}
-              <span
-                className={`inline-flex items-center gap-1 text-sm px-2.5 py-1 font-medium ${
-                  supported ? "text-[#13A538]" : "text-red-500"
-                }`}
-              >
-                {supported ? <Check size={16} /> : <X size={16} />}
-                {supported ? "Yes" : "No"}
-              </span>
+              <span className="text-base text-gray-700">{label}</span>
+              {bool ? (
+                <span className={`inline-flex items-center gap-1 text-sm px-2.5 py-1 font-medium ${yes ? "text-[#13A538]" : "text-red-500"}`}>
+                  {yes ? <Check size={16} /> : <X size={16} />}
+                  {yes ? "Yes" : "No"}
+                </span>
+              ) : (
+                <span className="text-sm font-semibold text-gray-900 px-2.5">
+                  {raw || "—"}
+                </span>
+              )}
             </div>
           );
         })}
