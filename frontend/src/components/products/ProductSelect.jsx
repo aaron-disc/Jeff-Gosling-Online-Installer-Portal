@@ -16,15 +16,14 @@ export default function ProductSelect() {
     <div>
       <h1 className="text-xl font-medium text-gray-900 mb-2">Select product</h1>
       <p className="text-sm text-gray-500 mb-6">
-        Choose a product to view fitting instructions for your customer's
-        vehicle.
+        Welcome to the Jeff Gosling online installation portal. Here we provide
+        key information and fitting instructions for our products. This portal
+        is regularly updated but as vehicles are changing daily and we are
+        continuously adding designs, please check anything vital with us
+        directly. If you cannot find the information you require, or if you
+        would like to check any details, please contact us on 0161 430 1470.
       </p>
-      <div
-        className="grid gap-4"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-        }}
-      >
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4">
         {PRODUCTS.map((p, i) => (
           <button
             key={i}

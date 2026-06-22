@@ -31,7 +31,7 @@ export default function VehicleDetailSection({
                   {yes ? "Yes" : "No"}
                 </span>
               ) : (
-                <span className="text-sm font-semibold text-gray-900 px-2.5">
+                <span className="text-sm font-semibold text-gray-900 px-2.5 text-nowrap">
                   {raw || "—"}
                 </span>
               )}

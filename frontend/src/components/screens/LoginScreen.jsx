@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import LoginForm from "../authentication/LoginForm";
-import loginBg from "../../images/Login.png";
+import loginBg from "../../images/LoginSmaller.png";
 
 export default function LoginScreen() {
   const navigate = useNavigate();

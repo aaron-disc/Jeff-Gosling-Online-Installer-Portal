@@ -88,7 +88,7 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           ))}
         </dl>
         {vehicle.bootHoistPdf && (
-          <div className="md:pt-4 mt-4 flex gap-3">
+          <div className="md:pt-4 mt-4 flex max-[500px]:flex-col gap-3">
             <button
               className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
               onClick={onViewPdf}
@@ -96,7 +96,7 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
               <FileSearchCorner size={18} /> View Installation Guide
             </button>
             <button
-              className="flex-1 outline outline-gray-300 hover:outline-gray-50 text-gray-700 text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
+              className="flex-1 outline outline-gray-300 hover:bg-gray-50 text-gray-700 text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
               onClick={onDownloadPdf}
             >
               <FileDown size={18} /> Download PDF

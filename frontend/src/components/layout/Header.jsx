@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useAppContext } from "../../context/AppContext";
 import { LogoGreen } from "../../svg/LogoGreen";
@@ -8,7 +8,6 @@ import { Profile } from "../../svg/ProfileSVG";
 
 export default function Header() {
   const navigate = useNavigate();
-  const location = useLocation()
   const { logout } = useAuth();
   const { setSelectedProduct } = useAppContext();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -33,13 +32,16 @@ export default function Header() {
   return (
     <div className="w-full">
       <div className="max-w-350 w-full mx-auto px-6">
-        <div className="flex items-center gap-4">
-          <div className={`group shrink-0 ${location.pathname !== "/products" && "cursor-pointer"}`} onClick={() => navigate("/products")}>
+        <div className="flex items-center gap-4 justify-between">
+          <div
+            className="group shrink-0 cursor-pointer"
+            onClick={() => navigate("/products")}
+          >
             <LogoGreen className="block group-hover:hidden" />
             <LogoYellow className="hidden group-hover:block" />
           </div>
 
-{/*           <div className="flex-1 flex items-center gap-3 min-w-0">
+          {/*           <div className="flex-1 flex items-center gap-3 min-w-0">
             <input
               type="text"
               placeholder="Find"
@@ -50,8 +52,11 @@ export default function Header() {
               Search
             </button>
           </div> */}
+          <div>
+            <h1 className="text-3xl font-poppins font-semibold">Online Installation Portal</h1>
+          </div>
 
-          <div className="flex items-center gap-5 shrink-0 ml-auto">
+          <div className="flex items-center gap-5 shrink-0">
             {/* <span className="text-xl hover:text-[#006B2D] cursor-default font-poppins inline">
               {user?.name}
             </span> */}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RequestAccessForm from "../authentication/RequestAccessForm";
-import loginBg from "../../images/Login.png";
+import loginBg from "../../images/LoginSmaller.png";
 
 export default function RequestAccessScreen() {
   const navigate = useNavigate();

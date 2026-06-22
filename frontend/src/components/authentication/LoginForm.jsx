@@ -32,10 +32,12 @@ export default function LoginForm({
             onChange={(e) => setPassword(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && onSubmit()}
           />
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          <button className="w-auto text-md self-end hover:underline hover:text-[#006B2D] cursor-pointer">
-            Forgot Password
-          </button>
+          <div className="flex">
+            {error && <p className="text-sm text-red-600">{error}</p>}
+            <button className="w-auto text-md ml-auto hover:underline hover:text-[#006B2D] cursor-pointer">
+              Forgot Password
+            </button>
+          </div>
 
           <button
             className="w-full py-2.5 mt-5 bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer text-xl font-poppins"

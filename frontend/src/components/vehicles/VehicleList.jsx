@@ -50,7 +50,7 @@ const vehicleListHeader = [
 export default function VehicleList({ vehicles, onSelect }) {
   return (
     <>
-      <div className="hidden md:block overflow-x-auto font-poppins">
+      <div className="overflow-x-auto font-poppins">
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-300">
@@ -106,8 +106,8 @@ export default function VehicleList({ vehicles, onSelect }) {
           </tbody>
         </table>
       </div>
-
-      <div className="md:hidden font-poppins flex flex-col gap-3">
+{/* 
+      <div className="lg:hidden font-poppins flex flex-col gap-3">
         {vehicles.map((vehicle) => {
           const status = getStatusConfig(vehicle.hoistProgress);
           const StatusIcon = status.icon;
@@ -145,6 +145,7 @@ export default function VehicleList({ vehicles, onSelect }) {
           );
         })}
       </div>
+*/}
     </>
   );
 }
