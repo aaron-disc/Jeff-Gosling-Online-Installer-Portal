@@ -50,7 +50,6 @@ const vehicleListHeader = [
 export default function VehicleList({ vehicles, onSelect }) {
   return (
     <>
-      {/* --- Desktop table (md and up) --- */}
       <div className="hidden md:block overflow-x-auto font-poppins">
         <table className="w-full">
           <thead>
@@ -108,7 +107,6 @@ export default function VehicleList({ vehicles, onSelect }) {
         </table>
       </div>
 
-      {/* --- Mobile cards (below md) --- */}
       <div className="md:hidden font-poppins flex flex-col gap-3">
         {vehicles.map((vehicle) => {
           const status = getStatusConfig(vehicle.hoistProgress);
