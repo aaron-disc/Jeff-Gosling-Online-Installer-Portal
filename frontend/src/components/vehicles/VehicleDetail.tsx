@@ -22,19 +22,19 @@ const getStatusConfig = (hoistProgress: string): StatusConfig => {
     case "Complete":
       return {
         bg: "bg-[#13A538]",
-        text: "text-white",
+        text: "text-[#13A538]",
         icon: Check,
       };
     case "Not Possible":
       return {
         bg: "bg-[#575756]",
-        text: "text-white",
+        text: "text-[#575756]",
         icon: X,
       };
     case "To Be Designed":
       return {
         bg: "bg-[#F1C800]",
-        text: "text-[#3D3900]",
+        text: "text-[#F1C800]",
         icon: Clock,
       };
     case "To Be Assessed":
@@ -58,9 +58,15 @@ interface VehicleDetailProps {
   onDownloadPdf: () => void;
 }
 
-export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }: VehicleDetailProps) {
+export default function VehicleDetail({
+  vehicle,
+  onViewPdf,
+  onDownloadPdf,
+}: VehicleDetailProps) {
   const status = getStatusConfig(vehicle.hoistProgress);
   const StatusIcon = status.icon;
+
+  console.log(vehicle.bootHoistPdf);
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 ">
@@ -73,44 +79,55 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }: Veh
             {vehicle.hoistVehicleVariant}
           </p>
         </div>
-        <span className="inline-flex items-center gap-1.5 text-base px-3 py-1.5 rounded font-medium shrink-0 text-[#13A538]">
+        <span
+          className={`inline-flex items-center gap-1.5 text-base px-3 py-1.5 rounded font-medium shrink-0 ${status.text}`}
+        >
           <StatusIcon size={16} /> {vehicle.hoistProgress}
         </span>
       </div>
 
       <div className="relative pt-4 border-t border-[#EBEDEA]">
         <dl className="grid grid-cols-3 sm:grid-cols-5 justify-items-center gap-x-6 gap-y-4 text-center">
-          {([
-            ["Manufacturer", vehicle.manufacturer],
-            ["Model", vehicle.model],
-            ["Variant", vehicle.hoistVehicleVariant],
-            ["Start", vehicle.minStartDate],
-            ["End", vehicle.maxEndDate],
-          ] as [string, string][]).map(([label, value]) => (
+          {(
+            [
+              ["Manufacturer", vehicle.manufacturer],
+              ["Model", vehicle.model],
+              ["Variant", vehicle.hoistVehicleVariant],
+              ["Start", vehicle.minStartDate],
+              ["End", vehicle.maxEndDate],
+            ] as [string, string][]
+          ).map(([label, value]) => (
             <div key={label}>
-              <dt className="text-[13px] sm:text-[13px] md:text-sm text-gray-400">{label}</dt>
+              <dt className="text-[13px] sm:text-[13px] md:text-sm text-gray-400">
+                {label}
+              </dt>
               <dd className="text-[15px] sm:text-[15px] md:text-base text-gray-900 font-medium">
                 {value || "—"}
               </dd>
             </div>
           ))}
         </dl>
-        {vehicle.bootHoistPdf && (
-          <div className="md:pt-4 mt-4 flex max-[500px]:flex-col gap-3">
+        <div className="md:mt-8 mt-4">
+          {!vehicle.bootHoistPdf && (
+            <p className="mb-2 text-center text-gray-700">* No pdf available *</p>
+          )}
+          <div className="flex max-[500px]:flex-col gap-3">
             <button
-              className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
+              className={`flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 font-poppins ${vehicle.bootHoistPdf ? "cursor-pointer" : "cursor-not-allowed"}`}
               onClick={onViewPdf}
+              disabled={vehicle.bootHoistPdf === null}
             >
               <FileSearchCorner size={18} /> View Installation Guide
             </button>
             <button
-              className="flex-1 outline outline-gray-300 hover:bg-gray-50 text-gray-700 text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer font-poppins"
+              className={`flex-1 outline outline-gray-300 hover:bg-gray-50 text-gray-700 text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 font-poppins ${vehicle.bootHoistPdf ? "cursor-pointer" : "cursor-not-allowed"}`}
               onClick={onDownloadPdf}
+              disabled={vehicle.bootHoistPdf === null}
             >
               <FileDown size={18} /> Download PDF
             </button>
           </div>
-        )}
+        </div>
       </div>
 
       <div className="border-t border-[#EBEDEA] pt-4 mt-4 flex flex-col gap-4">
@@ -142,7 +159,7 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }: Veh
             ]}
             vehicle={vehicle}
           />
-          <p className="mt-3 px-4 text-gray-700">
+          <p className="mt-3 px-4 text-gray-700 text-center">
             All measurements provided are approximate. We would always recommend
             checking measurements and key information such as seating
             arrangements as these details can change on specification and

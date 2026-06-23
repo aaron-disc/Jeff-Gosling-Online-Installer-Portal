@@ -20,7 +20,7 @@ export default function RequestAccessForm({
   return (
     <div className="bg-[#ebedea] rounded-2xl border border-gray-200 shadow-lg p-6 w-full max-w-lg">
       <div className="mx-5 my-10">
-        <div className="flex flex-col items-center mb-6">
+        <div className="flex justify-self-center mb-6">
           <LogoGreen />
         </div>
         <div className="flex flex-col gap-3">

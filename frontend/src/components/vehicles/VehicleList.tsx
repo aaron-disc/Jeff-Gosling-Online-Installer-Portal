@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { Check, X, Clock, CircleQuestionMark } from "lucide-react";
 import type { Vehicle } from "../../data/types";
-import type { ReactNode } from "react";
 
 interface StatusConfig {
   bg: string;
@@ -61,6 +61,18 @@ interface VehicleListProps {
 }
 
 export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
+  const [vehicleData, setVehicleData] = useState();
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/local-csv")
+      .then((res) => res.json())
+      .then((json) => {
+        setVehicleData(json);
+      });
+  }, []);
+
+  console.log(vehicleData);
+
   return (
     <>
       <div className="overflow-x-auto font-poppins">
@@ -107,7 +119,9 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
                       className={`w-32 inline-flex gap-1.5 text-xs px-2 py-1.5 rounded font-medium text-nowrap ${status.bg} ${status.text}`}
                     >
                       <StatusIcon size={14} />
-                      <span className="text-center grow">{vehicle.hoistProgress}</span>
+                      <span className="text-center grow">
+                        {vehicle.hoistProgress}
+                      </span>
                     </span>
                   </td>
                   <td>{vehicle.measurementE || "—"}</td>

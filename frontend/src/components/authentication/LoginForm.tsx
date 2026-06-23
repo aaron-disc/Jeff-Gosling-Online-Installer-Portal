@@ -22,7 +22,7 @@ export default function LoginForm({
   return (
     <div className="bg-[#ebedea] rounded-2xl border border-gray-200 shadow-lg p-6 w-full max-w-lg">
       <div className=" mx-5 my-10">
-        <div className="flex flex-col items-center mb-6">
+        <div className="flex justify-self-center mb-6">
           <LogoGreen />
         </div>
         <div className="flex flex-col gap-3">
@@ -56,7 +56,7 @@ export default function LoginForm({
             Login
           </button>
           <button
-            className="px-10 w-fit text-md self-center hover:underline hover:text-[#006B2D] mt-3 cursor-pointer"
+            className="mt-3 px-4 w-fit text-md self-center hover:underline hover:text-[#006B2D] cursor-pointer"
             onClick={onRequestAccess}
           >
             Request Access
