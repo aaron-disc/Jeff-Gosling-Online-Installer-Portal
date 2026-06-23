@@ -1,5 +1,20 @@
 import { useState } from "react";
 import { X } from "lucide-react";
+import type { Vehicle } from "../../data/types";
+
+interface VehicleFilters {
+  manufacturer: string;
+  model: string;
+  maxVehicleLoad: string;
+}
+
+interface VehicleFilterPopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+  filters: VehicleFilters;
+  onFilterChange: (filters: VehicleFilters) => void;
+  vehicles: Vehicle[];
+}
 
 export default function VehicleFilterPopup({
   isOpen,
@@ -7,8 +22,8 @@ export default function VehicleFilterPopup({
   filters,
   onFilterChange,
   vehicles,
-}) {
-  const [localFilters, setLocalFilters] = useState({ ...filters });
+}: VehicleFilterPopupProps) {
+  const [localFilters, setLocalFilters] = useState<VehicleFilters>({ ...filters });
 
   const manufacturers = [
     ...new Set(vehicles.map((v) => v.manufacturer)),
@@ -23,7 +38,7 @@ export default function VehicleFilterPopup({
       ].sort()
     : [];
 
-  const handleManufacturerChange = (e) => {
+  const handleManufacturerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setLocalFilters({
       ...localFilters,
       manufacturer: e.target.value,
@@ -130,31 +145,13 @@ export default function VehicleFilterPopup({
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Max Vehicle Load (kg)
             </label>
-            {/* <div className="flex items-center gap-3">
-              <span className="text-xs text-gray-400">0</span>
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                step="10"
-                value={localFilters.maxVehicleLoad}
-               onChange={(e) =>
-                setLocalFilters({
-                  ...localFilters,
-                  maxVehicleLoad: e.target.value === "" ? "" : Number(e.target.value),
-                })
-              }
-                className="w-full accent-[#006B2D]"
-              />
-              <span className="text-xs text-gray-400">1000</span>
-            </div> */}
             <select
               className="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D] disabled:bg-gray-100 disabled:cursor-not-allowed"
               value={localFilters.maxVehicleLoad}
               onChange={(e) =>
                 setLocalFilters({
                   ...localFilters,
-                  maxVehicleLoad: e.target.value === "" ? "" : Number(e.target.value),
+                  maxVehicleLoad: e.target.value === "" ? "" : String(e.target.value),
                 })
               }
             >

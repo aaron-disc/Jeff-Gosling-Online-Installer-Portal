@@ -1,6 +1,14 @@
 import { Check, X, Clock, CircleQuestionMark } from "lucide-react";
+import type { Vehicle } from "../../data/types";
+import type { ReactNode } from "react";
 
-const getStatusConfig = (hoistProgress) => {
+interface StatusConfig {
+  bg: string;
+  text: string;
+  icon: React.ComponentType<{ size?: number }>;
+}
+
+const getStatusConfig = (hoistProgress: string): StatusConfig => {
   switch (hoistProgress) {
     case "Complete":
       return {
@@ -35,7 +43,7 @@ const getStatusConfig = (hoistProgress) => {
   }
 };
 
-const vehicleListHeader = [
+const vehicleListHeader: string[] = [
   "Manufacturer",
   "Model",
   "Variant",
@@ -47,7 +55,12 @@ const vehicleListHeader = [
   "Max Vehicle Load (kg)",
 ];
 
-export default function VehicleList({ vehicles, onSelect }) {
+interface VehicleListProps {
+  vehicles: Vehicle[];
+  onSelect: (vehicle: Vehicle) => void;
+}
+
+export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
   return (
     <>
       <div className="overflow-x-auto font-poppins">
@@ -75,7 +88,7 @@ export default function VehicleList({ vehicles, onSelect }) {
                   role="button"
                   className="text-[14px] text-left border-b border-gray-200 bg-[#EBEDEA] hover:bg-[#e2e2e2] cursor-pointer focus:outline-2 focus:outline-[#006B2D] focus:-outline-offset-2"
                   onClick={() => onSelect(vehicle)}
-                  onKeyDown={(e) => {
+                  onKeyDown={(e: React.KeyboardEvent) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
                       onSelect(vehicle);
@@ -94,7 +107,7 @@ export default function VehicleList({ vehicles, onSelect }) {
                       className={`w-32 inline-flex gap-1.5 text-xs px-2 py-1.5 rounded font-medium text-nowrap ${status.bg} ${status.text}`}
                     >
                       <StatusIcon size={14} />
-                      <p className="text-center grow">{vehicle.hoistProgress}</p>
+                      <span className="text-center grow">{vehicle.hoistProgress}</span>
                     </span>
                   </td>
                   <td>{vehicle.measurementE || "—"}</td>
@@ -106,46 +119,6 @@ export default function VehicleList({ vehicles, onSelect }) {
           </tbody>
         </table>
       </div>
-{/* 
-      <div className="lg:hidden font-poppins flex flex-col gap-3">
-        {vehicles.map((vehicle) => {
-          const status = getStatusConfig(vehicle.hoistProgress);
-          const StatusIcon = status.icon;
-          return (
-            <button
-              key={vehicle.id}
-              type="button"
-              onClick={() => onSelect(vehicle)}
-              className="w-full text-left bg-[#EBEDEA] rounded-lg p-4 hover:bg-[#e2e2e2] cursor-pointer focus:outline-2 focus:outline-[#006B2D]"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-sm font-semibold text-gray-900">
-                    {vehicle.manufacturer} {vehicle.model}
-                  </h3>
-                  <p className="text-xs text-gray-600 mt-0.5">
-                    {vehicle.hoistVehicleVariant}
-                  </p>
-                </div>
-                <span
-                  className={`shrink-0 inline-flex gap-1 text-xs px-2 py-1 rounded font-medium ${status.bg} ${status.text}`}
-                >
-                  <StatusIcon size={12} />
-                  <span>{vehicle.hoistProgress}</span>
-                </span>
-              </div>
-              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-600">
-                <span>Start: {vehicle.minStartDate || "—"}</span>
-                <span>End: {vehicle.maxEndDate || "—"}</span>
-                {vehicle.measurementE && <span>Opening: {vehicle.measurementE}mm</span>}
-                {vehicle.measurementO && <span>Under bar: {vehicle.measurementO}mm</span>}
-                {vehicle.maxVehicleLoad && <span>Max load: {vehicle.maxVehicleLoad}kg</span>}
-              </div>
-            </button>
-          );
-        })}
-      </div>
-*/}
     </>
   );
 }

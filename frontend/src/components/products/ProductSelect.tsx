@@ -7,7 +7,7 @@ export default function ProductSelect() {
   const navigate = useNavigate();
   const { setSelectedProduct } = useAppContext();
 
-  const handleSelect = (product) => {
+  const handleSelect = (product: { id: string; label: string; description: string; }) => {
     setSelectedProduct(product);
     navigate("/vehicles");
   };

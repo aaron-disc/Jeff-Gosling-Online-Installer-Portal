@@ -1,6 +1,6 @@
-export function parseCSV(csvText) {
-  const rows = [];
-  let current = [];
+export function parseCSV(csvText: string): Record<string, string>[] {
+  const rows: string[][] = [];
+  let current: string[] = [];
   let field = "";
   let inQuotes = false;
 
@@ -46,11 +46,11 @@ export function parseCSV(csvText) {
   if (nonEmptyRows.length < 2) return [];
 
   const rawHeaders = nonEmptyRows[0];
-  const headers = rawHeaders.map((h) =>
+  const headers = rawHeaders.map((h: string) =>
     h ? h.charAt(0).toLowerCase() + h.slice(1) : h,
   );
-  return nonEmptyRows.slice(1).map((row) => {
-    const obj = {};
+  return nonEmptyRows.slice(1).map((row: string[]) => {
+    const obj: Record<string, string> = {};
     headers.forEach((header, i) => {
       obj[header] = row[i] !== undefined ? row[i] : "";
     });

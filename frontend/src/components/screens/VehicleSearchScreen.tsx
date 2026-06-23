@@ -8,9 +8,15 @@ import { BackButton } from "../shared/BackButton";
 import VehicleList from "../vehicles/VehicleList";
 import VehicleFilterPopup from "../vehicles/VehicleFilterPopup";
 
+interface VehicleFilters {
+  manufacturer: string;
+  model: string;
+  maxVehicleLoad: string;
+}
+
 const STORAGE_KEY = "jgVehicleFilters";
 
-function loadSavedFilters() {
+function loadSavedFilters(): VehicleFilters | null {
   const saved = sessionStorage.getItem(STORAGE_KEY);
   if (saved) {
     sessionStorage.removeItem(STORAGE_KEY);
@@ -26,7 +32,7 @@ function loadSavedFilters() {
 export default function VehicleSearchScreen() {
   const navigate = useNavigate();
   const { selectedProduct } = useAppContext();
-  const [vehicleFilters, setVehicleFilters] = useState(() => {
+  const [vehicleFilters, setVehicleFilters] = useState<VehicleFilters>(() => {
     const saved = loadSavedFilters();
     return saved || { manufacturer: "", model: "", maxVehicleLoad: "" };
   });
@@ -54,9 +60,6 @@ export default function VehicleSearchScreen() {
         <h1 className="text-[40px] font-semibold text-[#1d1d1b] font-poppins">
           {selectedProduct?.label}
         </h1>
-        {/*           <p className="text-[11pt] text-[#575756] font-semibold leading-[14pt] font-century-gothic">
-            Find your customer's vehicle to view fitting instructions.
-          </p> */}
         <div className="md:pt-0 pt-4 pb-1.5 self-center ml-auto">
           <VehicleFilterPopup
             key={filterPopupKey}

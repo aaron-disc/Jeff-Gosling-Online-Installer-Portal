@@ -1,5 +1,15 @@
 import { LogoGreen } from "../../svg/LogoGreen";
 
+interface LoginFormProps {
+  email: string;
+  setEmail: (email: string) => void;
+  password: string;
+  setPassword: (password: string) => void;
+  error: string;
+  onSubmit: () => void;
+  onRequestAccess: () => void;
+}
+
 export default function LoginForm({
   email,
   setEmail,
@@ -8,7 +18,7 @@ export default function LoginForm({
   error,
   onSubmit,
   onRequestAccess,
-}) {
+}: LoginFormProps) {
   return (
     <div className="bg-[#ebedea] rounded-2xl border border-gray-200 shadow-lg p-6 w-full max-w-lg">
       <div className=" mx-5 my-10">

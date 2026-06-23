@@ -6,7 +6,7 @@ import { downloadPdf } from "../../utils/downloadPdf";
 
 export default function PdfViewer() {
   const navigate = useNavigate();
-  const { vehicleId } = useParams();
+  const { vehicleId } = useParams<{ vehicleId: string }>();
   const { user } = useAuth();
 
   const vehicle = VEHICLES.find((v) => v.id === Number(vehicleId));
@@ -67,5 +67,3 @@ export default function PdfViewer() {
     </div>
   );
 }
-
-/* hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2B] */

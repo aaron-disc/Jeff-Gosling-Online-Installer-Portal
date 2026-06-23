@@ -2,13 +2,21 @@ import { ChevronLeft } from "lucide-react";
 
 import { LogoGreen } from "../../svg/LogoGreen";
 
+interface RequestAccessFormProps {
+  firstName: string;
+  setFirstName: (firstName: string) => void;
+  surname: string;
+  setSurname: (surname: string) => void;
+  onBack: () => void;
+}
+
 export default function RequestAccessForm({
   firstName,
   setFirstName,
   surname,
   setSurname,
   onBack,
-}) {
+}: RequestAccessFormProps) {
   return (
     <div className="bg-[#ebedea] rounded-2xl border border-gray-200 shadow-lg p-6 w-full max-w-lg">
       <div className="mx-5 my-10">

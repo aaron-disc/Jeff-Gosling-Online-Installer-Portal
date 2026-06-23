@@ -7,10 +7,17 @@ import {
   FileSearchCorner,
 } from "lucide-react";
 
+import type { Vehicle } from "../../data/types";
 import VehicleDetailSection from "./VehicleDetailSection";
 import VehicleDetailNotes from "./VehicleDetailNotes";
 
-const getStatusConfig = (hoistProgress) => {
+interface StatusConfig {
+  bg: string;
+  text: string;
+  icon: React.ComponentType<{ size?: number }>;
+}
+
+const getStatusConfig = (hoistProgress: string): StatusConfig => {
   switch (hoistProgress) {
     case "Complete":
       return {
@@ -45,7 +52,13 @@ const getStatusConfig = (hoistProgress) => {
   }
 };
 
-export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
+interface VehicleDetailProps {
+  vehicle: Vehicle;
+  onViewPdf?: () => void;
+  onDownloadPdf: () => void;
+}
+
+export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }: VehicleDetailProps) {
   const status = getStatusConfig(vehicle.hoistProgress);
   const StatusIcon = status.icon;
 
@@ -60,11 +73,6 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
             {vehicle.hoistVehicleVariant}
           </p>
         </div>
-        {/*         <span
-          className={`inline-flex items-center gap-1.5 text-base px-3 py-1.5 rounded font-medium shrink-0 ${status.bg} ${status.text}`}
-        >
-          <StatusIcon size={16} /> {vehicle.hoistProgress}
-        </span> */}
         <span className="inline-flex items-center gap-1.5 text-base px-3 py-1.5 rounded font-medium shrink-0 text-[#13A538]">
           <StatusIcon size={16} /> {vehicle.hoistProgress}
         </span>
@@ -72,13 +80,13 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
 
       <div className="relative pt-4 border-t border-[#EBEDEA]">
         <dl className="grid grid-cols-3 sm:grid-cols-5 justify-items-center gap-x-6 gap-y-4 text-center">
-          {[
+          {([
             ["Manufacturer", vehicle.manufacturer],
             ["Model", vehicle.model],
             ["Variant", vehicle.hoistVehicleVariant],
             ["Start", vehicle.minStartDate],
-            ["End", vehicle.maxEndDat],
-          ].map(([label, value]) => (
+            ["End", vehicle.maxEndDate],
+          ] as [string, string][]).map(([label, value]) => (
             <div key={label}>
               <dt className="text-[13px] sm:text-[13px] md:text-sm text-gray-400">{label}</dt>
               <dd className="text-[15px] sm:text-[15px] md:text-base text-gray-900 font-medium">
@@ -110,28 +118,26 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           <VehicleDetailNotes notes={vehicle.fittingNotes} title="Notes" />
           <VehicleDetailSection
             vehicleDetailArr={[
-              { key: "engineICE", label: "ICE" },
-              { key: "engineFullEV", label: "Full EV" },
-              { key: "engineHEV", label: "HEV" },
-              { key: "engineMHEV", label: "MHEV" },
-              { key: "enginePHEV", label: "PHEV" },
+              { key: "engineICE" as const, label: "ICE" },
+              { key: "engineFullEV" as const, label: "Full EV" },
+              { key: "engineHEV" as const, label: "HEV" },
+              { key: "engineMHEV" as const, label: "MHEV" },
+              { key: "enginePHEV" as const, label: "PHEV" },
             ]}
             vehicle={vehicle}
             title="Engine"
           />
           <VehicleDetailSection
             vehicleDetailArr={[
-              { key: "hoistSide", label: "Hoist Side", type: "text" },
-              { key: "aframe", label: "A-Frame Type", type: "text" },
+              { key: "hoistSide" as const, label: "Hoist Side" },
+              { key: "aframe" as const, label: "A-Frame Type" },
               {
-                key: "hingePostYoke",
+                key: "hingePostYoke" as const,
                 label: "Standard Hinge Post Yoke Position",
-                type: "text",
               },
               {
-                key: "upDownActuatorStroke",
+                key: "upDownActuatorStroke" as const,
                 label: "Up/Down Actuator Stroke",
-                type: "value",
               },
             ]}
             vehicle={vehicle}
@@ -145,16 +151,14 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           <VehicleDetailSection
             vehicleDetailArr={[
               {
-                key: "maxVehicleLoad",
+                key: "maxVehicleLoad" as const,
                 label: "Max Vehicle Load",
-                type: "value",
               },
-              { key: "measurementE", label: "Opening Height", type: "value" },
-              { key: "measurementD", label: "Opening Width", type: "value" },
+              { key: "measurementE" as const, label: "Opening Height" },
+              { key: "measurementD" as const, label: "Opening Width" },
               {
-                key: "measurementI",
+                key: "measurementI" as const,
                 label: "Height of Boot Lip from Ground",
-                type: "value",
               },
             ]}
             vehicle={vehicle}
@@ -165,26 +169,22 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           <VehicleDetailNotes title="Seats" notes={vehicle.seatNotes} />
           <VehicleDetailSection
             vehicleDetailArr={[
-              { key: "splitSeats", label: "Split Seats", type: "text" },
+              { key: "splitSeats" as const, label: "Split Seats" },
               {
-                key: "measurementK1",
+                key: "measurementK1" as const,
                 label: "Depth without seats folded",
-                type: "value",
               },
               {
-                key: "measurementN",
+                key: "measurementN" as const,
                 label: "Depth with seats folded",
-                type: "value",
               },
               {
-                key: "depthWithSeatsSlidForward",
+                key: "depthWithSeatsSlidForward" as const,
                 label: "Depth without seats folded but slid forwards",
-                type: "value",
               },
               {
-                key: "2ndRowSeatsFoldedLipToFloor",
+                key: "2ndRowSeatsFoldedLipToFloor" as const,
                 label: "Lip from boot floor to folded seats",
-                type: "value",
               },
             ]}
             vehicle={vehicle}
@@ -193,19 +193,16 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           <VehicleDetailSection
             vehicleDetailArr={[
               {
-                key: "measurementK2",
+                key: "measurementK2" as const,
                 label: "Depth without seats folded",
-                type: "value",
               },
               {
-                key: "3rdRowSeatsFoldedLipToFloor",
+                key: "3rdRowSeatsFoldedLipToFloor" as const,
                 label: "Lip from boot floor to folded seats",
-                type: "value",
               },
               {
-                key: "3rdRowOptions",
+                key: "3rdRowOptions" as const,
                 label: "Third row use when hoist fitted",
-                type: "text",
               },
             ]}
             vehicle={vehicle}
@@ -220,9 +217,8 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
           <VehicleDetailSection
             vehicleDetailArr={[
               {
-                key: "bootFloorToBootLip",
+                key: "bootFloorToBootLip" as const,
                 label: "Boot lip from boot floor opening",
-                type: "value",
               },
             ]}
             vehicle={vehicle}
@@ -238,30 +234,25 @@ export default function VehicleDetail({ vehicle, onViewPdf, onDownloadPdf }) {
               <VehicleDetailSection
                 vehicleDetailArr={[
                   {
-                    key: "measurementO",
+                    key: "measurementO" as const,
                     label: "O: Height Under Spreader Bar",
-                    type: "value",
                   },
                   {
-                    key: "measurementP",
+                    key: "measurementP" as const,
                     label: "P: Upper arm to side of boot",
-                    type: "value",
                   },
                   {
-                    key: "measurementQ",
+                    key: "measurementQ" as const,
                     label: "Q: Lower arm to side of boot",
-                    type: "value",
                   },
                   {
-                    key: "measurementR",
+                    key: "measurementR" as const,
                     label: "R: Length of arm",
-                    type: "value",
                   },
                   {
-                    key: "heightEndArmToGround",
+                    key: "heightEndArmToGround" as const,
                     label:
                       "Height of end of arm to ground with arm fully out and down",
-                    type: "value",
                   },
                 ]}
                 vehicle={vehicle}

@@ -13,9 +13,9 @@ app.use((req, res, next) => {
 });
 
 app.get("/test", async (req, res) => {
-  return res.json({ key: "value" });
+  return res.json({ key: "value" })
 });
 
 app.listen(process.env.PORT, () =>
-    console.log(`Server running on port ${process.env.PORT}`),
+  console.log(`Server running on port ${process.env.PORT}`),
 );

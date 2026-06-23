@@ -1,4 +1,6 @@
-export async function downloadPdf(vehicle) {
+import type { Vehicle } from "../data/types";
+
+export async function downloadPdf(vehicle: Vehicle): Promise<void> {
   if (!vehicle.bootHoistPdf) return;
   const response = await fetch(vehicle.bootHoistPdf);
   const blob = await response.blob();

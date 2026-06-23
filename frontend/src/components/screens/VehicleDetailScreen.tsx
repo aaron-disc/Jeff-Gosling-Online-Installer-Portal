@@ -7,7 +7,7 @@ import { downloadPdf } from "../../utils/downloadPdf";
 
 export default function VehicleDetailScreen() {
   const navigate = useNavigate();
-  const { vehicleId } = useParams();
+  const { vehicleId } = useParams<{ vehicleId: string }>();
   const vehicle = VEHICLES.find((v) => v.id === Number(vehicleId));
 
   useEffect(() => {

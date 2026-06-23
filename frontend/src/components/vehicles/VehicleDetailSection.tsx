@@ -1,10 +1,22 @@
 import { Check, X } from "lucide-react";
+import type { Vehicle } from "../../data/types";
+
+interface VehicleDetailArrItem {
+  key: keyof Vehicle;
+  label: string;
+}
+
+interface VehicleDetailSectionProps {
+  vehicleDetailArr: VehicleDetailArrItem[];
+  vehicle: Vehicle;
+  title?: string;
+}
 
 export default function VehicleDetailSection({
   vehicleDetailArr,
   vehicle,
   title,
-}) {
+}: VehicleDetailSectionProps) {
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden mt-3">
       {title && (
@@ -15,9 +27,10 @@ export default function VehicleDetailSection({
       <div className="divide-y divide-gray-100">
         {vehicleDetailArr.map(({ key, label }) => {
           const raw = vehicle[key];
+          const strVal = typeof raw === "string" ? raw : String(raw ?? "");
           const bool =
-            raw?.toLowerCase() === "yes" || raw?.toLowerCase() === "no";
-          const yes = bool && raw.toLowerCase() === "yes"  
+            strVal.toLowerCase() === "yes" || strVal.toLowerCase() === "no";
+          const yes = bool && strVal.toLowerCase() === "yes";
 
           return (
             <div
@@ -32,7 +45,7 @@ export default function VehicleDetailSection({
                 </span>
               ) : (
                 <span className="text-sm font-semibold text-gray-900 px-2.5 text-nowrap">
-                  {raw || "—"}
+                  {raw != null ? String(raw) : "—"}
                 </span>
               )}
             </div>
