@@ -1,11 +1,30 @@
-import { parseCSV } from "../utils/csvParser";
 import type { Vehicle } from "./types";
 
-const response = await fetch(new URL('./VehicleList.csv', import.meta.url));
-const csvText = await response.text();
+const response = await fetch("http://localhost:5000/api/local-csv");
+const json = await response.json();
 
-export const VEHICLES: Vehicle[] = parseCSV(csvText).map((v, i) => ({
-  ...v,
-  id: i + 1,
-  bootHoistPdf: v.pdfUrl ? new URL(v.pdfUrl, import.meta.url).href : null,
-})) as Vehicle[];
+const pdfModules = import.meta.glob("../pdfs/*.pdf", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as Record<string, string>;
+
+const pdfNames = new Map<string, string>();
+for (const [filePath, url] of Object.entries(pdfModules)) {
+  const filename = filePath.split("/").pop()?.toLowerCase() || "";
+  pdfNames.set(filename, url);
+}
+
+function findMatchingPdf(v: Record<string, string>): string | null {
+  const parts = [v.manufacturer || "", v.model || "", v.hoistVehicleVariant || ""];
+  const expectedName = parts.filter(Boolean).join(" ").toLowerCase().trim() + ".pdf";
+  return pdfNames.get(expectedName) ?? null;
+}
+
+export const VEHICLES: Vehicle[] = (Array.isArray(json) ? json : []).map(
+  (v: Record<string, string>, i: number) => ({
+    ...v,
+    id: i + 1,
+    bootHoistPdf: findMatchingPdf(v),
+  }),
+) as Vehicle[];

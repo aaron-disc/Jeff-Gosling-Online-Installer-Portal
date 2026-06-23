@@ -39,9 +39,7 @@ app.get("/api/local-csv", (req, res) => {
         return newRow;
       });
 
-      res.json({
-        ...formattedResults,
-      });
+      res.json(formattedResults);
     })
     .on("error", (error) => {
       res
