@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
-//READ boot hoist vehicle data - (http://localhost:5000/api/local-csv)
+//READ boot hoist vehicle data
 app.get("/api/local-csv", (req, res) => {
   const results = [];
 
@@ -32,6 +32,7 @@ app.get("/api/local-csv", (req, res) => {
     .on("end", () => {
 
       const formattedResults = results.map((row) => {
+
         const newRow = {};
         Object.keys(row).forEach((key) => {
           newRow[toCamelCase(key)] = row[key];

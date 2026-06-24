@@ -66,8 +66,6 @@ export default function VehicleDetail({
   const status = getStatusConfig(vehicle.hoistProgress);
   const StatusIcon = status.icon;
 
-  console.log(vehicle.bootHoistPdf);
-
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 ">
       <div className="flex items-start justify-between gap-4 mb-4">
@@ -109,7 +107,9 @@ export default function VehicleDetail({
         </dl>
         <div className="md:mt-8 mt-4">
           {!vehicle.bootHoistPdf && (
-            <p className="mb-2 text-center text-gray-700">* No pdf available *</p>
+            <p className="mb-2 text-center text-gray-700">
+              * No pdf available *
+            </p>
           )}
           <div className="flex max-[500px]:flex-col gap-3">
             <button

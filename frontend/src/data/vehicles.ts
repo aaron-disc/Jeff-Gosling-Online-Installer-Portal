@@ -1,6 +1,6 @@
 import type { Vehicle } from "./types";
 
-const response = await fetch("http://localhost:5000/api/local-csv");
+const response = await fetch(`${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}/api/local-csv`);
 const json = await response.json();
 
 const pdfModules = import.meta.glob("../pdfs/*.pdf", {
@@ -16,8 +16,13 @@ for (const [filePath, url] of Object.entries(pdfModules)) {
 }
 
 function findMatchingPdf(v: Record<string, string>): string | null {
-  const parts = [v.manufacturer || "", v.model || "", v.hoistVehicleVariant || ""];
-  const expectedName = parts.filter(Boolean).join(" ").toLowerCase().trim() + ".pdf";
+  const parts = [
+    v.manufacturer || "",
+    v.model || "",
+    v.hoistVehicleVariant || "",
+  ];
+  const expectedName =
+    parts.filter(Boolean).join(" ").toLowerCase().trim() + ".pdf";
   return pdfNames.get(expectedName) ?? null;
 }
 
