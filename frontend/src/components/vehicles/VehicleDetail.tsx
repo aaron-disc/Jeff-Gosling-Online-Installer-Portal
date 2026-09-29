@@ -130,36 +130,49 @@ export default function VehicleDetail({
         </div>
       </div>
 
-      <div className="border-t border-[#EBEDEA] pt-4 mt-4 flex flex-col gap-4">
-        <div>
-          <VehicleDetailNotes notes={vehicle.fittingNotes} title="Notes" />
-          <VehicleDetailSection
-            vehicleDetailArr={[
-              { key: "engineICE" as const, label: "ICE" },
-              { key: "engineFullEV" as const, label: "Full EV" },
-              { key: "engineHEV" as const, label: "HEV" },
-              { key: "engineMHEV" as const, label: "MHEV" },
-              { key: "enginePHEV" as const, label: "PHEV" },
-            ]}
-            vehicle={vehicle}
-            title="Engine"
-          />
-          <VehicleDetailSection
-            vehicleDetailArr={[
-              { key: "hoistSide" as const, label: "Hoist Side" },
-              { key: "aframe" as const, label: "A-Frame Type" },
-              {
-                key: "hingePostYoke" as const,
-                label: "Standard Hinge Post Yoke Position",
-              },
-              {
-                key: "upDownActuatorStroke" as const,
-                label: "Up/Down Actuator Stroke",
-              },
-            ]}
-            vehicle={vehicle}
-          />
-          <p className="mt-3 px-4 text-gray-700 text-center">
+      <div className="border-t border-[#EBEDEA] pt-4 mt-7 flex flex-col gap-4">
+        <VehicleDetailNotes
+          notes={vehicle.fittingNotes}
+          title="Overview Notes"
+        />
+        <h2 className="mt-3 text-2xl px-3 font-medium">Hoist Design Details</h2>
+        <VehicleDetailSection
+          vehicleDetailArr={[
+            { key: "engineICE" as const, label: "ICE" },
+            { key: "engineFullEV" as const, label: "Full EV" },
+            { key: "engineHEV" as const, label: "HEV" },
+            { key: "engineMHEV" as const, label: "MHEV" },
+            { key: "enginePHEV" as const, label: "PHEV" },
+          ]}
+          vehicle={vehicle}
+          title="Suitable for Engine Type"
+        />
+        <VehicleDetailSection
+          vehicleDetailArr={[
+            {
+              key: "maxVehicleLoad" as const,
+              label: "Max Vehicle Load",
+            },
+            { key: "hoistSide" as const, label: "Hoist Side" },
+            { key: "aframe" as const, label: "A-Frame Type" },
+            {
+              key: "hingePostYoke" as const,
+              label: "Standard Hinge Post Yoke Position",
+            },
+            {
+              key: "upDownActuatorStroke" as const,
+              label: "Up/Down Actuator Stroke",
+            },
+          ]}
+          vehicle={vehicle}
+          title="Setup Details"
+        />
+        <h2 className="text-2xl font-medium mt-8 px-3">
+          Vehicle Measurements and Details
+        </h2>
+
+        <div className="mt-3">
+          <p className="text-red-500 text-left pl-3">
             All measurements provided are approximate. We would always recommend
             checking measurements and key information such as seating
             arrangements as these details can change on specification and
@@ -167,10 +180,6 @@ export default function VehicleDetail({
           </p>
           <VehicleDetailSection
             vehicleDetailArr={[
-              {
-                key: "maxVehicleLoad" as const,
-                label: "Max Vehicle Load",
-              },
               { key: "measurementE" as const, label: "Opening Height" },
               { key: "measurementD" as const, label: "Opening Width" },
               {
@@ -182,51 +191,49 @@ export default function VehicleDetail({
           />
         </div>
 
-        <div className="mt-8">
-          <VehicleDetailNotes title="Seats" notes={vehicle.seatNotes} />
-          <VehicleDetailSection
-            vehicleDetailArr={[
-              { key: "splitSeats" as const, label: "Split Seats" },
-              {
-                key: "measurementK1" as const,
-                label: "Depth without seats folded",
-              },
-              {
-                key: "measurementN" as const,
-                label: "Depth with seats folded",
-              },
-              {
-                key: "depthWithSeatsSlidForward" as const,
-                label: "Depth without seats folded but slid forwards",
-              },
-              {
-                key: "2ndRowSeatsFoldedLipToFloor" as const,
-                label: "Lip from boot floor to folded seats",
-              },
-            ]}
-            vehicle={vehicle}
-            title="Second Row"
-          />
-          <VehicleDetailSection
-            vehicleDetailArr={[
-              {
-                key: "measurementK2" as const,
-                label: "Depth without seats folded",
-              },
-              {
-                key: "3rdRowSeatsFoldedLipToFloor" as const,
-                label: "Lip from boot floor to folded seats",
-              },
-              {
-                key: "3rdRowOptions" as const,
-                label: "Third row use when hoist fitted",
-              },
-            ]}
-            vehicle={vehicle}
-            title="Third Row"
-          />
-        </div>
-        <div className="mt-8">
+        <VehicleDetailNotes title="Seat Notes" notes={vehicle.seatNotes} />
+        <VehicleDetailSection
+          vehicleDetailArr={[
+            { key: "splitSeats" as const, label: "Split Seats" },
+            {
+              key: "measurementK1" as const,
+              label: "Depth without seats folded",
+            },
+            {
+              key: "measurementN" as const,
+              label: "Depth with seats folded",
+            },
+            {
+              key: "depthWithSeatsSlidForward" as const,
+              label: "Depth without seats folded but slid forwards",
+            },
+            {
+              key: "2ndRowSeatsFoldedLipToFloor" as const,
+              label: "Lip from boot floor to folded seats",
+            },
+          ]}
+          vehicle={vehicle}
+          title="Second Row"
+        />
+        <VehicleDetailSection
+          vehicleDetailArr={[
+            {
+              key: "measurementK2" as const,
+              label: "Depth without seats folded",
+            },
+            {
+              key: "3rdRowSeatsFoldedLipToFloor" as const,
+              label: "Lip from boot floor to folded seats",
+            },
+            {
+              key: "3rdRowOptions" as const,
+              label: "Third row use when hoist fitted",
+            },
+          ]}
+          vehicle={vehicle}
+          title="Third Row"
+        />
+        <div>
           <VehicleDetailNotes
             title="False Floor Notes"
             notes={vehicle.falseFloorNotes}
@@ -241,46 +248,45 @@ export default function VehicleDetail({
             vehicle={vehicle}
           />
         </div>
-        <div className="mt-8">
-          <div className="max-lg:flex-col flex lg:gap-6">
-            <div>
-              <VehicleDetailNotes
-                title="Setup"
-                notes="These setup notes are with the boot hoist setup at an average position for guidance. As the hoist arm is adjustable, you may achieve different measurements."
-              />
-              <VehicleDetailSection
-                vehicleDetailArr={[
-                  {
-                    key: "measurementO" as const,
-                    label: "O: Height Under Spreader Bar",
-                  },
-                  {
-                    key: "measurementP" as const,
-                    label: "P: Upper arm to side of boot",
-                  },
-                  {
-                    key: "measurementQ" as const,
-                    label: "Q: Lower arm to side of boot",
-                  },
-                  {
-                    key: "measurementR" as const,
-                    label: "R: Length of arm",
-                  },
-                  {
-                    key: "heightEndArmToGround" as const,
-                    label:
-                      "Height of end of arm to ground with arm fully out and down",
-                  },
-                ]}
-                vehicle={vehicle}
-              />
-            </div>
-            <img
-              src="../src/images/Dimensions.png"
-              alt="Vehicle Boot Dimensions"
-              className="object-cover my-5 sm:max-w-104 sm:max-h-80 self-center"
+
+        <div className="max-lg:flex-col flex lg:gap-6">
+          <div>
+            <VehicleDetailNotes
+              title="Installed Hoist Measurements"
+              notes="These setup notes are with the boot hoist setup at an average position for guidance. As the hoist arm is adjustable, you may achieve different measurements."
+            />
+            <VehicleDetailSection
+              vehicleDetailArr={[
+                {
+                  key: "measurementO" as const,
+                  label: "O: Height Under Spreader Bar",
+                },
+                {
+                  key: "measurementP" as const,
+                  label: "P: Upper arm to side of boot",
+                },
+                {
+                  key: "measurementQ" as const,
+                  label: "Q: Lower arm to side of boot",
+                },
+                {
+                  key: "measurementR" as const,
+                  label: "R: Length of arm",
+                },
+                {
+                  key: "heightEndArmToGround" as const,
+                  label:
+                    "Height of end of arm to ground with arm fully out and down",
+                },
+              ]}
+              vehicle={vehicle}
             />
           </div>
+          <img
+            src="../src/images/Dimensions.png"
+            alt="Vehicle Boot Dimensions"
+            className="object-cover my-5 sm:max-w-104 sm:max-h-80 self-center"
+          />
         </div>
       </div>
     </div>

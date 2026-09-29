@@ -8,7 +8,7 @@ interface BackButtonProps {
 export function BackButton({ onClick, style }: BackButtonProps) {
   return (
     <button
-      className={`flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 transition-colors pr-2 cursor-pointer ${style}`}
+      className={`flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 hover:-translate-x-1 transition-all duration-200 pr-2 cursor-pointer ${style}`}
       onClick={onClick}
     >
       <ChevronLeft size={20}/> Back

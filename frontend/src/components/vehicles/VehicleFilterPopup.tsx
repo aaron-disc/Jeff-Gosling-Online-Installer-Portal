@@ -85,7 +85,7 @@ export default function VehicleFilterPopup({
                     localFilters.maxVehicleLoad !== "",
                   ].filter(Boolean).length
                 }{" "}
-                active)
+                filters active)
               </span>
             )}
           </h2>
