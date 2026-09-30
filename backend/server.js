@@ -6,6 +6,9 @@ const path = require("path");
 const csv = require("csv-parser");
 const { toCamelCase } = require("./utils/camelCaseParser");
 
+const pool = require("./db/db");
+const argon2 = require("argon2");
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -15,7 +18,97 @@ app.use((req, res, next) => {
   next();
 });
 
-//READ boot hoist vehicle data
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  /*   const email = "a@b.com";
+  const password = "test"; */
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required." });
+  }
+
+  try {
+    const query = `
+      SELECT id, email, password_hash, is_admin
+      FROM users
+      WHERE email = ?
+    `;
+
+    const [rows] = await pool.execute(query, [email]);
+    const user = rows[0];
+
+    if (!user) {
+      return res.status(401).json({ error: "Invalid email or password." });
+    }
+
+    const isPasswordValid = await argon2.verify(user.password_hash, password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid email or password." });
+    }
+
+    return res.status(200).json({
+      message: "Login successful.",
+      user: {
+        email: user.email,
+        isAdmin: user.is_admin == true,
+      },
+    });
+  } catch (error) {
+    console.error("Error logging in user:", error);
+    return res.status(500).json({ error: "Internal server error." });
+  }
+});
+
+app.get("/users", async (req, res) => {
+  try {
+    const query = "SELECT email, is_admin, created_at FROM users";
+    const [result] = await pool.query(query);
+
+    if (!result[0]) {
+      return res
+        .status(500)
+        .json({ error: "Interal server error, failed to fetch" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Database error: ", error);
+    res.status(500).json({ error: "Interal server error..." });
+  }
+});
+
+/* CREATE test user */
+app.get("/api/test-register", async (req, res) => {
+  /* const { email, password, is_admin = 0 } = req.body; */
+
+  const email = "a@b.com";
+  const password = "test";
+  const is_admin = 1;
+
+  /* create proper email + password reqs  -- express validator perchance?? */
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
+  }
+
+  const passwordHash = await argon2.hash(password, {
+    type: argon2.argon2id,
+  });
+
+  try {
+    const query =
+      "INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, ?)";
+    const [result] = await pool.execute(query, [email, passwordHash, is_admin]);
+
+    res.status(201).json({ message: "User created successfully" });
+  } catch (error) {
+    console.error("Database error: ", error);
+    res.status(500).json({ error: "Interal server error.." });
+  }
+});
+
+/* READ boot hoist vehicle data */
 app.get("/api/local-csv", (req, res) => {
   const results = [];
 
@@ -30,9 +123,7 @@ app.get("/api/local-csv", (req, res) => {
     .pipe(csv())
     .on("data", (data) => results.push(data))
     .on("end", () => {
-
       const formattedResults = results.map((row) => {
-
         const newRow = {};
         Object.keys(row).forEach((key) => {
           newRow[toCamelCase(key)] = row[key];

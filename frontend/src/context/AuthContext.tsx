@@ -1,15 +1,14 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import { DEMO_USERS } from "../data/users";
 
 interface User {
-  id: number;
   email: string;
-  name: string;
+  isAdmin: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => User | null;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<{ user: User | null; error: string | null }>;
   logout: () => void;
 }
 
@@ -17,24 +16,52 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const login = useCallback((email: string, password: string): User | null => {
-    const found = DEMO_USERS.find(
-      (u) => u.email === email && u.password === password,
-    );
-    if (found) {
-      setUser(found);
-      return found;
-    }
-    return null;
-  }, []);
+  const login = useCallback(
+    async (email: string, password: string): Promise<{ user: User | null; error: string | null }> => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}/login`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, password: password }),
+          },
+        );
+
+        if (!res.ok) {
+          setUser(null);
+          if (res.status === 401) {
+            return { user: null, error: "Invalid email or password." };
+          }
+          return { user: null, error: "Unable to sign in. Please try again." };
+        }
+
+        const data = await res.json();
+        const authedUser: User = {
+          email: data.user.email,
+          isAdmin: data.user.isAdmin === true,
+        };
+        setUser(authedUser);
+        return { user: authedUser, error: null };
+      } catch {
+        setUser(null);
+        return { user: null, error: "Unable to reach the server. Please try again." };
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [],
+  );
 
   const logout = useCallback(() => {
     setUser(null);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

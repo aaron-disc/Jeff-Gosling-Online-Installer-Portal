@@ -8,14 +8,17 @@ import { Profile } from "../../svg/ProfileSVG";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const { setSelectedProduct } = useAppContext();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     };
@@ -27,6 +30,11 @@ export default function Header() {
     setSelectedProduct(null);
     logout();
     navigate("/login", { replace: true });
+  };
+
+  const handleHandleUsers = () => {
+    setDropdownOpen(false);
+    navigate("/handle-users");
   };
 
   return (
@@ -42,7 +50,9 @@ export default function Header() {
           </div>
 
           <div>
-            <h1 className="text-3xl font-poppins font-semibold">Online Installation Portal</h1>
+            <h1 className="text-3xl font-poppins font-semibold">
+              Online Installation Portal
+            </h1>
           </div>
 
           <div className="flex items-center gap-5 shrink-0">
@@ -55,6 +65,20 @@ export default function Header() {
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50 font-poppins">
+                  {user?.isAdmin && (
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
+                      onClick={handleHandleUsers}
+                    >
+                      Handle Users
+                    </button>
+                  )}
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
+                    disabled
+                  >
+                    Profile
+                  </button>
                   <button
                     className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
                     onClick={handleSignOut}

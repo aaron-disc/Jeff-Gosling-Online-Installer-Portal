@@ -6,18 +6,18 @@ import loginBg from "../../images/LoginSmaller.png";
 
 export default function LoginScreen() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    const user = login(email, password);
+  const handleLogin = async () => {
+    const { user, error: loginError } = await login(email, password);
     if (user) {
       setError("");
       navigate("/products", { replace: true });
     } else {
-      setError("Invalid email or password.");
+      setError(loginError ?? "Invalid email or password.");
     }
   };
 
@@ -32,6 +32,7 @@ export default function LoginScreen() {
         password={password}
         setPassword={setPassword}
         error={error}
+        isLoading={isLoading}
         onSubmit={handleLogin}
         onRequestAccess={() => navigate("/request-access")}
       />

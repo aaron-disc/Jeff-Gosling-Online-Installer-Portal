@@ -6,6 +6,7 @@ interface LoginFormProps {
   password: string;
   setPassword: (password: string) => void;
   error: string;
+  isLoading?: boolean;
   onSubmit: () => void;
   onRequestAccess: () => void;
 }
@@ -16,6 +17,7 @@ export default function LoginForm({
   password,
   setPassword,
   error,
+  isLoading = false,
   onSubmit,
   onRequestAccess,
 }: LoginFormProps) {
@@ -50,10 +52,11 @@ export default function LoginForm({
           </div>
 
           <button
-            className="w-full py-2.5 mt-5 bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer text-xl font-poppins"
+            className="w-full py-2.5 mt-5 bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-[#F1C800] hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer text-xl font-poppins disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={onSubmit}
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
           <button
             className="mt-3 px-4 w-fit text-md self-center hover:underline hover:text-[#006B2D] cursor-pointer"

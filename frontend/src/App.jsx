@@ -7,6 +7,7 @@ import RequestAccessScreen from "./components/screens/RequestAccessScreen";
 import ProductSelect from "./components/products/ProductSelect";
 import VehicleSearchScreen from "./components/screens/VehicleSearchScreen";
 import VehicleDetailScreen from "./components/screens/VehicleDetailScreen";
+import HandleUsersScreen from "./components/screens/HandleUsersScreen";
 import PdfViewer from "./components/shared/PdfViewer";
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
                 path="/vehicles/:vehicleId"
                 element={<VehicleDetailScreen />}
               />
+              <Route path="/handle-users" element={<HandleUsersScreen />} />
             </Route>
             <Route path="/vehicles/:vehicleId/pdf" element={<PdfViewer />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
