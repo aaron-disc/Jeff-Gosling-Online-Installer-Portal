@@ -18,6 +18,7 @@ app.use((req, res, next) => {
   next();
 });
 
+/* READ users to authenticate login */
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -61,9 +62,59 @@ app.post("/login", async (req, res) => {
   }
 });
 
+/* CREATE new user */
+app.post("/create-user", async (req, res) => {
+  const { email, password, isAdmin } = req.body;
+
+  /* email + password validation  - 400 response */
+
+  try {
+    const passwordHash = await argon2.hash(password, {
+      type: argon2.argon2id,
+    });
+    const query =
+      "INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, ?)";
+
+    await pool.execute(query, [email, passwordHash, isAdmin]);
+    res.status(201).json({ message: "User created successfully" });
+  } catch (error) {
+    console.error("Database error: ", error);
+    res.status(500).json({ error: "Interal server error.." });
+  }
+});
+
+app.delete("/delete-user/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const query = "DELETE FROM users WHERE id = ?";
+
+    const [result] = await pool.execute(query, [id]);
+
+    if (result.affectedRows === 0) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to find user",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "User deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Database Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error occurred.",
+    });
+  }
+});
+
+/* READ users */
 app.get("/users", async (req, res) => {
   try {
-    const query = "SELECT email, is_admin, created_at FROM users";
+    const query = "SELECT email, is_admin, created_at, id FROM users";
     const [result] = await pool.query(query);
 
     if (!result[0]) {
@@ -79,7 +130,7 @@ app.get("/users", async (req, res) => {
   }
 });
 
-/* CREATE test user */
+/* CREATE test user -- dont use */
 app.get("/api/test-register", async (req, res) => {
   /* const { email, password, is_admin = 0 } = req.body; */
 
@@ -92,11 +143,10 @@ app.get("/api/test-register", async (req, res) => {
     return res.status(400).json({ error: "Email and password are required" });
   }
 
-  const passwordHash = await argon2.hash(password, {
-    type: argon2.argon2id,
-  });
-
   try {
+    const passwordHash = await argon2.hash(password, {
+      type: argon2.argon2id,
+    });
     const query =
       "INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, ?)";
     const [result] = await pool.execute(query, [email, passwordHash, is_admin]);
@@ -108,7 +158,7 @@ app.get("/api/test-register", async (req, res) => {
   }
 });
 
-/* READ boot hoist vehicle data */
+/* READ boot hoist vehicle data -- has to be a better way */
 app.get("/api/local-csv", (req, res) => {
   const results = [];
 
