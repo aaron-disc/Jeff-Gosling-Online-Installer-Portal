@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useAppContext } from "../../context/AppContext";
 import { LogoGreen } from "../../svg/LogoGreen";
@@ -7,6 +7,7 @@ import { LogoYellow } from "../../svg/LogoYellow";
 import { Profile } from "../../svg/ProfileSVG";
 
 export default function Header() {
+  const location = useLocation();
   const navigate = useNavigate();
   const { logout, user } = useAuth();
   const { setSelectedProduct } = useAppContext();
@@ -35,6 +36,11 @@ export default function Header() {
   const handleHandleUsers = () => {
     setDropdownOpen(false);
     navigate("/handle-users");
+  };
+
+  const handleProfile = () => {
+    setDropdownOpen(false);
+    navigate("/profile");
   };
 
   return (
@@ -68,6 +74,7 @@ export default function Header() {
                   {user?.isAdmin && (
                     <button
                       className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
+                      disabled={location.pathname === "/handle-users"}
                       onClick={handleHandleUsers}
                     >
                       Handle Users
@@ -75,7 +82,8 @@ export default function Header() {
                   )}
                   <button
                     className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
-                    disabled
+                    disabled={location.pathname === "/profile"}
+                    onClick={handleProfile}
                   >
                     Profile
                   </button>

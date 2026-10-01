@@ -16,10 +16,6 @@ interface CreateUserPopupProps {
 const MIN_PASSWORD_LENGTH = 8;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const inputClass =
-  "w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]";
-const labelClass = "block text-sm font-medium text-gray-700 mb-1";
-
 export default function CreateUserPopup({
   isOpen,
   onClose,
@@ -94,7 +90,7 @@ export default function CreateUserPopup({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-medium text-gray-900">Create user</h2>
+          <h2 className="text-lg font-medium text-black">Create user</h2>
           <button
             onClick={handleClose}
             disabled={isSubmitting}
@@ -108,13 +104,16 @@ export default function CreateUserPopup({
         <form onSubmit={handleSubmit} noValidate>
           <div className="space-y-4">
             <div>
-              <label className={labelClass} htmlFor="create-user-email">
+              <label
+                className="block text-sm font-medium text-gray-700 mb-1"
+                htmlFor="create-user-email"
+              >
                 Email
               </label>
               <input
                 id="create-user-email"
                 type="email"
-                className={inputClass}
+                className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
                 placeholder="some placeholder"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -123,13 +122,16 @@ export default function CreateUserPopup({
             </div>
 
             <div>
-              <label className={labelClass} htmlFor="create-user-password">
+              <label
+                className="block text-sm font-medium text-gray-700 mb-1"
+                htmlFor="create-user-password"
+              >
                 Password
               </label>
               <input
                 id="create-user-password"
                 type="password"
-                className={inputClass}
+                className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
                 placeholder="some placeholder"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -138,13 +140,16 @@ export default function CreateUserPopup({
             </div>
 
             <div>
-              <label className={labelClass} htmlFor="create-user-confirm">
+              <label
+                className="block text-sm font-medium text-gray-700 mb-1"
+                htmlFor="create-user-confirm"
+              >
                 Confirm password
               </label>
               <input
                 id="create-user-confirm"
                 type="password"
-                className={inputClass}
+                className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
                 placeholder="some placeholder"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -153,13 +158,16 @@ export default function CreateUserPopup({
             </div>
 
             <div>
-              <label className={labelClass} htmlFor="create-user-role">
+              <label
+                className="block text-sm font-medium text-gray-700 mb-1"
+                htmlFor="create-user-role"
+              >
                 Role
               </label>
               <select
                 id="create-user-role"
-                className={inputClass}
-                value={isAdmin ? "admin" : "user"}
+                className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
+                value={isAdmin === 0 ? "0" : "1"}
                 onChange={(e) => setIsAdmin(parseInt(e.target.value))}
                 disabled={isSubmitting}
               >
@@ -174,7 +182,7 @@ export default function CreateUserPopup({
           <div className="flex gap-3 mt-6">
             <button
               type="button"
-              className="flex-1 outline outline-gray-300 text-gray-700 py-2.5 rounded text-sm font-medium hover:bg-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:hover:text-[#006B2D]"
+              className="flex-1 outline outline-[#d1d5dc] text-gray-700 py-2.5 rounded text-sm font-medium hover:bg-[#f3f4f6] cursor-pointer disabled:cursor-not-allowed focus:bg-[#f3f4f6]"
               onClick={handleClose}
               disabled={isSubmitting}
             >
@@ -182,7 +190,7 @@ export default function CreateUserPopup({
             </button>
             <button
               type="submit"
-              className="flex-1 bg-[#006B2D] text-white py-2.5 rounded text-sm font-medium hover:bg-[#005824] cursor-pointer disabled:cursor-not-allowed disabled:hover:bg-[#006B2D]"
+              className="flex-1 bg-[#006B2D] text-white py-2.5 rounded text-sm font-medium hover:bg-[#005824] cursor-pointer disabled:cursor-not-allowed"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Creating..." : "Create User"}

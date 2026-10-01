@@ -105,16 +105,13 @@ export default function HandleUsersScreen() {
     }
   };
 
-/* 
-  test THIS
-
-const handleDeleteUser = async ({ id }: { id: number }) => {
+  const handleDeleteUser = async ({ id }: { id: number }): Promise<void> => {
     let response: Response;
 
     try {
       response = await fetch(
         `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}/delete-user/${id}`,
-        {},
+        { method: "DELETE" },
       );
     } catch {
       throw new Error("Unable to reach the server. Please try again.");
@@ -124,12 +121,14 @@ const handleDeleteUser = async ({ id }: { id: number }) => {
       throw new Error("Error deleting user. Please try again.");
     }
 
+    setIsDeleteUserOpen(false);
+
     try {
       await loadUsers();
     } catch {
       setError("User deleted, but the list could not be refreshed.");
     }
-  }; */
+  };
 
   const handleOpenDeleteUser = (user: User) => {
     setDeleteUserTarget(user);
@@ -154,6 +153,7 @@ const handleDeleteUser = async ({ id }: { id: number }) => {
           <DeleteUserPopup
             user={deleteUserTarget}
             isOpen={isDeleteUserOpen}
+            onDeleteUser={handleDeleteUser}
             onClose={() => setIsDeleteUserOpen(false)}
           />
 
@@ -178,10 +178,7 @@ const handleDeleteUser = async ({ id }: { id: number }) => {
       ) : error ? (
         <p className="text-lg text-center mt-20 text-red-600">{error}</p>
       ) : (
-        <UserList
-          users={users}
-          onOpenDeleteUser={handleOpenDeleteUser}
-        />
+        <UserList users={users} onOpenDeleteUser={handleOpenDeleteUser} />
       )}
     </div>
   );

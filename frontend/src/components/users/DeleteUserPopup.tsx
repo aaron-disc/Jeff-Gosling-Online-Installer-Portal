@@ -5,12 +5,14 @@ interface DeleteUserPopupProps {
   isOpen: boolean;
   onClose: () => void;
   user: User | null;
+  onDeleteUser: ({ id }: { id: number }) => Promise<void>;
 }
 
 export default function DeleteUserPopup({
   isOpen,
   onClose,
   user,
+  onDeleteUser,
 }: DeleteUserPopupProps) {
   if (!isOpen || !user) return null;
 
@@ -51,7 +53,7 @@ export default function DeleteUserPopup({
           <button
             type="submit"
             className="flex-1 bg-[#006B2D] text-white py-2.5 rounded text-sm font-medium hover:bg-[#005824] cursor-pointer disabled:cursor-not-allowed disabled:hover:bg-[#006B2D]"
-            
+            onClick={() => onDeleteUser({id: user.id})}
           >
             Delete User
           </button>

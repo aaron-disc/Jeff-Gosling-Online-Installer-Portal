@@ -1,28 +1,16 @@
 import { Trash2 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import { formatDate } from "../../utils/formatDate";
 import type { User } from "../screens/HandleUsersScreen";
 
 const userListHeader: string[] = ["Email", "Role", "Added"];
-
-function formatDate(isoDate: string): string {
-  const parsed = new Date(isoDate);
-  if (Number.isNaN(parsed.getTime())) return isoDate;
-  return parsed.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 interface UserListProps {
   users: User[];
   onOpenDeleteUser: (user: User) => void;
 }
 
-export default function UserList({
-  users,
-  onOpenDeleteUser,
-}: UserListProps) {
+export default function UserList({ users, onOpenDeleteUser }: UserListProps) {
   const { user } = useAuth();
 
   return (
@@ -58,7 +46,7 @@ export default function UserList({
                 {u.email !== "a@b.com" && u.email !== user?.email && (
                   <button
                     onClick={() => onOpenDeleteUser(u)}
-                    className="text-[#006B2D] hover:text-[#13A538] cursor-pointer"
+                    className="text-[#ff2934] hover:text-[#fd121e] cursor-pointer"
                     aria-label={`Delete ${u.email}`}
                   >
                     <Trash2 size={20} />

@@ -8,6 +8,7 @@ import ProductSelect from "./components/products/ProductSelect";
 import VehicleSearchScreen from "./components/screens/VehicleSearchScreen";
 import VehicleDetailScreen from "./components/screens/VehicleDetailScreen";
 import HandleUsersScreen from "./components/screens/HandleUsersScreen";
+import ProfileScreen from "./components/screens/ProfileScreen";
 import PdfViewer from "./components/shared/PdfViewer";
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
                 element={<VehicleDetailScreen />}
               />
               <Route path="/handle-users" element={<HandleUsersScreen />} />
+              <Route path="/profile" element={<ProfileScreen />} />
             </Route>
             <Route path="/vehicles/:vehicleId/pdf" element={<PdfViewer />} />
             <Route path="*" element={<Navigate to="/login" replace />} />

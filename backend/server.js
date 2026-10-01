@@ -31,7 +31,7 @@ app.post("/login", async (req, res) => {
 
   try {
     const query = `
-      SELECT id, email, password_hash, is_admin
+      SELECT id, email, password_hash, is_admin, created_at
       FROM users
       WHERE email = ?
     `;
@@ -54,6 +54,7 @@ app.post("/login", async (req, res) => {
       user: {
         email: user.email,
         isAdmin: user.is_admin == true,
+        createdAt: user.created_at
       },
     });
   } catch (error) {

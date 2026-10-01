@@ -1,14 +1,24 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  type ReactNode,
+} from "react";
 
 interface User {
   email: string;
   isAdmin: boolean;
+  createdAt: string;
 }
 
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<{ user: User | null; error: string | null }>;
+  login: (
+    email: string,
+    password: string,
+  ) => Promise<{ user: User | null; error: string | null }>;
   logout: () => void;
 }
 
@@ -19,7 +29,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const login = useCallback(
-    async (email: string, password: string): Promise<{ user: User | null; error: string | null }> => {
+    async (
+      email: string,
+      password: string,
+    ): Promise<{ user: User | null; error: string | null }> => {
       setIsLoading(true);
       try {
         const res = await fetch(
@@ -43,12 +56,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const authedUser: User = {
           email: data.user.email,
           isAdmin: data.user.isAdmin === true,
+          createdAt: data.user.createdAt,
         };
         setUser(authedUser);
         return { user: authedUser, error: null };
       } catch {
         setUser(null);
-        return { user: null, error: "Unable to reach the server. Please try again." };
+        return {
+          user: null,
+          error: "Unable to reach the server. Please try again.",
+        };
       } finally {
         setIsLoading(false);
       }
