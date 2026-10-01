@@ -120,7 +120,7 @@ export default function VehicleDetail({
               <FileSearchCorner size={18} /> View Installation Guide
             </button>
             <button
-              className={`flex-1 outline outline-gray-300 hover:bg-gray-50 text-gray-700 text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 font-poppins ${vehicle.bootHoistPdf ? "cursor-pointer" : "cursor-not-allowed"}`}
+              className={`flex-1 outline outline-gray-300 hover:bg-[#f3f4f6] focus:bg-[#f3f4f6] text-gray-700 text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 font-poppins ${vehicle.bootHoistPdf ? "cursor-pointer" : "cursor-not-allowed"}`}
               onClick={onDownloadPdf}
               disabled={vehicle.bootHoistPdf === null}
             >

@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BackButton } from "../shared/BackButton";
 import { useAppContext } from "../../context/AppContext";
 import { useAuth } from "../../context/AuthContext";
 import { formatDate } from "../../utils/formatDate";
+import ChangeUserPasswordPopup from "../users/ChangeUserPasswordPopup";
 
 export default function ProfileScreen() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { setSelectedProduct } = useAppContext();
+  const [isChangePaswordOpen, setIsChangePasswordOpen] = useState(false);
 
   const handleSignOut = () => {
     setSelectedProduct(null);
@@ -44,9 +47,15 @@ export default function ProfileScreen() {
         </dl>
 
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
+          <ChangeUserPasswordPopup
+            isOpen={isChangePaswordOpen}
+            onClose={() => setIsChangePasswordOpen(false)}
+          />
+
           <button
             type="button"
-            className="flex-1 outline outline-[#13A538] text-[#006B2D] text-[15px] font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer hover:bg-[#13A538] hover:text-[#1d1d1b]"
+            className="flex-1 outline outline-[#d1d5dc] hover:bg-[#f3f4f6] focus:bg-[#f3f4f6] text-gray-700 text-[15px] font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer "
+            onClick={() => setIsChangePasswordOpen(true)}
           >
             Change Password
           </button>
@@ -54,7 +63,7 @@ export default function ProfileScreen() {
           <button
             type="button"
             onClick={handleSignOut}
-            className="flex-1 bg-[#006B2D] text-white text-[15px] font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer hover:bg-[#13A538] hover:text-[#1d1d1b]"
+            className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
             Sign Out
           </button>

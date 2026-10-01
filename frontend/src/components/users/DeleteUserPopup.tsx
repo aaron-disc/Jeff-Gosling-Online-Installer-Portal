@@ -45,15 +45,15 @@ export default function DeleteUserPopup({
         <div className="flex gap-3 mt-6">
           <button
             type="button"
-            className="flex-1 outline outline-gray-300 text-gray-700 py-2.5 rounded text-sm font-medium hover:bg-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:hover:text-[#006B2D]"
+            className="flex-1 outline outline-gray-300 text-gray-700 py-2.5 rounded text-sm font-medium hover:bg-[#f3f4f6] cursor-pointer disabled:cursor-not-allowed focus:bg-[#f3f4f6]"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="flex-1 bg-[#006B2D] text-white py-2.5 rounded text-sm font-medium hover:bg-[#005824] cursor-pointer disabled:cursor-not-allowed disabled:hover:bg-[#006B2D]"
-            onClick={() => onDeleteUser({id: user.id})}
+            className="flex-1 bg-[#006B2D] text-white py-2.5 rounded text-sm font-medium hover:bg-[#005824] cursor-pointer disabled:cursor-not-allowed"
+            onClick={() => onDeleteUser({ id: user.id })}
           >
             Delete User
           </button>
