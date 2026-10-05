@@ -46,20 +46,21 @@ export default function ProfileScreen() {
           </div>
         </dl>
 
-        <div className="mt-6 flex flex-col sm:flex-row gap-3">
+        <div className="mt-6 flex gap-3">
           <ChangeUserPasswordPopup
             isOpen={isChangePaswordOpen}
             onClose={() => setIsChangePasswordOpen(false)}
+            userId={user?.id}
           />
 
           <button
             type="button"
-            className="flex-1 outline outline-[#d1d5dc] hover:bg-[#f3f4f6] focus:bg-[#f3f4f6] text-gray-700 text-[15px] font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer "
+            className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer"
             onClick={() => setIsChangePasswordOpen(true)}
           >
             Change Password
           </button>
-
+          
           <button
             type="button"
             onClick={handleSignOut}

@@ -10,6 +10,7 @@ interface User {
   email: string;
   isAdmin: boolean;
   createdAt: string;
+  id: number;
 }
 
 interface AuthContextType {
@@ -57,6 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email: data.user.email,
           isAdmin: data.user.isAdmin === true,
           createdAt: data.user.createdAt,
+          id: data.user.id,
         };
         setUser(authedUser);
         return { user: authedUser, error: null };

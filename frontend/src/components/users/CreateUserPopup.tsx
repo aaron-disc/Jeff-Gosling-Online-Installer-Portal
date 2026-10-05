@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { X } from "lucide-react";
 
 export interface NewUser {
@@ -12,9 +12,6 @@ interface CreateUserPopupProps {
   onClose: () => void;
   onCreate: (user: NewUser) => void | Promise<void>;
 }
-
-const MIN_PASSWORD_LENGTH = 8;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function CreateUserPopup({
   isOpen,
@@ -43,8 +40,11 @@ export default function CreateUserPopup({
     onClose();
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const MIN_PASSWORD_LENGTH = 8;
+    const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!EMAIL_PATTERN.test(email.trim())) {
       setError("Enter a valid email address.");
@@ -114,7 +114,6 @@ export default function CreateUserPopup({
                 id="create-user-email"
                 type="email"
                 className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
-                placeholder="some placeholder"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isSubmitting}
@@ -132,7 +131,6 @@ export default function CreateUserPopup({
                 id="create-user-password"
                 type="password"
                 className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
-                placeholder="some placeholder"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isSubmitting}
@@ -150,7 +148,6 @@ export default function CreateUserPopup({
                 id="create-user-confirm"
                 type="password"
                 className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
-                placeholder="some placeholder"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 disabled={isSubmitting}

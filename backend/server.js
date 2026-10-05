@@ -18,12 +18,28 @@ app.use((req, res, next) => {
   next();
 });
 
+/* READ users */
+app.get("/users", async (req, res) => {
+  try {
+    const query = "SELECT email, is_admin, created_at, id FROM users";
+    const [result] = await pool.query(query);
+
+    if (!result[0]) {
+      return res
+        .status(500)
+        .json({ error: "Interal server error, failed to fetch" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Database error: ", error);
+    res.status(500).json({ error: "Interal server error..." });
+  }
+});
+
 /* READ users to authenticate login */
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
-  /*   const email = "a@b.com";
-  const password = "test"; */
 
   if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required." });
@@ -54,7 +70,8 @@ app.post("/login", async (req, res) => {
       user: {
         email: user.email,
         isAdmin: user.is_admin == true,
-        createdAt: user.created_at
+        createdAt: user.created_at,
+        id: user.id,
       },
     });
   } catch (error) {
@@ -84,6 +101,7 @@ app.post("/create-user", async (req, res) => {
   }
 });
 
+/* DELETE user by id */
 app.delete("/delete-user/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -112,22 +130,55 @@ app.delete("/delete-user/:id", async (req, res) => {
   }
 });
 
-/* READ users */
-app.get("/users", async (req, res) => {
-  try {
-    const query = "SELECT email, is_admin, created_at, id FROM users";
-    const [result] = await pool.query(query);
+app.patch("/change-password", async (req, res) => {
+  const { currentPassword, newPassword, confirmPassword, id } = req.body;
 
-    if (!result[0]) {
-      return res
-        .status(500)
-        .json({ error: "Interal server error, failed to fetch" });
+  /* validation */
+
+  try {
+    const selectQuery = "SELECT password_hash FROM users WHERE id = ?";
+    const updateQuery = "UPDATE users SET password_hash = ? WHERE id = ?";
+
+    const [selectRows] = await pool.query(selectQuery, [id]);
+    const selectPassword = selectRows[0];
+
+    if (!selectPassword) {
+      return res.status(500).json({ error: "Failed to get user information." });
     }
 
-    res.status(200).json(result);
+    const isPasswordValid = await argon2.verify(
+      selectPassword.password_hash,
+      currentPassword,
+    );
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Current password is incorrect." });
+    }
+
+    const passwordHash = await argon2.hash(newPassword, {
+      type: argon2.argon2id,
+    });
+
+    const [result] = await pool.execute(updateQuery, [passwordHash, id]);
+
+    if (result.affectedRows === 0) {
+      console.log("no affected rows.");
+      return res.status(500).json({
+        success: false,
+        error: "Failed to update password.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      error: "Password changed successfully.",
+    });
   } catch (error) {
-    console.error("Database error: ", error);
-    res.status(500).json({ error: "Interal server error..." });
+    console.error("Database Error:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Internal server error occurred.",
+    });
   }
 });
 

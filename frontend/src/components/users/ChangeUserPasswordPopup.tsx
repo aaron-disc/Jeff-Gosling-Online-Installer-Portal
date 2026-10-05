@@ -1,14 +1,16 @@
 import { X } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 
 interface ChangeUserPasswordPopupProps {
   isOpen: boolean;
   onClose: () => void;
+  userId: number | undefined;
 }
 
 export default function ChangeUserPasswordPopup({
   isOpen,
   onClose,
+  userId,
 }: ChangeUserPasswordPopupProps) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -16,16 +18,49 @@ export default function ChangeUserPasswordPopup({
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleClose = () => {
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setError("");
+    setIsSubmitting(false);
+
+    onClose();
+  };
+
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setError("");
     setIsSubmitting(true);
 
-    try {
-      /* async fn change password.hi  */
-
+    if (newPassword !== confirmPassword) {
+      setError("New and confirmation passwords do not match.");
       setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}/change-password`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            currentPassword: currentPassword,
+            newPassword: newPassword,
+            confirmPassword: confirmPassword,
+            id: userId,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Error updating the password. Please try again.");
+      }
+
+      // handle confirmation
+      handleClose();
     } catch (err) {
       setIsSubmitting(false);
       setError(
@@ -43,7 +78,7 @@ export default function ChangeUserPasswordPopup({
   return (
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 font-poppins"
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div
         className="bg-white rounded-xl p-6 w-full max-w-md mx-4"
@@ -52,7 +87,7 @@ export default function ChangeUserPasswordPopup({
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-lg font-medium text-gray-900">Change Password</h2>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="text-gray-400 hover:text-gray-600 cursor-pointer"
             aria-label="Close"
           >
@@ -60,7 +95,7 @@ export default function ChangeUserPasswordPopup({
           </button>
         </div>
 
-        <form onSubmit={(e) => handleSubmit(e)} noValidate>
+        <form onSubmit={(e) => handleSubmit(e)} noValidate id="change-password">
           <div className="space-y-4">
             <div>
               <label
@@ -104,7 +139,7 @@ export default function ChangeUserPasswordPopup({
                 Confirm Password
               </label>
               <input
-                id="confirm-confirm"
+                id="confirm-password"
                 type="password"
                 className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
                 value={confirmPassword}
@@ -119,7 +154,7 @@ export default function ChangeUserPasswordPopup({
             <button
               type="button"
               className="flex-1 outline outline-[#d1d5dc] text-gray-700 py-2.5 rounded text-sm font-medium hover:bg-[#f3f4f6] cursor-pointer disabled:cursor-not-allowed focus:bg-[#f3f4f6]"
-              onClick={onClose}
+              onClick={handleClose}
               disabled={isSubmitting}
             >
               Cancel
