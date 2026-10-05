@@ -71,7 +71,7 @@ export default function Header() {
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50 font-poppins">
-                  {user?.isAdmin && (
+                  {user?.isAdmin && location.pathname !== "/handle-users" && (
                     <button
                       className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
                       disabled={location.pathname === "/handle-users"}
@@ -80,13 +80,15 @@ export default function Header() {
                       Handle Users
                     </button>
                   )}
-                  <button
-                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
-                    disabled={location.pathname === "/profile"}
-                    onClick={handleProfile}
-                  >
-                    Profile
-                  </button>
+                  {location.pathname !== "/profile" && (
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
+                      disabled={location.pathname === "/profile"}
+                      onClick={handleProfile}
+                    >
+                      Profile
+                    </button>
+                  )}
                   <button
                     className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
                     onClick={handleSignOut}

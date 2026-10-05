@@ -18,27 +18,72 @@ export default function ChangeUserPasswordPopup({
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleClose = () => {
+  const resetForm = () => {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
     setError("");
     setIsSubmitting(false);
+  };
 
+  const handleClose = () => {
+    if (isSubmitting) return;
+
+    resetForm();
     onClose();
+  };
+
+  const validate = () => {
+    const MIN_PASSWORD_LENGTH = 8;
+    const MAX_PASSWORD_LENGTH = 128;
+
+    if (!userId) {
+      return "Unable to determine the current user. Please sign in again.";
+    }
+
+    if (!currentPassword) {
+      return "Current password is required.";
+    }
+
+    if (currentPassword.length > MAX_PASSWORD_LENGTH) {
+      return "Current password is too long.";
+    }
+
+    if (!newPassword) {
+      return "New password is required.";
+    }
+
+    if (newPassword.length < MIN_PASSWORD_LENGTH) {
+      return `New password must be at least ${MIN_PASSWORD_LENGTH} characters.`;
+    }
+
+    if (newPassword.length > MAX_PASSWORD_LENGTH) {
+      return `New password must be at most ${MAX_PASSWORD_LENGTH} characters.`;
+    }
+
+    if (newPassword !== confirmPassword) {
+      return "New and confirmation passwords do not match.";
+    }
+
+    if (newPassword === currentPassword) {
+      return "New password must be different from the current password.";
+    }
+
+    return "";
   };
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setError("");
-    setIsSubmitting(true);
+    const validationError = validate();
 
-    if (newPassword !== confirmPassword) {
-      setError("New and confirmation passwords do not match.");
-      setIsSubmitting(false);
+    if (validationError) {
+      setError(validationError);
       return;
     }
+
+    setError("");
+    setIsSubmitting(true);
 
     try {
       const response = await fetch(
@@ -47,20 +92,31 @@ export default function ChangeUserPasswordPopup({
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            currentPassword: currentPassword,
-            newPassword: newPassword,
-            confirmPassword: confirmPassword,
+            currentPassword,
+            newPassword,
+            confirmPassword,
             id: userId,
           }),
         },
       );
 
+      let data: { error?: string; message?: string } = {};
+
+      try {
+        data = await response.json();
+      } catch {
+        /* non-JSON response body -- fall back to a generic message below */
+      }
+
       if (!response.ok) {
-        throw new Error("Error updating the password. Please try again.");
+        throw new Error(
+          data.error ?? "Error updating the password. Please try again.",
+        );
       }
 
       // handle confirmation
-      handleClose();
+      resetForm();
+      onClose();
     } catch (err) {
       setIsSubmitting(false);
       setError(
@@ -107,6 +163,8 @@ export default function ChangeUserPasswordPopup({
               <input
                 id="current-password"
                 type="password"
+                autoComplete="current-password"
+                required
                 className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
@@ -124,6 +182,9 @@ export default function ChangeUserPasswordPopup({
               <input
                 id="new-password"
                 type="password"
+                autoComplete="new-password"
+                required
+                minLength={8}
                 className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
@@ -141,13 +202,19 @@ export default function ChangeUserPasswordPopup({
               <input
                 id="confirm-password"
                 type="password"
+                autoComplete="new-password"
+                required
                 className="w-full border border-[#d1d5dc] rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 disabled={isSubmitting}
               />
             </div>
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && (
+              <p role="alert" className="text-sm text-red-600">
+                {error}
+              </p>
+            )}
           </div>
 
           <div className="flex gap-3 mt-6">

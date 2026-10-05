@@ -13,6 +13,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const MIN_PASSWORD_LENGTH = 8;
+const MAX_PASSWORD_LENGTH = 128;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 app.use((req, res, next) => {
   console.log(req.method, req.url);
   next();
@@ -84,7 +88,30 @@ app.post("/login", async (req, res) => {
 app.post("/create-user", async (req, res) => {
   const { email, password, isAdmin } = req.body;
 
-  /* email + password validation  - 400 response */
+  /* email + password validation - 400 response */
+  if (typeof email !== "string" || typeof password !== "string" || email === "" || password === "" ) {
+    return res.status(400).json({
+      error: "Email and password are required.",
+    });
+  }
+  
+  if (!EMAIL_PATTERN.test(email.trim())) { 
+    return res.status(400).json({
+      error: "Email must be a valid address."
+    })
+  }
+
+  if (password.length > MAX_PASSWORD_LENGTH) {
+    return res.status(400).json({
+      error: `Password must be at most ${MAX_PASSWORD_LENGTH} characters.`,
+    });
+  }
+
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    return res.status(400).json({
+      error: `Password must at least ${MIN_PASSWORD_LENGTH} characters.`
+    })
+  }
 
   try {
     const passwordHash = await argon2.hash(password, {
@@ -131,19 +158,61 @@ app.delete("/delete-user/:id", async (req, res) => {
 });
 
 app.patch("/change-password", async (req, res) => {
-  const { currentPassword, newPassword, confirmPassword, id } = req.body;
+  const { currentPassword, newPassword, confirmPassword, id } = req.body ?? {};
 
-  /* validation */
+  /* type + exists validation -- 400 response */
+  if (
+    typeof currentPassword !== "string" ||
+    typeof newPassword !== "string" ||
+    typeof confirmPassword !== "string" ||
+    currentPassword === "" ||
+    newPassword === "" ||
+    confirmPassword === ""
+  ) {
+    return res.status(400).json({
+      error:
+        "Current password, new password and confirmation are all required.",
+    });
+  }
+
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(400).json({ error: "A valid user id is required." });
+  }
+
+  /* password strength validation */
+  if (newPassword.length < MIN_PASSWORD_LENGTH) {
+    return res.status(400).json({
+      error: `New password must be at least ${MIN_PASSWORD_LENGTH} characters.`,
+    });
+  }
+
+  if (newPassword.length > MAX_PASSWORD_LENGTH) {
+    return res.status(400).json({
+      error: `New password must be at most ${MAX_PASSWORD_LENGTH} characters.`,
+    });
+  }
+
+  if (currentPassword.length > MAX_PASSWORD_LENGTH) {
+    return res.status(400).json({
+      error: "Current password is too long.",
+    });
+  }
+
+  if (newPassword !== confirmPassword) {
+    return res
+      .status(400)
+      .json({ error: "New and confirmation passwords do not match." });
+  }
 
   try {
     const selectQuery = "SELECT password_hash FROM users WHERE id = ?";
     const updateQuery = "UPDATE users SET password_hash = ? WHERE id = ?";
 
-    const [selectRows] = await pool.query(selectQuery, [id]);
+    const [selectRows] = await pool.execute(selectQuery, [id]);
     const selectPassword = selectRows[0];
 
     if (!selectPassword) {
-      return res.status(500).json({ error: "Failed to get user information." });
+      return res.status(404).json({ error: "Failed to get user information." });
     }
 
     const isPasswordValid = await argon2.verify(
@@ -155,6 +224,17 @@ app.patch("/change-password", async (req, res) => {
       return res.status(401).json({ error: "Current password is incorrect." });
     }
 
+    const isSamePassword = await argon2.verify(
+      selectPassword.password_hash,
+      newPassword,
+    );
+
+    if (isSamePassword) {
+      return res.status(400).json({
+        error: "New password must be different from the current password.",
+      });
+    }
+
     const passwordHash = await argon2.hash(newPassword, {
       type: argon2.argon2id,
     });
@@ -162,7 +242,6 @@ app.patch("/change-password", async (req, res) => {
     const [result] = await pool.execute(updateQuery, [passwordHash, id]);
 
     if (result.affectedRows === 0) {
-      console.log("no affected rows.");
       return res.status(500).json({
         success: false,
         error: "Failed to update password.",
@@ -171,16 +250,18 @@ app.patch("/change-password", async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      error: "Password changed successfully.",
+      message: "Password changed successfully.",
     });
   } catch (error) {
-    console.error("Database Error:", error);
+    console.error("Error changing password:", error);
     return res.status(500).json({
       success: false,
       error: "Internal server error occurred.",
     });
   }
 });
+
+/* ---------------------------- */
 
 /* CREATE test user -- dont use */
 app.get("/api/test-register", async (req, res) => {
