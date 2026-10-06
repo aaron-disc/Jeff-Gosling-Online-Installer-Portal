@@ -41,7 +41,7 @@ app.get("/users", async (req, res) => {
   }
 });
 
-/* READ users to authenticate login */
+/* READ user to authenticate login */
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -89,16 +89,21 @@ app.post("/create-user", async (req, res) => {
   const { email, password, isAdmin } = req.body;
 
   /* email + password validation - 400 response */
-  if (typeof email !== "string" || typeof password !== "string" || email === "" || password === "" ) {
+  if (
+    typeof email !== "string" ||
+    typeof password !== "string" ||
+    email === "" ||
+    password === ""
+  ) {
     return res.status(400).json({
       error: "Email and password are required.",
     });
   }
-  
-  if (!EMAIL_PATTERN.test(email.trim())) { 
+
+  if (!EMAIL_PATTERN.test(email.trim())) {
     return res.status(400).json({
-      error: "Email must be a valid address."
-    })
+      error: "Email must be a valid address.",
+    });
   }
 
   if (password.length > MAX_PASSWORD_LENGTH) {
@@ -109,8 +114,8 @@ app.post("/create-user", async (req, res) => {
 
   if (password.length < MIN_PASSWORD_LENGTH) {
     return res.status(400).json({
-      error: `Password must at least ${MIN_PASSWORD_LENGTH} characters.`
-    })
+      error: `Password must at least ${MIN_PASSWORD_LENGTH} characters.`,
+    });
   }
 
   try {
@@ -157,6 +162,7 @@ app.delete("/delete-user/:id", async (req, res) => {
   }
 });
 
+/* UPDATE user passowrd */
 app.patch("/change-password", async (req, res) => {
   const { currentPassword, newPassword, confirmPassword, id } = req.body ?? {};
 
@@ -171,7 +177,7 @@ app.patch("/change-password", async (req, res) => {
   ) {
     return res.status(400).json({
       error:
-        "Current password, new password and confirmation are all required.",
+        "Current password, new password and confirmation password are all required.",
     });
   }
 
@@ -231,7 +237,7 @@ app.patch("/change-password", async (req, res) => {
 
     if (isSamePassword) {
       return res.status(400).json({
-        error: "New password must be different from the current password.",
+        error: "New password cannot be the same as the current password."
       });
     }
 
@@ -291,14 +297,14 @@ app.get("/api/test-register", async (req, res) => {
   }
 });
 
-/* READ boot hoist vehicle data -- has to be a better way */
+/* READ boot hoist vehicle data from local csv*/
 app.get("/api/local-csv", (req, res) => {
   const results = [];
 
   const filePath = path.join(process.env.CSV_PATH);
   // check if file exists
   if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ error: `File not found at ${filePath}` });
+    return res.status(404).json({ error: "File not found" });
   }
 
   // stream the file and pipe it into the CSV parser

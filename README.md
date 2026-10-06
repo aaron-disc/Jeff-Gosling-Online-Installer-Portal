@@ -8,7 +8,7 @@ In the root directory of the frontend folder create a new file named exactly: `.
 
 ### Add the env variables to the frontend env file
 
-Open the newly created `.env` file in your text editor and add the following two configuration lines:
+Open the newly created `.env` file in your text editor and add the following configuration lines:
 
 VITE_SERVER_IP="http://localhost:"
 VITE_PORT="5000"
@@ -21,6 +21,11 @@ In the root directory of the backend folder create a new file named exactly: `.e
 
 Open the newly created `.env` file in your text editor and add the following two configuration lines:
 
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=  <= db password,
+DB_NAME=jg_db
+DB_PORT=3306
 PORT=5000
 CSV_PATH="" <= path to where the csv file is on the local machine (must be a .csv file)
 
@@ -36,6 +41,6 @@ Run the command "node server.js" to start the backend
 
 ##### Login
 
-Current dummy user has the login
+An admin user has the login
 email: a@b.com
 password: test

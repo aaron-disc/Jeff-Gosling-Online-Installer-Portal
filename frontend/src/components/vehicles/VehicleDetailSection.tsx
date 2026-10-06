@@ -39,13 +39,15 @@ export default function VehicleDetailSection({
             >
               <span className="text-base text-gray-700">{label}</span>
               {bool ? (
-                <span className={`inline-flex items-center gap-1 text-sm px-2.5 py-1 font-medium ${yes ? "text-[#13A538]" : "text-red-500"}`}>
+                <span
+                  className={`inline-flex items-center gap-1 text-sm px-2.5 py-1 font-medium ${yes ? "text-[#13A538]" : "text-red-500"}`}
+                >
                   {yes ? <Check size={16} /> : <X size={16} />}
                   {yes ? "Yes" : "No"}
                 </span>
               ) : (
                 <span className="text-sm font-semibold text-gray-900 px-2.5 text-nowrap">
-                  {raw != null ? String(raw) : "—"}
+                  {raw == null || raw == "" ? "—" : String(raw)}
                 </span>
               )}
             </div>

@@ -65,9 +65,9 @@ export default function ChangeUserPasswordPopup({
       return "New and confirmation passwords do not match.";
     }
 
-    if (newPassword === currentPassword) {
+     if (newPassword === currentPassword) {
       return "New password must be different from the current password.";
-    }
+    } 
 
     return "";
   };
@@ -105,12 +105,12 @@ export default function ChangeUserPasswordPopup({
       try {
         data = await response.json();
       } catch {
-        /* non-JSON response body -- fall back to a generic message below */
+        throw new Error("Error changing user password. Please try again.");
       }
 
       if (!response.ok) {
         throw new Error(
-          data.error ?? "Error updating the password. Please try again.",
+          data.error ?? "Error changing user password. Please try again.",
         );
       }
 
