@@ -4,6 +4,7 @@ import { VEHICLES } from "../../data/vehicles";
 import { BackButton } from "../shared/BackButton";
 import VehicleDetail from "../vehicles/VehicleDetail";
 import { downloadPdf } from "../../utils/downloadPdf";
+import { getBootHoistPdfUrl } from "../../utils/pdfUrl";
 
 export default function VehicleDetailScreen() {
   const navigate = useNavigate();
@@ -23,12 +24,20 @@ export default function VehicleDetailScreen() {
     );
   }
 
+  console.log(vehicle);
+
+  const hasPdf = Boolean(getBootHoistPdfUrl(vehicle));
+
   return (
     <div>
       <BackButton onClick={() => navigate("/vehicles")} style="mb-4" />
       <VehicleDetail
         vehicle={vehicle}
-        onViewPdf={vehicle.bootHoistPdf ? () => navigate(`/vehicles/${vehicle.id}/pdf`) : undefined}
+        onViewPdf={
+          hasPdf
+            ? () => navigate(`/vehicles/${vehicle.id}/pdf`)
+            : undefined
+        }
         onDownloadPdf={() => downloadPdf(vehicle)}
       />
     </div>

@@ -1,8 +1,10 @@
 import type { Vehicle } from "../data/types";
+import { getBootHoistPdfUrl } from "./pdfUrl";
 
 export async function downloadPdf(vehicle: Vehicle): Promise<void> {
-  if (!vehicle.bootHoistPdf) return;
-  const response = await fetch(vehicle.bootHoistPdf);
+  const pdfUrl = getBootHoistPdfUrl(vehicle);
+  if (!pdfUrl) return;
+  const response = await fetch(pdfUrl);
   const blob = await response.blob();
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");

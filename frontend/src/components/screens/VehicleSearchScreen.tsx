@@ -53,8 +53,6 @@ export default function VehicleSearchScreen() {
         Number(v.maxVehicleLoad) === Number(vehicleFilters.maxVehicleLoad)),
   );
 
-  // console.log(VEHICLES);
-
   return (
     <div>
       <BackButton onClick={() => navigate("/products")} style="mb-2" />

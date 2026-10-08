@@ -7,8 +7,8 @@ interface StatusConfig {
   icon: React.ComponentType<{ size?: number }>;
 }
 
-const getStatusConfig = (hoistProgress: string): StatusConfig => {
-  switch (hoistProgress) {
+const getStatusConfig = (hoistStatus: string): StatusConfig => {
+  switch (hoistStatus) {
     case "Complete":
       return {
         bg: "bg-[#13A538]",
@@ -78,7 +78,7 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
           </thead>
           <tbody>
             {vehicles.map((vehicle) => {
-              const status = getStatusConfig(vehicle.hoistProgress);
+              const status = getStatusConfig(vehicle.hoistStatus);
               const StatusIcon = status.icon;
               return (
                 <tr
@@ -107,7 +107,7 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
                     >
                       <StatusIcon size={14} />
                       <span className="text-center grow">
-                        {vehicle.hoistProgress}
+                        {vehicle.hoistStatus}
                       </span>
                     </span>
                   </td>

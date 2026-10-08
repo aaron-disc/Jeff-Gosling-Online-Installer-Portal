@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 import type { Vehicle } from "../../data/types";
+import { getBootHoistPdfUrl } from "../../utils/pdfUrl";
 import VehicleDetailSection from "./VehicleDetailSection";
 import VehicleDetailNotes from "./VehicleDetailNotes";
 
@@ -17,8 +18,8 @@ interface StatusConfig {
   icon: React.ComponentType<{ size?: number }>;
 }
 
-const getStatusConfig = (hoistProgress: string): StatusConfig => {
-  switch (hoistProgress) {
+const getStatusConfig = (hoistStatus: string): StatusConfig => {
+  switch (hoistStatus) {
     case "Complete":
       return {
         bg: "bg-[#13A538]",
@@ -63,8 +64,9 @@ export default function VehicleDetail({
   onViewPdf,
   onDownloadPdf,
 }: VehicleDetailProps) {
-  const status = getStatusConfig(vehicle.hoistProgress);
+  const status = getStatusConfig(vehicle.hoistStatus);
   const StatusIcon = status.icon;
+  const hasPdf = Boolean(getBootHoistPdfUrl(vehicle));
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 ">
@@ -80,7 +82,7 @@ export default function VehicleDetail({
         <span
           className={`inline-flex items-center gap-1.5 text-base px-3 py-1.5 rounded font-medium shrink-0 ${status.text}`}
         >
-          <StatusIcon size={16} /> {vehicle.hoistProgress}
+          <StatusIcon size={16} /> {vehicle.hoistStatus}
         </span>
       </div>
 
@@ -106,23 +108,23 @@ export default function VehicleDetail({
           ))}
         </dl>
         <div className="md:mt-8 mt-4">
-          {!vehicle.bootHoistPdf && (
+          {!hasPdf && (
             <p className="mb-2 text-center text-gray-700">
               * No pdf available *
             </p>
           )}
           <div className="flex max-[500px]:flex-col gap-3">
             <button
-              className={`flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 font-poppins ${vehicle.bootHoistPdf ? "cursor-pointer" : "cursor-not-allowed"}`}
+              className={`flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 font-poppins ${hasPdf ? "cursor-pointer" : "cursor-not-allowed"}`}
               onClick={onViewPdf}
-              disabled={vehicle.bootHoistPdf === null}
+              disabled={!hasPdf}
             >
               <FileSearchCorner size={18} /> View Installation Guide
             </button>
             <button
-              className={`flex-1 outline outline-gray-300 hover:bg-[#f3f4f6] focus:bg-[#f3f4f6] text-gray-700 text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 font-poppins ${vehicle.bootHoistPdf ? "cursor-pointer" : "cursor-not-allowed"}`}
+              className={`flex-1 outline outline-gray-300 hover:bg-[#f3f4f6] focus:bg-[#f3f4f6] text-gray-700 text-[11px] sm:text-[13px] md:text-[15px] font-medium py-2.5 rounded transition-colors flex items-center justify-center gap-2 font-poppins ${hasPdf ? "cursor-pointer" : "cursor-not-allowed"}`}
               onClick={onDownloadPdf}
-              disabled={vehicle.bootHoistPdf === null}
+              disabled={!hasPdf}
             >
               <FileDown size={18} /> Download PDF
             </button>

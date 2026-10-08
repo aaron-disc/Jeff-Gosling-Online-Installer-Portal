@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { VEHICLES } from "../../data/vehicles";
 import { BackButton } from "./BackButton";
 import { downloadPdf } from "../../utils/downloadPdf";
+import { getBootHoistPdfUrl } from "../../utils/pdfUrl";
 
 export default function PdfViewer() {
   const navigate = useNavigate();
@@ -24,7 +25,9 @@ export default function PdfViewer() {
     );
   }
 
-  if (!vehicle.bootHoistPdf) {
+  const pdfUrl = getBootHoistPdfUrl(vehicle);
+
+  if (!pdfUrl) {
     return (
       <div className="min-h-screen flex flex-col bg-gray-50">
         <div className="flex items-center gap-3 px-5 py-3 bg-white border-b border-gray-200">
@@ -59,7 +62,7 @@ export default function PdfViewer() {
         </div>
       </div>
       <iframe
-        src={vehicle.bootHoistPdf}
+        src={pdfUrl}
         className="flex-1 border-none w-full"
         style={{ minHeight: "calc(100vh - 64px)" }}
         title="Installation Guide"

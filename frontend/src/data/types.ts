@@ -1,12 +1,11 @@
 export interface Vehicle {
   id: number;
-  bootHoistPdf: string | null;
   manufacturer: string;
   model: string;
   hoistVehicleVariant: string;
   minStartDate: string;
   maxEndDate: string;
-  hoistProgress: string;
+  hoistStatus: string;
   measurementE: string;
   measurementO: string;
   maxVehicleLoad: string;
