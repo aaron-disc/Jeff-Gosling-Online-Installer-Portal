@@ -37,5 +37,5 @@ export interface Vehicle {
   heightEndArmToGround: string;
   fittingNotes: string;
   falseFloorNotes: string;
-  pdfUrl: string;
+  hoistFittingPDFFileName: string;
 }

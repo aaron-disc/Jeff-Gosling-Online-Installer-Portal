@@ -301,7 +301,7 @@ app.get("/api/test-register", async (req, res) => {
 app.get("/api/local-csv", (req, res) => {
   const results = [];
 
-  const filePath = path.join(__dirname, "..", "vehicleList.csv");
+  const filePath = path.join(__dirname, "qryDISCHoistExport.csv");
 
   // check if file exists
   if (!fs.existsSync(filePath)) {

@@ -1,0 +1,253 @@
+﻿Manufacturer,Model,HoistVehicleVariant,MinStartDate,MaxEndDate,HoistStatus,MeasurementE,MeasurementO,MaxVehicleLoad,EngineICE,EngineFullEV,EngineHEV,EngineMHEV,EnginePHEV,HoistSide,Aframe,HingePostYoke,UpDownActuatorStroke,MeasurementD,MeasurementI,SeatNotes,SplitSeats,MeasurementK1,MeasurementN,DepthWithSeatsSlidForward,2ndRowSeatsFoldedLipToFloor,MeasurementK2,3rdRowSeatsFoldedLipToFloor,3rdRowOptions,BootFloorToBootLip,MeasurementP,MeasurementQ,MeasurementR,HeightEndArmToGround,FittingNotes,FalseFloorNotes,HoistFittingPDFFileName
+Aion,V,MK I,2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Audi,Q3,MK III SUV,Sep 2025,,See Notes,695,0,,,,,,,,,,0,860,800,,,850,1460,,0,0,0,,0,0,0,0,0,,,
+BMW,2 Series Active Tourer,U06,Feb 2022,,See Notes,730,0,,,,,,,,,,0,920,670,,,790,1340,,0,0,0,,0,0,0,0,0,,,
+BMW,ix3,NA5,Mar 2026,,To Be Assessed,630,0,,,,,,,,,,0,0,770,,3 Individual,970,,,,,0,,0,0,0,0,0,,,
+BMW,X1,U11,Jun 2022,,Complete,710,635,100,,,Yes,,,Right,Regular,4 Down,250,900,660,"3 individual seats on design vehicle. Double check not a 60/40 split available too before doing assessment.
+Split seat measurements: 390/240/390",3 Individual,880,1570,,0,,,N/A,10,560,810,645,425,,Only one false floor setting.,H047 BMW X1 U11 Fitting Instructions.pdf
+BYD,Atto 3,MK I,Mar 2023,,To Be Designed,655,0,,,,,,,,,,0,880,775,,,780,1360,,0,0,0,,0,0,0,0,0,,,
+BYD,Seal 6,MK I Touring,Nov 2025,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+BYD,Seal 6,MK I Sedan,Nov 2025,,Not Possible,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+BYD,Seal U,MK I,Sep 2024,,To Be Designed,710,0,,,,,,,,,,0,830,0,,,820,1440,,0,0,0,,0,0,0,0,0,,,
+BYD,Sealion 5,MK I,Jan 2026,,Complete,740,680,100,,,,,Yes,Right,Regular,3 Up,300,835,800,,60L 40R,875,1500,,,,,N/A,,400,760,700,360,,Only one setting for false floor,H059 BYD Sealion 5 MK I Fitting Instructions.pdf
+BYD,Sealion 7,MK I,Jan 2025,,Not Possible,610,0,,,,,,,,,,0,965,785,,,920,1500,,0,0,0,,0,0,0,0,0,,,
+BYD,Ti 7,MK I,2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Changan,Deepal S05,MK I,Feb 2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Changan,Deepal S07,MK I,Sep 2025,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Chery,Tiggo 4,MK I,2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Chery,Tiggo 7,MK II,Sep 2025,,Complete,770,705,150,Yes,,,,Maybe,Right,Regular,3 Up,300,840,690,,60L 40R,850,1600,,10,,,N/A,10,560,760,730,330,Designed on ICE variant. Compared to PHEV variant and we think this same design should fit on PHEV too but we have not yet installed on a PHEV.,False floor is pretty solid.,H052 Chery Tiggo 7 MK I Fitting Instructions.pdf
+Chery,Tiggo 8,MK II,Sep 2025,,Complete,800,720,150,Yes,,,,Yes,Right,Regular,3 Up,300,800,810,7th seat cannot be deployed once hoist is installed even with in/out actuator removed.,60L 40R,1010,1580,,0,0,0,Folddown,0,570,810,730,340,7th seat cannot be deployed once hoist is installed even with in/out actuator removed.,"3rd row seats create boot floor when folded down.
+Spare wheel under the vehicle.",H050 Chery Tiggo 8 MK I Fitting Instructions.pdf
+Chery,Tiggo 9,MK I,Dec 2025,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Citroen,Berlingo,MK III XL 7 Seater,Sep 2018,,Assumed like,,,150,,,,,,Right,,,,,,,,,,,,,,,,,,,,Potentially like another vehicle. Please contact us to discuss if you have an order for this vehicle.,,
+Citroen,Berlingo,MK II Van,2008,Oct 2019,See Notes,,,150,Yes,,,,,Right,,,,,,,,,,,,,,,,,,,,,,
+Citroen,Berlingo,MK III Standard 5 Seater,Sep 2018,,Complete,1111,900,150,Yes,Yes,,,,Right,Regular,5 Up,300,1050,610,If Bulkhead removed then depth without seat folded: 750mm approx,3 Individual,700,,,,,,,,700,940,950,310,"If vehicle has bulkhead guard (a bit like a dog guard), ensure it is fitted/removed as per customer preference before installing the hoist.",,H004 Citroen Berlingo MK III 5 Seater Fitting Instructions.pdf
+Citroen,C3 Aircross,MK II 7 Seater,Aug 2025,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Citroen,C3 Aircross,MK II 5 seater,Aug 2025,,To Be Designed,735,0,,,,,,,,,,0,800,810,,,800,1340,,0,0,0,,0,0,0,0,0,,,
+Citroen,C5 Aircross,MK I,Dec 2018,,Complete,740,690,100,Yes,,,,,Right,Regular,4 Up,250,900,740,"2nd row seats can slide approximately 150mm so put 900mm to be safe.
+Seats create a slight upward angle when folded down.",3 Individual,980,1900,900,,,,N/A,,530,800,700,,,,H022 Citroen C5 Aircross MK I Fitting Instructions.pdf
+Citroen,C5 Aircross,MK II,Aug 2025,,Complete,690,620,100,,,,Yes,,Right,Regular,3 Up,250,980,800,,3 Individual,920,1530,,,,,N/A,,550,765,655,570,,,H032 Citroen C5 Aircross MK II Fitting Instructions.pdf
+Citroen,SpaceTourer,MK I SWB,2016,,To Be Assessed,,,,,,,,,,,,,,,Think available as an 8 seater or 9 seater. Fairly sure difference is front row either has 2 or 3 seats so hopefully won't affect hoist fitting but cannot be definite.,,,,,,,,,,,,,,,,
+Citroen,SpaceTourer,MK I (X)LWB (Rails),2016,,Complete,1180,,150,,Yes,,,,Right,Regular,4 Up,300,1260,600,"Available as an 8 seater or 9 seater. Difference is in front row. Fitted on 8 seater Traveller and 9 seater Spacetourer and no issues found.
+3rd row is full bench seat combination.
+
+Can keep 3rd row seats in when fitting hoist if extra depth not required.",60L 40R,1700,1700,,0,910,0,,0,,915,,300,"Fits vehicle with and without plastic trim.
+Designed on vehicle with rails in floor. Would have to assess if the tilt&fold seat option would need a separate design.
+Designed on vehicle with windows. Would have to assess if full van version would need a separate design.
+Fits 8 and 9 seater.",Single height floor.,H031 Citroen Spacetourer MK I Fitting Instructions.pdf
+Citroen,SpaceTourer,MK I MWB,2016,,Complete,1200,,150,Yes,,,,,Right,Regular,4 Up,300,1174,480,"Think available as an 8 seater or 9 seater. Fairly sure difference is front row either has 2 or 3 seats so hopefully won't affect hoist fitting but cannot be definite.
+Looks like MWB can come with different 3rd row seating options (please confirm with dealer).
+MAX: No third row
+YOU: Single three seater bench seating (would have to remove all to fit hoist)
+PLUS: 1/3 2/3 bench seating split  (would have to remove 1/3 seat to fit hoist but likely all to fit mobility device in)",,1200,2000,,0,,0,,0,0,0,0,0,"Some specifications have a third row of seats.
+If third row in vehicle you need to remove to fit hoist. Different specifications have different setups. If unsure, please contact us to discuss.",,H031 Citroen Spacetourer MK I Fitting Instructions.pdf
+Cupra,Ateca,MK I,Apr 2022,,See Notes,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Cupra,Formentor,MK I,Nov 2020,,Not Possible,600,0,,,,,,,,,,0,860,760,,,790,1400,,0,0,0,,0,0,0,0,0,,,
+Cupra,Raval,MK I,2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Cupra,Tavascan,MK I,Sep 2024,,Not Possible,665,0,,,,,,,,,,0,930,750,,,910,1400,,0,0,0,,0,0,0,0,0,,,
+Cupra,Terramar,MK I,Mar 2025,,To Be Designed,710,0,,,,,,,Right,,,0,1100,785,,60L 40R,870,1400,,0,0,0,,0,0,0,0,0,,,
+Dacia,Bigster,MK I,Feb 2025,,To Be Designed,725,0,,,,,,,,,,0,800,825,,,1010,1600,,0,0,0,,0,0,0,0,0,,,
+Dacia,Duster,MK III,Sep 2024,,To Be Designed,700,0,,,,,,,,,,0,830,795,,,830,1400,,0,0,0,,0,0,0,0,0,,,
+Dacia,Jogger,MK I,Mar 2022,,Complete,830,760,150,Yes,,Yes,,,Right,Regular,4 Up,300,920,640,"Think it's only available 7 seater.
+Boot depth to 3rd row (folded forward) is 670mm.
+7th seat will always be removed when hoist fitted. 6th seat can either be removed or folded up. (when nothing is being loaded)",60L 40R,1110,1650,,300,380,0,Remove,,520,760,800,320,"7th seat will always be removed when hoist fitted.
+6th seat can either be removed or folded up (when nothing is being loaded).",,H028 Dacia Jogger MK I Fitting Instructions.pdf
+Dacia,Sandero,MK III,Mar 2021,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Fiat,Grande Panda,MK IV,Feb 2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Ford,Capri,,Oct 2024,,Not Possible,625,0,,,,,,,,,,0,830,790,,,890,1490,,0,0,0,,0,0,0,0,0,,,
+Ford,Explorer,EV MK I,Aug 2024,,Complete,680,610,100,,Yes,,,,Left,Regular,3 Up,250,950,730,2nd row seats are level to boot floor when folded down.,40L 60R,770,1500,,0,,,N/A,30,630,840,710,560,,False floor has a rating to 130kg so shouldn't be an issue as only do a 100kg hoist.,H054 Ford Explorer Fitting Instructions.pdf
+Ford,Galaxy,MK IV,Sep 2015,Mar 2024,See Notes,,,150,,Yes,,,,Right,,,,,,,,,,,,,,,,,,,,,,
+Ford,Kuga,MK III,Mar 2020,,Complete,780,710,100,Yes,,Yes,,Yes,Right,Regular,4 Up,250,1000,685,,60L 40R,860,1590,,,,,N/A,,650,810,730,530,,False floor only has one height setting.,H005 Ford Kuga MK III Fitting Instructions.pdf
+Ford,Tourneo Connect,MK III Grand 5 Seater (Deletion Pack),Aug 2022,,Complete,1110,830,150,Yes,,,,,Right,Regular,5 Up,300,1070,580,"Measurement J could be 0mm as seat backrest can be angled differently but unlikely that someone wants to sit with it exactly vertical so used standard angle on measurements.
+
+The measurement with seats folded is with the seats folded up vertically.
+
+If you removed 2nd row rear seats fully then you can get a depth of approx. 1800mm",40L 60R,1330,1660,,,,,N/A,,750,950,840,490,,,H030 Ford Tourneo Connect MK III 5 Seater Fitting Instructions.pdf
+Ford,Tourneo Connect,MK III 5 Seater,Aug 2022,,Complete,1110,850,150,Yes,,,,Yes,Right,Regular,4 Up,300,1100,590,"Second row seats do not slide but do have adjustable angle seat backs.
+Second row can be flipped up to store vertically against the front seats.
+Second row can be completely removed if necessary/preferred.",60L 40R,1050,1650,,,,,N/A,,750,940,860,320,,"No false floor, just carpet onto vehicle base.",H030 Ford Tourneo Connect MK III 5 Seater Fitting Instructions.pdf
+Ford,Tourneo Connect,MK III Grand 7 Seater,Aug 2022,,Complete,1120,780,150,Yes,,,,,Right,Regular,5 Down,300,1065,560,"Must remove third row when hoist is installed.
+The seat back angle can be adjusted on the middle row but is fixed with the third row.",60L 40R,1390,2110,,,560,,Remove,,760,930,770,240,Must remove third row of seats when hoist is installed.,Single fixed floor with hard points for removable third row seats.,H020 Ford Tourneo Connect MK III Grand 7 Seater.pdf
+Ford,Tourneo Connect,MK II Grand 7 Seater,2013,Feb 2022,See Notes,,,150,Yes,,,,,Right,,,,,,,,,,,,,,,,,,,,,,
+Ford,Tourneo Courier,MK II,Mar 2024,,Complete,1105,920,150,Yes,,,,,Right,Regular,4 Down,300,1090,510,Step up to folded seats.,60L 40R,790,1900,,240,,,N/A,,660,950,945,230,,,H045 Ford Tourneo Courier MK II Fitting Instructions.pdf
+Ford,Tourneo Custom,MK II LWB,Feb 2024,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Ford,Tourneo Custom,MK II SWB,Feb 2024,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Ford,Transit Custom,MK II LWB,Nov 2023,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Ford,Transit Custom,MK II SWB,Nov 2023,,Complete,1280,920,150,,,,,Yes,Right,Regular,6 Up,300,1320,600,"Van designed on had no rear seats in so limited seating information at the moment.
+Think can come with 2 or 3 seats in the front row and then upto the dealership if they add any additional seats so we'd probably have to check on an individual basis.",,2500,,,,,0,,,940,1150,950,600,Design completed on a PHEV van with barn doors and ply-lining.,,H058 Ford Transit Custom MK II Fitting Instructions.pdf
+Geely,EX5,MK I,Oct 2025,,To Be Designed,745,0,,,,,,,,,,0,870,760,,40L / 60R,840,1460,,0,0,0,,0,0,0,0,0,,,
+Geely,Starray,MK I,Feb 2026,,Complete,740,680,150,,,,,Yes,Left,Regular,4 Down,300,930,700,,40L 60R,900,1740,,10,,,N/A,0,620,830,710,410,,,H064 Geely Starray MK I Fitting Instructions.pdf
+Honda,CR-V,MK V,Sep 2018,Feb 2024,See Notes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Honda,CR-V,MK VI,Aug 2023,,To Be Designed,820,0,,,,,,,,,,0,790,710,,,870,0,,0,0,0,,0,0,0,0,0,,,
+Honda,HR-V,MK III,Sep 2021,,Complete,725,700,100,,,Yes,,,Right,Regular,4 Up,250,900,705,Second row seats do not slide and angle of backrest is not adjustable.,60L 40R,760,1620,,,,,N/A,,520,720,695,630,,False floor only has one height available.,H015 Honda HR-V MK III Fitting Instructions.pdf
+Honda,Jazz,MK IV Crosstar,Mar 2020,,Complete,760,700,100,,,Yes,,,Right,Compact,3 Up,300,870,590,,60L 40R,630,1420,,0,,,N/A,80,520,670,700,185,False floor must be on lowest setting.,False floor must be on lowest setting.,H062 Honda Jazz MK IV Crosstar Fitting Instructions.pdf
+Honda,Jazz,MK IV,Mar 2020,,To Be Designed,865,,,,,,,,,,,,930,260,,,595,1345,,,,,,,,,,,,,
+Hyundai,Kona,MK II EV,Sep 2023,,Complete,730,660,100*,,Yes,,,,Right,Regular,3 Up,250,1020,665,,60L 40R,850,1500,,,,0,N/A,235,580,760,710,440,"Designed on EV. Trim is different on hybrid so cannot be definite will fit hybrid variant until we do an install.
+Vehicle false floor has a maximum rating of 60kg. Would need to reinforce the floor to load a heavier mobility device.
+False floor must be on highest setting when hoist fitted.","Vehicle handbook states maximum floor load of 60kg.
+Floor must be set on highest setting with hoist installed.",H063 Hyundai Kona MK II Fitting Instructions.pdf
+Hyundai,Santa Fe,MK V 7 Seater,Aug 2024,,Complete,810,740,100,,,,,Yes,Right,Compact,4 Down,300,860,750,,60L 40R,1060,1700,1140,0,370,0,Folddown,0,660,960,780,0,,,H040 Hyundai Santa Fe MK V Fitting Instructions.pdf
+Hyundai,Tucson,MK III,Jan 2021,,Complete,720,690,100,Yes,,Yes,Yes,No,Right,Regular,4 Up,250,1000,725,2nd row seats have variable angle settings for back portion. At the forward position they are almost vertical but measurements taken at a standard seating angle.,3 Individual,870,1770,,,,,N/A,,610,800,700,480,"HEV - No separate 12V battery so have to wire to the 12V feed on the main lithium ion polymer propulsion battery.
+False floor must be on highest setting for hoist.",False floor must be on highest setting for hoist. Lower setting is 80mm lower and slopes up towards the front.,H001 Hyundai Tucson MK III Fitting Instructions.pdf
+Hyundai,Tucson,MK III PHEV,Jan 2021,,To Be Designed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Jaecoo,5,MK I ICE,Sep 2025,,Complete,700,620,100,Yes,,,,,Right,Regular,3 Down,250,920,820,Second row seats did not adjust forward/backward or seat angle.,60L 40R,840,1450,,,,,N/A,,570,800,670,480,,False floor has two height settings approximately 100mm apart.,H065 Jaecoo 5 MK I Fitting Instructions.pdf
+Jaecoo,7,MK I,Nov 2024,,Complete,710,630,100,Yes,,,,Yes,Right,Regular,3 Down,250,820,770,Split seat measurement: 630mm / 415mm,60L 40R,830,1450,,,,,N/A,0,510,750,670,480,,,H043 Jaecoo 7 MK I Fitting Instructions.pdf
+Jaecoo,8,MK I 6 Seater,Apr 2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Jaecoo,8,MK I 7 Seater,Apr 2026,,To Be Designed,720,0,,,,,,,,,,0,970,760,,,1200,1800,,0,0,0,,0,0,0,0,0,,,
+Jeep,Avenger,MK I,Aug 2023,,To Be Designed,800,0,,,,,,,,,,0,830,750,,60L 40R,630,1300,,100,,,N/A,130,0,0,0,0,,,
+Jeep,Compass,MK III,Feb 2026,,To Be Designed,700,0,,,,Yes,,,,,,0,,720,"Vehicle we assessed had 3 individual seats but be careful when doing assessment incase there are versions with other splits.
+Seats fold down level to boot floor.",3 Individual,820,1600,,0,,0,N/A,15,0,0,0,0,,,
+KGM (Ssang Yong),Actyon,MK I,Dec 2024,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Kia,EV2,MK I 4 Seater,Apr 2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Kia,EV2,MK I 5 Seater,Apr 2026,,To Be Designed,651,0,,,,,,,,,,0,1028,780,When designing please stay away from the for any mounting brackets.,,585,1330,,0,0,0,,0,0,0,0,0,,,
+Kia,EV3,MK I,Nov 2024,,Complete,630,575,100*,,Yes,,,,Right,Regular,2 Down,250,1010,760,"Seats do not slide forward.
+Hoist fits on RHS of boot. Be aware with a 40/60 seat split that all seats may be lost due to position of hoist to split seats.",40L 60R,780,1400,,,,,N/A,10,470,800,605,260,"Kia advise the maximum floor load is 60kgs. A re-inforced false floor would be required if loading heavier mobility device.
+Hoist fits on RHS of boot. Be aware with a 40/60 seat split that all seats may be lost due to position of hoist to split seats.",False floor has a maximum load rating of 60kg.,H060 Kia EV3 MK I Fitting Instructions.pdf
+Kia,EV4,MK I Hatchback,Oct 2025,,To Be Designed,640,0,,,Yes,,,,,,,0,980,740,,60L - 40R,780,1450,,0,0,0,N/A,0,0,0,0,0,"Will only work on hatchback variant, not the fastback.",,
+Kia,EV5,MK I,Dec 2025,,Complete,740,680,100,,Yes,,,,Right,Regular,3 Up,300,890,760,2nd row seats are level with boot floor when folded down.,60L / 40R,880,1780,,0,,,N/A,10,560,780,690,320,,,H056 Kia EV5 MK I Fitting Instructions.pdf
+Kia,EV9,MK I,Jan 2024,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Kia,K4,MK I,Jan 2026,,See Notes,550,0,,,,,,,,,,0,0,710,Seats only have slight incline when folded,40L 60R,785,1360,,,,0,N/A,120,0,0,0,0,,Only one setting for false floor. Big boot lip down to false floor.,
+Kia,Niro,MK II,Jul 2022,,Complete,640,570,100,,Yes,Yes,,,Left,Regular,1 Up,250,970,750,"Seats do not slide.
+2nd row seats fold but with a slight angle.",40L 60R,800,1700,,0,0,0,N/A,200,470,770,600,380,,Boot floor only has one setting.,H026 Kia Niro MK II Fitting Instructions.pdf
+Kia,Niro,MK I,Sep 2016,Dec 2022,See Notes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Kia,PV5,MK I Passenger,Nov 2025,,To Be Designed,1120,0,,,,,,,,,,0,1140,660,,,1220,1800,,0,0,0,,0,0,0,0,0,,,
+Kia,PV5,MK I Van,Nov 2025,,Not Possible,1230,,,,,,,,,,,0,,430,,,,,,0,,0,,0,0,0,0,0,,,
+Kia,Sportage,MK V,Mar 2022,,Complete,760,675,100,,,Yes,Yes,Yes,Right,Regular,4 Down,250,1030,710,"3 individual seats on design vehicle. Be cautious as some specs may be split seating.
+
+On design vehicle, second row seats had adjustable backrests. Measurements shown are with backrests fully back. Can gain about 200mm if put backrests straight but unlikely people want to sit fully upright.",3 Individual,860,1480,,,,,N/A,,630,820,690,630,,False floor must be set on highest setting.,H019 Kia Sportage MK V Fitting Instructions.pdf
+Kia,Sportage,MK IV,Feb 2016,Jan 2022,See Notes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Kia,Stonic,MK I,Oct 2017,,Not Possible,600,0,,,,,,,,,,0,960,800,,,700,1300,,0,0,0,,0,0,0,0,0,,,
+Leapmotor,B10,MK I,Oct 2025,,Complete,700,630,100,,Yes,,,,Right,Regular,3 Down,250,950,720,,60L 40R,840,1550,,0,,,N/A,10,570,760,660,460,,Boot lip to floor measurement is with false floor on highest setting.,H067 Leapmotor B10 MK I Fitting Instructions.pdf
+Leapmotor,C10,MK I,Jan 2025,,Complete,720,660,100,,Yes,,,,Right,Regular,3 Down,250,1030,760,,60L 40R,930,1550,,0,,0,N/A,0,600,800,680,480,,False floor height is fixed.,H069 Leapmotor C10 MK I Fitting Instructions.pdf
+Lexus,NX,MK II,May 2022,,To Be Designed,700,0,,,,,,,,,,0,820,790,,,910,1530,,0,0,0,,0,0,0,0,0,,,
+Lexus,RZ,MK I,Mar 2023,,See Notes,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Mazda,CX-5,MK III,Apr 2026,,To Be Designed,785,0,,,,,,,,,,0,840,740,,,950,1550,,0,0,0,,0,0,0,0,0,,,
+Mazda,CX-5,MK II,Jun 2017,,See Notes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Mazda,CX-60,MK I,Jul 2022,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Mercedes,GLB-Class,MK II,Jan 2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+MG,HS,MK II,May 2024,,Complete,700,650,100,Yes,,Yes,,Maybe,Right,Regular,3 Up,250,970,740,,60L 40R,900,1800,,25,,0,N/A,25,580,760,680,480,"Designed on ICE model, fitted to HEV waiting to see PHEV.",False floor only has one setting.,H053 MG HS MK II Fitting Instructions.pdf
+MG,S5 EV,MK I,Apr 2025,,To Be Designed,691,0,,,,,,,,,,0,990,760,,,827,1550,,0,0,0,,0,0,0,0,0,,,
+MG,S6 EV,MK I,Nov 2025,,To Be Designed,700,0,,,,,,,,,,0,996,764,,,941,1700,,0,0,0,,0,0,0,0,0,,,
+MG,S9,MK I,Mar 2026,,To Be Designed,800,0,,,,,,,,,,0,953,780,,,1200,1800,,0,0,0,,0,0,0,0,0,,,
+MG,ZS,MK II (Crossover),Oct 2024,,Complete,780,655,100,,,Yes,,,Right,Regular,3 Up,300,990,680,,60L 40R,850,1500,,,,,N/A,45,560,780,690,270,Some flex in the false floor. Be wary of lifting items right up to the 100kg.,Some flex in the false floor. Be wary of lifting items right up to the 100kg.,H071 MG ZS MK II Fitting Instructions.pdf
+MINI,Mini Countryman,MK III (U25),Nov 2023,,Complete,710,640,100,,Yes,,,,Right,Regular,3 Down,250,880,730,3 individual seats on vehicle measured. Unsure if this is the case on all specs so be careful when doing assessment.,3 Individual,820,1600,,,,0,N/A,75,520,730,610,460,,,H061 Mini Countryman MK III Fitting Instructions.pdf
+N/A,N/A,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Nissan,Qashqai,MK IV,June 2021,,Complete,710,620,100*,Yes,,,Yes,,Right,Regular,4 Down,250,1000,780,,60L 40R,860,1700,,,,,,,560,830,670,590,If the vehicle has a false floor the maximum floor load is 50kgs. A re-inforced false floor would be required if loading heavier mobility device.,"If the vehicle has a false floor the maximum floor load is 50Kgs (taken from vehicle handbook).
+If false floor fitted it is removable false floor. Sub-floor is 120mm below false floor.",H014 Nissan Qashqai MK IV Fitting Instructions.pdf
+Nissan,X-Trail,MK IV 7 Seater,Sep 2022,,Complete,820,730,100,Yes,,,,,Right,Compact,4 Up,300,1020,730,"If in/out actuator bracket removed the 3rd row could be deployed with hoist frame in the vehicle.
+
+2nd row seats slide back/forth by approximately 250mm.
+
+With 3rd row seats folded down, the boot floor inclines up to the front of the vehicle by approximately 5°. 2 row seats fold flat.",60L 40R,940,1520,1080,,310,,Folddown,,610,870,755,490,If in/out actuator bracket removed the 3rd row could be deployed with hoist frame in the vehicle.,"With 3rd row seats folded down, the boot floor inclines up to the front of the vehicle by approximately 5°.
+
+Small section of boot floor behind the rear seats is not adjustable.",H038 Nissan X-Trail MK IV 7 Seater Fitting Instructions.pdf
+Nissan,X-Trail,MK IV 5 Seater,Sep 2022,,Complete,810,730,100*,,,,Yes,,Right,Regular,4 Up,300,1020,770,2nd row seats do not slide.,60L 40R,950,1180,,,,,,,550,820,770,500,If the vehicle has a false floor the maximum floor load is 50kgs. A re-inforced false floor would be required if loading heavier mobility device.,"Boot floor only has one height. It slopes towards the front of the vehicle by around 3°        
+If the vehicle has a false floor the maximum floor load is 50Kgs.",H025 Nissan X-Trail MK IV 5 Seater Fitting Instructions.pdf
+Omoda,5,MK I,Aug 2024,,Complete,660,575,100,Yes,,,,Yes,Right,Regular,3 Down,250,800,760,"Split seat measurements: 595mm/380mm.
+
+Be aware that unless vehicle has additional floor we've not seen (see false floor notes) there is a step down from sill and then a step back up to folded seats.",60L 40R,800,1370,,120,,,N/A,105,570,790,615,240,,Design vehicle only had low down false floor. From shape of trim it looks as though there might be an option of a higher up false floor but this wasn't with the design vehicle so not sure if/when that would occur. Probably make the floor flat to the lip if there was one there rather than 105mm drop.,H044 Omoda 5 MK I Fitting Instructions.pdf
+Omoda,7,MK I,Jan 2026,,Complete,710,630,100,,,,,Yes,Right,Regular,2 Up,250,1000,720,,60L 40R,930,1600,,,,,N/A,,670,820,655,380,,False floor rating is 130kg. Hoist is only rated to 100kg so false floor should not be an issue.,H070 Omoda 7 MK I Fitting Instructions.pdf
+Omoda,9,MK I,Feb 2025,,Not Possible,0,0,,,Yes,,,,,,,0,0,0,,60L 40R,0,0,,0,0,0,,0,0,0,0,0,,,
+Peugeot,2008,MK II,Mar 2020,,To Be Designed,680,0,,,,,,,,,,0,830,770,,,720,1290,,0,0,0,,0,0,0,0,0,,,
+Peugeot,3008,MK III,May 2024,,To Be Designed,660,0,,,,,,,,,,0,990,790,Slight slope when second row seats folded.,,850,1440,,0,0,0,,0,0,0,0,0,,,
+Peugeot,3008,MK II,Dec 2016,,See Notes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Peugeot,308,MK III SW ICE,Feb 2022,,See Notes,,,,Yes,Maybe,,Maybe,No,,,,,,,,,,,,,,,,,,,,,,,
+Peugeot,308,MK III SW PHEV,Feb 2022,,See Notes,690,,,,,,,Yes,,,,,840,610,,3 Individual,1000,1630,,,,,,20,,,,,,,
+Peugeot,5008,MK II,Jul 2017,Nov 2025,Complete,805,730,150,Yes,,,,,Right,Regular,4 Up,250,940,700,"7th seat (third row) can be put back up with in/out actuator, arm & hinge post removed.",3 Individual,1140,,,,,,Folddown,,650,890,780,620,,"6th & 7th seats folded down create the floor so it is fixed height.
+Only one height setting on the false floor.
+False floor sits on top of the folded 7th seats.",H023 Peugeot 5008 MK II Fitting Instructions.pdf
+Peugeot,5008,MK III,Sep 2024,,Complete,700,625,150,,Yes,,Yes,,Right,Regular,3 Up,250,1020,810,"Second row seats slide.
+Design vehicle had 3 individual seats but might be option with 60/40 split so please check when doing assessment.
+
+7th seat cannot be deployed once hoist is installed but 6th seat could be deployed if not carrying a mobility device.",3 Individual,1070,1800,1080,0,350,0,Folddown,0,610,800,665,620,,,H034 Peugeot 5008 MK III Fitting Instructions.pdf
+Peugeot,Partner,MK II Van,Jun 2008,Dec 2018,See Notes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Peugeot,Rifter,MK I XL 5 Seater,Sep 2018,,Complete,1115,,150,Yes,Yes,,,,Right,Regular,5 Up,300,920,640,,830,1300,1990,,0,0,0,,0,0,0,0,0,,,H004 Peugeot Rifter MK I 5 Seater Fitting Instructions.pdf
+Peugeot,Rifter,MK I XL 7 Seater,Sep 2018,,Complete,,,150,Yes,Yes,,,,Right,Regular,5 Up,300,,,Likely that 6th and 7th seats will be removed to create space for a mobility device but they can be fitted in the vehicle alongside the hoist if required.,,,,,,,,,,,,,,Likely that 6th and 7th seats will be removed to create space for a mobility device but they can be fitted in the vehicle alongside the hoist if required.,,H004 Peugeot Rifter MK I XL 7 Seater Fitting Instructions.pdf
+Peugeot,Rifter,MK I Standard 5 Seater,Sep 2018,,Complete,1115,,150,Yes,Yes,,,,Right,Regular,5 Up,300,920,640,,830,990,1690,,,,,,,,,,,,,H004 Peugeot Rifter MK I 5 Seater Fitting Instructions.pdf
+Peugeot,Traveller,MK I SWB,2016,,To Be Assessed,,,,,,,,,,,,0,,,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Peugeot,Traveller,MK I LWB (Rails),2016,,Complete,1175,830,150,,Yes,,,,Right,Regular,4 Up,300,1180,570,"Designed: 8 seater vehicle with 2nd & 3rd row seats on rails.
+2nd and 3rd row seats removable. Must be removed to get 'folded' distance. Folding the seats does not gain any space.
+Both 2nd and 3rd row have a 60L 40R split. Both rows can slide backwards and forwards.
+
+Can keep 3rd row seats in when fitting hoist if extra depth not required.
+
+Think available as 8 or 9 seater but difference is the front row being 2 or 3 seats so hopefully hoist not affected. Fitted on 9 seater Spacetourer with no issues.",60L 40R,1750,2600,,,940,,,,750,915,825,300,"Fits vehicle with and without plastic trim.
+Designed on vehicle with rails in floor. Would have to assess if the tilt&fold seat option would need a separate design.
+Designed on vehicle with windows. Would have to assess if full van version would need a separate design.
+Fits 8 and 9 seater.",Single height floor.,H031 Peugeot Traveller MK I Fitting Instructions.pdf
+Peugeot,Traveller,MK I MWB,2016,,Assumed like,1170,,150,,,,,,Right,Regular,4 Up,300,1130,590,,,630,1300,,0,0,0,,0,0,0,0,0,,,H031 Peugeot Traveller MK I Fitting Instructions.pdf
+Renault,4 E-Tech,MK I,Jun 2025,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Renault,Austral,MK I,Apr 2023,,Complete,725,645,100,,,Yes,,,Right,Regular,3 Down,250,870,810,,60L 40R,825,1390,,80,0,0,N/A,80,540,850,630,490,,Floor only goes on one setting.,H049 Renault Austral MK I Fitting Instructions.pdf
+Renault,Scenic,MK V Grand 7 Seater,Jan 2017,Feb 2020,See Notes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Renault,Symbioz,MK I,Sep 2024,,See Notes,660,0,,,,,,,,,,0,914,,,,812,1448,,0,0,0,,0,0,0,0,0,,,
+Seat,Ateca,MK I,Sep 2016,,Complete,760,700,100,Yes,,,,,Left,Regular,4 Up,250,1020,690,,40L 60R,850,1600,,0,0,0,N/A,150,620,810,730,620,Boot floor can only be set on lowest setting when hoist is installed. Boot floor is therefore approximately 150mm lower than the boot sill height.,Floor can only be set on lowest setting. Boot floor is therefore approximately 150mm lower than the boot cill height.,H024 Seat Ateca MK I Fitting Instructions.pdf
+Seat,Leon,MK IV Estate,Aug 2020,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Seat,Tarraco,MK I,Mar 2019,,Complete,720,660,100,Yes,,,,,Right,Compact,4 Up,250,990,780,"2nd row seats slide back and forth with a range of 200mm.
+3rd row seats do not slide and cannot be removed from the vehicle.
+To deploy the RHS seat of the 3rd row the in/out bracket will have to be removed from the a-frame therefore say not possible for customer to regularly use.",3 Individual,1125,1850,1225,,450,,Folddown,,620,830,710,690,,,H029 Seat Tarraco MK I Fitting Instructions.pdf
+Skoda,Elroq,MK I,Jan 2025,,Complete,750,695,100,,Yes,,,,Left,Regular,4 Up,300,1010,680,,40L 60R,840,1420,,,,,N/A,,580,780,740,430,,Floor is just carpet flat to the boot floor.,H036 Skoda Elroq MK I Fitting Instructions.pdf
+Skoda,Enyaq,MK I Estate,Apr 2021,,Complete,710,650,100,,Yes,,,,Left,Regular,3 Up,250,990,650,"Split seat measurements: 360 / 640
+When folded down, seats are raised from floor by 150mm.",40L 60R,970,1700,,150,,0,N/A,0,600,790,690,100,Designed on Estate version of the vehicle. This design will not work on the Coupe version.,False floor sits directly onto boot floor.,H042 Skoda Enyaq Estate MK I Fitting Instructions.pdf
+Skoda,Enyaq,MK I Coupe,Apr 2021,,Not Possible,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Skoda,Kamiq,MK I,Sep 2019,,Complete,670,600,100,Yes,,,,,Left,Regular,3 Down,250,950,650,,40L 60R,720,1250,,110,,,N/A,160,550,780,650,410,,"No false floor in design vehicle. Not sure if there are any specs available with false floor or not but if there is, need to check no issues and find out which measurements may be different.
+With no false floor, drop from opening to floor is 160mm.",H068 Skoda Kamiq MK I Fitting Instructions.pdf
+Skoda,Karoq,MK I,Dec 2017,,Complete,770,700,100,Yes,,,,,Right,Regular,4 Up,300,1030,700,"SEAT FOLDING: Hoist fitted on RHS, not an issue if vehicle is spec with 3 individual seats but if vehicle has 60/40 split then 40L 60R so would most likely need to fold all seats down.",See Notes,800,1500,,,,,,,470,780,740,310,"Hoist fits on RHS of boot. No issue for vehicle specs with 3 individual seats but be aware with a 60/40 seat split that all seats may be lost due to position of hoist to split seats.
+False floor must be set on lowest height.",False floor can only be on lowest height in this model.,H027 Skoda Karoq MK I Fitting Instructions.pdf
+Skoda,Kodiaq,MK I 5 Seater,Apr 2017,Dec 2024,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Skoda,Kodiaq,MK I 7 Seater,Apr 2017,Dec 2024,Complete,,650,100,Yes,,,,,Right,Compact,3 Up,250,,,,,,,,,,,,,580,,,730,,,H021 Skoda Kodiaq MK I 7 Seater Fitting Instructions.pdf
+Skoda,Kodiaq,MK II 5 Seater,Jul 2024,,Complete,750,685,100,Maybe,,,,Yes,Right,Regular,2 Up,250,870,760,,60L 40R,1045,2000,1130,40,,,N/A,0,630,790,700,120,Designed on PHEV. Need to confirm if ICE is the same or not - please ring to discuss if you have an order for an ICE vehicle.,"False floor on fits in one position.
+Boot floor is level with boot lip.",H039 Skoda Kodiaq MK II 5 Seater Fitting Instructions.pdf
+Skoda,Kodiaq,MK II 7 Seater,Jul 2024,,Complete,740,680,100,Yes,,,,,Right,Compact,3 Down,250,960,765,"3 Individual seats on 2nd row on design vehicle but be aware incase some specs have split seats.
+
+2nd row seats slide.
+
+3rd row seats not removable or adjustable. Fold down 7th seat when hoist is fitted. It could be deployed if in/out bracket was removed.",3 Individual,1100,1950,1125,0,490,0,Folddown,0,640,815,690,495,,False floor only has one setting.,H033 Skoda Kodiaq MK II 7 Seater Fitting Instructions.pdf
+Skoda,Octavia,MK IV Estate,Jul 2020,,See Notes,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Subaru,Forester,MK VI,Dec 2024,,To Be Designed,810,0,,,,,,,,,,0,880,750,,,900,1500,,0,0,0,,0,0,0,0,0,,,
+Subaru,Outback,MK VI,Sep 2021,,To Be Designed,745,0,,,,,,,,,,0,920,0,,,750,1580,,0,0,0,,0,0,0,0,0,,,
+Suzuki,eVitara,MK I,Sep 2025,,Complete,660,585,100,,Yes,,,,Right,Compact,3 Down,250,910,760,"3 individual seats on design vehicle that all slid separately. Check the same on all specs if doing an assessment.
+Split seat measurements: 440/230/440",3 Individual,670,1570,730,0,,,N/A,10,550,740,610,490,,,H048 Suzuki eVitara MK I Fitting Instructions.pdf
+Suzuki,S-Cross,MK III,Nov 2021,,Complete,720,660,100,,,Yes,Yes,,Right,Regular,4 Up,250,1030,700,,60L 40R,820,,,,,,N/A,,,940,,,,False floor height not adjustable.,H010 Suzuki SX4 S-Cross MK III Fitting Instructions.pdf
+Suzuki,Vitara,MK IV,Apr 2015,,Complete,735,660,100,,,,Yes,,Right,Regular,4 Up,250,840,680,,60L 40R,760,1450,,10,,,N/A,10,555,840,700,640,,,H055 Suzuki Vitara MK IV Fitting Instructions.pdf
+Toyota,bZ4X Touring,MK I,2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Toyota,Highlander,MK I,Mar 2021,,See Notes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Toyota,Proace,Verso MK II [PA2],Jul 2016,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Toyota,Proace City,Verso MK I Standard 5 Seater,2019,,Complete,1111,900,150,,Yes,,,,Right,Regular,5 Up,300,1050,610,,60L 40R,700,,,,,,N/A,,700,940,0,470,"If vehicle has bulkhead guard (a bit like a dog guard), ensure it is fitted/removed as per customer preference before installing the hoist.",,H004 Toyota Proace City Verso MK I 5 Seater Fitting Instructions.pdf
+Toyota,Proace City,Verso MK I XL 7 Seater,2019,,Complete,1115,970,150,,Yes,,,,Right,Regular,5 Up,300,1020,570,Likely that 6th and 7th seats will be removed to create space for a mobility device but they can be fitted in the vehicle alongside the hoist if required.,60L 40R,1150,2050,,0,400,0,Remove,0,680,940,950,580,Likely that 6th and 7th seats will be removed to create space for a mobility device but they can be fitted in the vehicle alongside the hoist if required.,,H004 Toyota Proace City Verso MK I 7 Seater Fitting Instructions.pdf
+Toyota,Rav4,MK VI,Jun 2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Toyota,Rav4,MK V,Apr 2019,Nov 2025,To Be Designed,990,0,,,,,,,,,,0,975,300,,,990,1590,,0,0,0,,0,0,0,0,0,,,
+Toyota,Urban Cruiser,MK II,Nov 2025,,Assumed like,0,0,100,,Yes,,,,Right,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Toyota,Yaris Cross,MK I,Jul 2021,,Complete,670,600,100,,,Yes,,,Left,Regular,2 Up,250,860,780,"On design vehicle second row seats did not slide.
+When second row seats are folded, the floor is flat to boot floor.",40L 60R,780,1350,,0,,,N/A,40,500,760,630,355,,,H046 Toyota Yaris Cross MK I Fitting Instructions.pdf
+Vauxhall,Combo,Life E XL 5 Seater,Oct 2018,,Complete,1115,,150,Yes,Yes,,,,Right,Regular,5 Up,300,920,640,,830,1300,1990,,0,0,0,,0,0,0,0,0,"If vehicle has bulkhead guard (a bit like a dog guard), ensure it is fitted/removed as per customer preference before installing the hoist.",,H004 Vauxhall Combo E 5 Seater Fitting Instructions.pdf
+Vauxhall,Combo,Life E Standard 5 Seater,Oct 2018,,Complete,1115,,150,Yes,Yes,,,,Right,Regular,5 Up,300,920,640,,830,990,1690,,,,,,,,,,,"If vehicle has bulkhead guard (a bit like a dog guard), ensure it is fitted/removed as per customer preference before installing the hoist.",,H004 Vauxhall Combo E 5 Seater Fitting Instructions.pdf
+Vauxhall,Combo,Life E XL 7 Seater,Oct 2018,,Assumed like,,,150,,,,,,Right,,,,,,,,,,,,,,,,,,,,Potentially like another vehicle. Please contact us to discuss if you have an order for this vehicle.,,
+Vauxhall,Crossland X,MK I,Jun 2017,,Complete,700,640,100,Yes,,,,,Right,Regular,4 Down,250,980,740,2nd row seats slide forward by 150mm.,,710,1400,710,,,,,50,570,740,680,480,"False floor isnt very strong, may need reinforcing depending on customer mobility device.",Vehicle has removable false floor. If false floor removed the boot lip is 120mm.,H016 Vauxhall Crossland MK I Fitting Instructions.pdf
+Vauxhall,Frontera,MK II 7 Seater,Aug 2025,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Vauxhall,Frontera,MK II 5 Seater,Aug 2025,,Complete,740,675,100,,Yes,,,,Right,Regular,2 Up,250,770,820,,60L 40R,800,1340,,0,,,N/A,10,510,730,690,370,,,H051 Vauxhall Frontera MK II Fitting Instructions.pdf
+Vauxhall,Grandland,MK II,Oct 2024,,Complete,690,620,100,,Yes,,Yes,,Right,Regular,3 Up,250,980,800,"Design vehicle had 3 individual seats but also seen ones with 60L 40R split.
+
+Second row seats fold with an angle. 920mm is flat and then there is about 610mm of length on the back of the folded seats but this is angled upwards slightly.",60L 40R,920,1530,,,,,N/A,,550,765,655,570,,Hoist is designed to take the false floor in the upper position but in theory could be cut to be put on the lower setting. This would create a big lip as lower setting is approximately 100mm lower.,H032 Vauxhall Grandland MK II Fitting Instructions.pdf
+Vauxhall,Mokka,MK II,Apr 2021,,Complete,630,545,100,Yes,,,,,Right,Compact,2 Down,250,930,780,2nd row seats angle up at approximately 7° when folded down.,60L 40R,600,,,120,,,N/A,,590,730,590,460,,,H013 Vauxhall Mokka MK II Fitting Instructions.pdf
+Vauxhall,Vivaro,C Combi Interior,Sep 2019,,To Be Assessed,,,,,,,,,,,,,,,COMBI IS LOWER INTERIOR QUALITY (e.g. not full plastics) / Elite is full plastic trim. Presume hoist may be different. MAY NOW USE DESIGN/ULTIMATE AS WORDING SINCE SPEC CHANGES?,,,,,,,,,,,,,,,,
+Vauxhall,Vivaro,C Elite Interior,Sep 2019,,To Be Assessed,0,0,,,,,,,,,,0,0,0,COMBI IS LOWER INTERIOR QUALITY (e.g. not full plastics) / Elite is full plastic trim. Presume hoist may be different. MAY NOW USE DESIGN/ULTIMATE AS WORDING SINCE SPEC CHANGES?,,0,0,,0,0,0,,0,0,0,0,0,,,
+Volkswagen,Caddy,MK II,Jan 2021,,Assumed like,,,150,,,,,,,,,,,,,,,,,,,,,,,,,,Potentially like another vehicle. Please contact us to discuss if you have an order for this vehicle.,,
+Volkswagen,ID.4,MK I,Mar 2021,,To Be Designed,990,0,,,,,,,,,,0,1010,770,"There is a lip up once seats are folded but not got this measurement yet.
+Also a lip down from boot opening to boot floor.",40R 60L,650,150,,0,0,0,,0,0,0,0,0,,,
+Volkswagen,ID.5,MK I,Apr 2022,,Not Possible,670,0,,,,,,,,,,0,880,750,,,860,1450,,0,0,0,,0,0,0,0,0,,,
+Volkswagen,Passat,MK VIII Estate,2015,Apr 2023,See Notes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Volkswagen,Tayron,MK II 7 Seater,Mar 2025,,Complete,730,670,100,Yes,,,,,Right,Compact,3 Down,250,900,750,3 individual seats on design vehicle. Be aware that it may be different on spec when doing assessments.,3 Individual,1100,1700,,,,,,0,575,820,690,390,,False floor only has one height setting.,H037 VW Tayron MK II 7 Seater Fitting Instructions.pdf
+Volkswagen,Tayron,MK II 5 Seater,Mar 2025,,Complete,750,670,100,,,,,Yes,Right,Regular,3 Up,250,940,730,,60L 40R,1045,1800,1100,30,,,N/A,15,610,840,725,550,,Only one boot floor height setting.,H066 Volkswagen Tayron MK II 5 Seater Fitting Instructions.pdf
+Volkswagen,Tiguan,MK II AllSpace,Jun 2016,Nov 2025,Complete,,,100,Yes,,,,,Right,Compact,4 Up,250,,,,,,,,,,,,,,,,,,,H029 VW Tiguan AllSpace MK I Fitting Instructions.pdf
+Volkswagen,Tiguan,MK III,Apr 2024,,Complete,740,670,100,Yes,,,,,Right,Regular,4 Up,250,980,720,Seats on design vehicle were 3 individual and also slid forward - be cautious on assessment incase other variants available that aren't this setup.,3 Individual,890,1670,900,,,,N/A,,570,810,700,680,,,H035 VW Tiguan MK III Fitting Instructions.pdf
+Volkswagen,Tiguan,MK II,Jun 2016,Nov 2025,See Notes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Volkswagen,Touran,MK II,Apr 2022,,To Be Designed,860,,,,,,,,,,,,945,640,,,985,1580,,,,,,,,,,,,,
+Volkswagen,Transporter,T7 Shuttle SWB,Feb 2025,,Complete,1270,895,150,Yes,,,,,Right,Regular,5 Up,300,1160,620,"8 seats.
+Third row is bench seat with all three seats attached together.
+Second row is 3 individual seats (on design vehicle).
+Any seats that are in the way of length would need removing rather than folding due to them being high from vehicle floor. If third row then whole row needs removing but it can stay in if depth not required.",3 Individual,1200,2230,,,470,,Remove,10,800,1115,950,490,"Designed on SWB with top opening tailgate. Added length on LWB is in the middle of vehicle so may also fit LWB but we haven't confirmed.
+Third row (bench seat) can be removed after hoist is fitted if required.",,H057 Volkswagen Transporter T7 Shuttle Fitting Instructions.pdf
+Volkswagen,Transporter,T7 Shuttle LWB,Feb 2025,,To Be Designed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Volvo,EX60,MK I,2026,,To Be Assessed,0,0,,,,,,,,,,0,0,0,,,0,0,,0,0,0,,0,0,0,0,0,,,
+Volvo,V60,MK II,Jul,2018,To Be Designed,665,,,,,,,,,,,0,,640,,,1000,,,,,,N/A,,0,0,0,0,,,
+Volvo,XC40,MK I,Mar 2018,,Complete,720,660,100,,,,Yes,,Left,Regular,4 Down,250,940,750,2nd row seats do not slide.,40L 60R,890,1500,,,,,N/A,,565,780,680,650,,Boot has a false floor fixed at one height which can be removed.,H003 Volvo XC40 Fitting Instructions.pdf
