@@ -237,7 +237,7 @@ app.patch("/change-password", async (req, res) => {
 
     if (isSamePassword) {
       return res.status(400).json({
-        error: "New password cannot be the same as the current password."
+        error: "New password cannot be the same as the current password.",
       });
     }
 
@@ -301,10 +301,15 @@ app.get("/api/test-register", async (req, res) => {
 app.get("/api/local-csv", (req, res) => {
   const results = [];
 
-  const filePath = path.join(process.env.CSV_PATH);
+  const filePath = path.join(__dirname, "..", "vehicleList.csv");
+
   // check if file exists
   if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ error: "File not found" });
+    return res
+      .status(404)
+      .json({
+        error: `File path not found: attempted to find file at ${filePath}`,
+      });
   }
 
   // stream the file and pipe it into the CSV parser
