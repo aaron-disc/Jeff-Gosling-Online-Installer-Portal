@@ -4,6 +4,7 @@ import { BackButton } from "../shared/BackButton";
 import UserList from "../users/UserList";
 import CreateUserPopup, { type NewUser } from "../users/CreateUserPopup";
 import DeleteUserPopup from "../users/DeleteUserPopup";
+import { apiFetch } from "../../utils/api";
 
 export interface User {
   email: string;
@@ -34,10 +35,7 @@ export default function HandleUsersScreen() {
   const [deleteUserTarget, setDeleteUserTarget] = useState<User | null>(null);
 
   const loadUsers = useCallback(async (signal?: AbortSignal) => {
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}/users`,
-      { signal },
-    );
+    const res = await apiFetch("/users", { signal });
 
     if (!res.ok) {
       throw new Error(`Request failed with status ${res.status}`);
@@ -82,14 +80,11 @@ export default function HandleUsersScreen() {
     let response: Response;
 
     try {
-      response = await fetch(
-        `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}/create-user`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password, isAdmin }),
-        },
-      );
+      response = await apiFetch("/create-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, isAdmin }),
+      });
     } catch {
       throw new Error("Unable to reach the server. Please try again.");
     }
@@ -109,10 +104,7 @@ export default function HandleUsersScreen() {
     let response: Response;
 
     try {
-      response = await fetch(
-        `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}/delete-user/${id}`,
-        { method: "DELETE" },
-      );
+      response = await apiFetch(`/delete-user/${id}`, { method: "DELETE" });
     } catch {
       throw new Error("Unable to reach the server. Please try again.");
     }

@@ -8,6 +8,8 @@ const { toCamelCase } = require("./utils/camelCaseParser");
 
 const pool = require("./db/db");
 const argon2 = require("argon2");
+const jwt = require("jsonwebtoken");
+const authenticateToken = require("./middleware/authenticate");
 
 const app = express();
 app.use(express.json());
@@ -17,13 +19,22 @@ const MIN_PASSWORD_LENGTH = 8;
 const MAX_PASSWORD_LENGTH = 128;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "2h";
+
+if (!JWT_SECRET) {
+  throw new Error(
+    "JWT_SECRET is not set. Add it to your environment before starting the server.",
+  );
+}
+
 app.use((req, res, next) => {
   console.log(req.method, req.url);
   next();
 });
 
 /* READ users */
-app.get("/users", async (req, res) => {
+app.get("/users", authenticateToken, async (req, res) => {
   try {
     const query = "SELECT email, is_admin, created_at, id FROM users";
     const [result] = await pool.query(query);
@@ -69,8 +80,19 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid email or password." });
     }
 
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        isAdmin: user.is_admin == true,
+      },
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN },
+    );
+
     return res.status(200).json({
       message: "Login successful.",
+      token,
       user: {
         email: user.email,
         isAdmin: user.is_admin == true,
@@ -85,7 +107,7 @@ app.post("/login", async (req, res) => {
 });
 
 /* CREATE new user */
-app.post("/create-user", async (req, res) => {
+app.post("/create-user", authenticateToken, async (req, res) => {
   const { email, password, isAdmin } = req.body;
 
   /* email + password validation - 400 response */
@@ -134,7 +156,7 @@ app.post("/create-user", async (req, res) => {
 });
 
 /* DELETE user by id */
-app.delete("/delete-user/:id", async (req, res) => {
+app.delete("/delete-user/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -163,7 +185,7 @@ app.delete("/delete-user/:id", async (req, res) => {
 });
 
 /* UPDATE user passowrd */
-app.patch("/change-password", async (req, res) => {
+app.patch("/change-password", authenticateToken, async (req, res) => {
   const { currentPassword, newPassword, confirmPassword, id } = req.body ?? {};
 
   /* type + exists validation -- 400 response */
@@ -270,7 +292,7 @@ app.patch("/change-password", async (req, res) => {
 /* ---------------------------- */
 
 /* CREATE test user -- dont use */
-app.get("/api/test-register", async (req, res) => {
+app.get("/api/test-register", authenticateToken, async (req, res) => {
   /* const { email, password, is_admin = 0 } = req.body; */
 
   const email = "a@b.com";
@@ -298,7 +320,7 @@ app.get("/api/test-register", async (req, res) => {
 });
 
 /* READ boot hoist vehicle data from local csv*/
-app.get("/api/local-csv", (req, res) => {
+app.get("/api/local-csv", authenticateToken, (req, res) => {
   const results = [];
 
   const filePath = path.join(__dirname, "/data/qryDISCHoistExport.csv");
@@ -333,7 +355,7 @@ app.get("/api/local-csv", (req, res) => {
 });
 
 /* READ installation guide pdf from the pdf folder by file name */
-app.get("/api/pdf", (req, res) => {
+app.get("/api/pdf", authenticateToken, (req, res) => {
   const { pdfFileName } = req.query;
 
   if (typeof pdfFileName !== "string" || pdfFileName.trim() === "") {

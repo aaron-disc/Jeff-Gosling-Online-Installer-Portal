@@ -1,13 +1,19 @@
 import type { Vehicle } from "./types";
+import { apiFetch } from "../utils/api";
 
-const API_BASE = `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}`;
+export async function fetchVehicles(): Promise<Vehicle[]> {
+  const response = await apiFetch("/api/local-csv");
 
-const response = await fetch(`${API_BASE}/api/local-csv`);
-const json = await response.json();
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`);
+  }
 
-export const VEHICLES: Vehicle[] = (Array.isArray(json) ? json : []).map(
-  (v: Record<string, string>, i: number) => ({
-    ...v,
-    id: i + 1,
-  }),
-) as Vehicle[];
+  const json = await response.json();
+
+  return (Array.isArray(json) ? json : []).map(
+    (v: Record<string, string>, i: number) => ({
+      ...v,
+      id: i + 1,
+    }),
+  ) as Vehicle[];
+}

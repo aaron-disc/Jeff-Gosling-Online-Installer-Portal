@@ -2,9 +2,16 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   useCallback,
   type ReactNode,
 } from "react";
+import {
+  apiFetch,
+  clearAuthToken,
+  setAuthToken,
+  UNAUTHORIZED_EVENT,
+} from "../utils/api";
 
 interface User {
   email: string;
@@ -25,9 +32,31 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+const USER_KEY = "jgAuthUser";
+
+function loadStoredUser(): User | null {
+  const stored = localStorage.getItem(USER_KEY);
+  if (!stored) return null;
+  try {
+    return JSON.parse(stored) as User;
+  } catch {
+    localStorage.removeItem(USER_KEY);
+    return null;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() =>
+    localStorage.getItem("jgAuthToken") ? loadStoredUser() : null,
+  );
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const handleUnauthorized = () => setUser(null);
+    window.addEventListener(UNAUTHORIZED_EVENT, handleUnauthorized);
+    return () =>
+      window.removeEventListener(UNAUTHORIZED_EVENT, handleUnauthorized);
+  }, []);
 
   const login = useCallback(
     async (
@@ -36,17 +65,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     ): Promise<{ user: User | null; error: string | null }> => {
       setIsLoading(true);
       try {
-        const res = await fetch(
-          `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}/login`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: email, password: password }),
-          },
-        );
+        const res = await apiFetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email, password: password }),
+        });
 
         if (!res.ok) {
           setUser(null);
+          clearAuthToken();
+          localStorage.removeItem(USER_KEY);
           if (res.status === 401) {
             return { user: null, error: "Invalid email or password." };
           }
@@ -60,6 +88,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           createdAt: data.user.createdAt,
           id: data.user.id,
         };
+        setAuthToken(data.token);
+        localStorage.setItem(USER_KEY, JSON.stringify(authedUser));
         setUser(authedUser);
         return { user: authedUser, error: null };
       } catch {
@@ -76,6 +106,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const logout = useCallback(() => {
+    clearAuthToken();
+    localStorage.removeItem(USER_KEY);
     setUser(null);
   }, []);
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
-import { VEHICLES } from "../../data/vehicles";
+import { useVehicles } from "../../context/VehiclesContext";
 import { Funnel } from "lucide-react";
 
 import { BackButton } from "../shared/BackButton";
@@ -32,6 +32,7 @@ function loadSavedFilters(): VehicleFilters | null {
 export default function VehicleSearchScreen() {
   const navigate = useNavigate();
   const { selectedProduct } = useAppContext();
+  const { vehicles, isLoadingVehicles, vehiclesError } = useVehicles();
   const [vehicleFilters, setVehicleFilters] = useState<VehicleFilters>(() => {
     const saved = loadSavedFilters();
     return saved || { manufacturer: "", model: "", maxVehicleLoad: "" };
@@ -44,7 +45,7 @@ export default function VehicleSearchScreen() {
     vehicleFilters.model ||
     vehicleFilters.maxVehicleLoad !== "";
 
-  const filteredVehicles = VEHICLES.filter(
+  const filteredVehicles = vehicles.filter(
     (v) =>
       (!vehicleFilters.manufacturer ||
         v.manufacturer === vehicleFilters.manufacturer) &&
@@ -67,7 +68,7 @@ export default function VehicleSearchScreen() {
             onClose={() => setFilterPopupOpen(false)}
             filters={vehicleFilters}
             onFilterChange={setVehicleFilters}
-            vehicles={VEHICLES}
+            vehicles={vehicles}
           />
 
           <button
@@ -99,7 +100,13 @@ export default function VehicleSearchScreen() {
         </div>
       </div>
 
-      {filteredVehicles.length > 0 ? (
+      {isLoadingVehicles ? (
+        <p className="text-lg text-center mt-20 text-gray-600">
+          Loading vehicles...
+        </p>
+      ) : vehiclesError ? (
+        <p className="text-lg text-center mt-20 text-red-600">{vehiclesError}</p>
+      ) : filteredVehicles.length > 0 ? (
         <VehicleList
           vehicles={filteredVehicles}
           onSelect={(vehicle) => {

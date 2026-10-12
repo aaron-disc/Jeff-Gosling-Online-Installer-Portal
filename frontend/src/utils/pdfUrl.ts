@@ -1,21 +1,20 @@
 import type { Vehicle } from "../data/types";
+import { apiFetch } from "./api";
 
-const API_BASE = `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}`;
-
-export function getBootHoistPdfUrl(vehicle: Vehicle): string | null {
+export function getBootHoistPdfPath(vehicle: Vehicle): string | null {
   const fileName = vehicle.hoistFittingPDFFileName?.trim();
   if (!fileName) return null;
-  return `${API_BASE}/api/pdf?pdfFileName=${encodeURIComponent(fileName)}`;
+  return `/api/pdf?pdfFileName=${encodeURIComponent(fileName)}`;
 }
 
 export async function checkBootHoistPdfExists(
   vehicle: Vehicle,
 ): Promise<boolean> {
-  const pdfUrl = getBootHoistPdfUrl(vehicle);
-  if (!pdfUrl) return false;
+  const pdfPath = getBootHoistPdfPath(vehicle);
+  if (!pdfPath) return false;
 
   try {
-    const response = await fetch(pdfUrl, { method: "HEAD" });
+    const response = await apiFetch(pdfPath, { method: "HEAD" });
     return response.ok;
   } catch {
     return false;

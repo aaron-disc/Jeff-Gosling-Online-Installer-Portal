@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { useState } from "react";
+import { apiFetch } from "../../utils/api";
 
 interface ChangeUserPasswordPopupProps {
   isOpen: boolean;
@@ -86,19 +87,16 @@ export default function ChangeUserPasswordPopup({
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}/change-password`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            currentPassword,
-            newPassword,
-            confirmPassword,
-            id: userId,
-          }),
-        },
-      );
+      const response = await apiFetch("/change-password", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+          confirmPassword,
+          id: userId,
+        }),
+      });
 
       let data: { error?: string; message?: string } = {};
 

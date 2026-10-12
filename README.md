@@ -23,11 +23,12 @@ Open the newly created `.env` file in your text editor and add the following two
 
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=  <= db password,
+DB_PASSWORD= <= db password,
 DB_NAME=jg_db
 DB_PORT=3306
 PORT=5000
-CSV_PATH="" <= path to where the csv file is on the local machine (must be a .csv file)
+JWT_SECRET= <= a long, random secret used to sign login tokens
+JWT_EXPIRES_IN=2h <= how long a login token stays valid, optional (defaults to 2h)
 
 #### Running frontend
 
