@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Check,
   X,
@@ -8,7 +9,7 @@ import {
 } from "lucide-react";
 
 import type { Vehicle } from "../../data/types";
-import { getBootHoistPdfUrl } from "../../utils/pdfUrl";
+import { checkBootHoistPdfExists } from "../../utils/pdfUrl";
 import VehicleDetailSection from "./VehicleDetailSection";
 import VehicleDetailNotes from "./VehicleDetailNotes";
 
@@ -66,7 +67,23 @@ export default function VehicleDetail({
 }: VehicleDetailProps) {
   const status = getStatusConfig(vehicle.hoistStatus);
   const StatusIcon = status.icon;
-  const hasPdf = Boolean(getBootHoistPdfUrl(vehicle));
+  const [pdfStatus, setPdfStatus] = useState<{
+    vehicle: Vehicle;
+    exists: boolean;
+  } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    checkBootHoistPdfExists(vehicle).then((exists) => {
+      if (!cancelled) setPdfStatus({ vehicle, exists });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [vehicle]);
+
+  const pdfExists = pdfStatus?.vehicle === vehicle ? pdfStatus.exists : null;
+  const hasPdf = pdfExists === true;
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 ">
@@ -108,7 +125,7 @@ export default function VehicleDetail({
           ))}
         </dl>
         <div className="md:mt-8 mt-4">
-          {!hasPdf && (
+          {pdfExists === false && (
             <p className="mb-2 text-center text-gray-700">
               * No pdf available *
             </p>

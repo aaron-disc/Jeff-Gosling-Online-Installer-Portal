@@ -1,3 +1,6 @@
+# Data
+*.pdf
+
 # Environment variables
 backend/.env
 backend/.env*
