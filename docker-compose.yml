@@ -32,6 +32,7 @@ services:
 
   # 2. Backend
   backend:
+    image: aarondisc/jg-portal:backend
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -54,6 +55,7 @@ services:
 
   # 3. Frontend
   frontend:
+    image: aarondisc/jg-portal:frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile

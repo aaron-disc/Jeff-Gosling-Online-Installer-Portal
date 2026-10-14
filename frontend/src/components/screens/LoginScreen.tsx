@@ -12,6 +12,23 @@ export default function LoginScreen() {
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
+    const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email) {
+      setError("Enter an email address.");
+      return;
+    }
+
+    if (!password) {
+      setError("Enter a password.");
+      return;
+    }
+
+    if (!EMAIL_PATTERN.test(email.trim()) || typeof email !== "string") {
+      setError("Enter a valid email address.");
+      return;
+    }
+
     const { user, error: loginError } = await login(email, password);
     if (user) {
       setError("");
@@ -34,7 +51,6 @@ export default function LoginScreen() {
         error={error}
         isLoading={isLoading}
         onSubmit={handleLogin}
-        onRequestAccess={() => navigate("/request-access")}
       />
     </div>
   );

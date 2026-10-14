@@ -141,13 +141,23 @@ app.post("/create-user", authenticateToken, async (req, res) => {
   }
 
   try {
+    const emailExistsQuery =
+      "SELECT COUNT(*) as count FROM users WHERE email = ?";
+    const [rows] = await pool.execute(emailExistsQuery, [email]);
+
+    if (rows[0].count > 0) {
+      return res.status(400).json({
+        error: "Email already in use.",
+      });
+    }
+
     const passwordHash = await argon2.hash(password, {
       type: argon2.argon2id,
     });
-    const query =
+    const createUserQuery =
       "INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, ?)";
 
-    await pool.execute(query, [email, passwordHash, isAdmin]);
+    await pool.execute(createUserQuery, [email, passwordHash, isAdmin]);
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     console.error("Database error: ", error);
@@ -249,7 +259,7 @@ app.patch("/change-password", authenticateToken, async (req, res) => {
     );
 
     if (!isPasswordValid) {
-      return res.status(401).json({ error: "Current password is incorrect." });
+      return res.status(400).json({ error: "Current password is incorrect." });
     }
 
     const isSamePassword = await argon2.verify(

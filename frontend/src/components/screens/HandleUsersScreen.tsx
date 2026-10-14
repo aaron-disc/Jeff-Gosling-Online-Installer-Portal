@@ -90,7 +90,18 @@ export default function HandleUsersScreen() {
     }
 
     if (!response.ok) {
-      throw new Error("Error creating a new user. Please try again.");
+      let message = "Error creating a new user. Please try again.";
+
+      try {
+        const data = await response.json();
+        if (typeof data?.error === "string" && data.error) {
+          message = data.error;
+        }
+      } catch {
+        // fall back to the generic message when the body isn't JSON
+      }
+
+      throw new Error(message);
     }
 
     try {

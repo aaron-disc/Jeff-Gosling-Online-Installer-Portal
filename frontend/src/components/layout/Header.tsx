@@ -54,16 +54,16 @@ export default function Header() {
             <LogoGreen className="block group-hover:hidden" />
             <LogoYellow className="hidden group-hover:block" />
           </div>
-
-          <div>
+          <div className="max-sm:hidden">
             <h1 className="text-3xl font-poppins font-semibold">
               Online Installation Portal
             </h1>
           </div>
-
           <div className="flex items-center gap-5 shrink-0">
             <div className="relative" ref={dropdownRef}>
               <button
+                aria-label="Profile Dropdown"
+                role="button"
                 className="cursor-pointer block focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-3xl"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >

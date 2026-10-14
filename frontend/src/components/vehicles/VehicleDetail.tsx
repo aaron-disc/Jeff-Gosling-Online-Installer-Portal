@@ -10,6 +10,7 @@ import {
 
 import type { Vehicle } from "../../data/types";
 import { checkBootHoistPdfExists } from "../../utils/pdfUrl";
+import dimensionsImg from "../../images/Dimensions.png";
 import VehicleDetailSection from "./VehicleDetailSection";
 import VehicleDetailNotes from "./VehicleDetailNotes";
 
@@ -302,7 +303,7 @@ export default function VehicleDetail({
             />
           </div>
           <img
-            src="../src/images/Dimensions.png"
+            src={dimensionsImg}
             alt="Vehicle Boot Dimensions"
             className="object-cover my-5 sm:max-w-104 sm:max-h-80 self-center"
           />

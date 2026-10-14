@@ -69,7 +69,7 @@ export default function VehicleFilterPopup({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl p-6 w-full max-w-md mx-4"
+        className="bg-white rounded-xl p-6.5 w-full max-w-md mx-4"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-5">
@@ -151,12 +151,13 @@ export default function VehicleFilterPopup({
               onChange={(e) =>
                 setLocalFilters({
                   ...localFilters,
-                  maxVehicleLoad: e.target.value === "" ? "" : String(e.target.value),
+                  maxVehicleLoad:
+                    e.target.value === "" ? "" : String(e.target.value),
                 })
               }
             >
               <option value="">Any</option>
-              {[50, 100, 150, 200, 250, 300, 350, 400, 450, 500].map((n) => (
+              {[100, 150].map((n) => (
                 <option key={n} value={n}>
                   {n}
                 </option>
@@ -168,7 +169,7 @@ export default function VehicleFilterPopup({
         <div className="flex gap-3 mt-6 font-poppins">
           {hasActiveFilters && (
             <button
-              className="flex-1 outline outline-gray-300 text-gray-700 py-2.5 rounded text-sm font-medium hover:bg-gray-50 cursor-pointer"
+              className="flex-1 outline outline-gray-300 text-gray-700 py-2.5 rounded text-sm font-medium hover:bg-[#f3f4f6] cursor-pointer focus:bg-[#f3f4f6]"
               onClick={handleClearFilters}
             >
               Clear filters

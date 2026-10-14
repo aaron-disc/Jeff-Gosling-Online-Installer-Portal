@@ -4,7 +4,6 @@ import { AppProvider } from "./context/AppContext";
 import { VehiclesProvider } from "./context/VehiclesContext";
 import ProtectedLayout from "./components/layout/ProtectedLayout";
 import LoginScreen from "./components/screens/LoginScreen";
-import RequestAccessScreen from "./components/screens/RequestAccessScreen";
 import ProductSelect from "./components/products/ProductSelect";
 import VehicleSearchScreen from "./components/screens/VehicleSearchScreen";
 import VehicleDetailScreen from "./components/screens/VehicleDetailScreen";
@@ -20,7 +19,6 @@ export default function App() {
           <VehiclesProvider>
             <Routes>
               <Route path="/login" element={<LoginScreen />} />
-              <Route path="/request-access" element={<RequestAccessScreen />} />
               <Route element={<ProtectedLayout />}>
                 <Route path="/products" element={<ProductSelect />} />
                 <Route path="/vehicles" element={<VehicleSearchScreen />} />
