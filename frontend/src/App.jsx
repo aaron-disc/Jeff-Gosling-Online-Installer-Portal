@@ -7,6 +7,7 @@ import LoginScreen from "./components/screens/LoginScreen";
 import ProductSelect from "./components/products/ProductSelect";
 import VehicleSearchScreen from "./components/screens/VehicleSearchScreen";
 import VehicleDetailScreen from "./components/screens/VehicleDetailScreen";
+import UploadDataSceen from "./components/screens/UploadDataScreen";
 import HandleUsersScreen from "./components/screens/HandleUsersScreen";
 import ProfileScreen from "./components/screens/ProfileScreen";
 import PdfViewer from "./components/shared/PdfViewer";
@@ -26,6 +27,7 @@ export default function App() {
                   path="/vehicles/:vehicleId"
                   element={<VehicleDetailScreen />}
                 />
+                <Route path="/upload-data" element={ <UploadDataSceen/> } />
                 <Route path="/handle-users" element={<HandleUsersScreen />} />
                 <Route path="/profile" element={<ProfileScreen />} />
               </Route>

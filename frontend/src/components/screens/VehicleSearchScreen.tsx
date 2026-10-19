@@ -51,7 +51,8 @@ export default function VehicleSearchScreen() {
         v.manufacturer === vehicleFilters.manufacturer) &&
       (!vehicleFilters.model || v.model === vehicleFilters.model) &&
       (!vehicleFilters.maxVehicleLoad ||
-        Number(v.maxVehicleLoad) === Number(vehicleFilters.maxVehicleLoad)),
+        Number(v.maxVehicleLoad.replace(/\D/g, "")) ===
+          Number(vehicleFilters.maxVehicleLoad)),
   );
 
   return (
@@ -105,7 +106,9 @@ export default function VehicleSearchScreen() {
           Loading vehicles...
         </p>
       ) : vehiclesError ? (
-        <p className="text-lg text-center mt-20 text-red-600">{vehiclesError}</p>
+        <p className="text-lg text-center mt-20 text-red-600">
+          {vehiclesError}
+        </p>
       ) : filteredVehicles.length > 0 ? (
         <VehicleList
           vehicles={filteredVehicles}
