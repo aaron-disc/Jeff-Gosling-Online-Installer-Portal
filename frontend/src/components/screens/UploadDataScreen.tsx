@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
-import { BackButton } from "../shared/BackButton";
 import { useNavigate } from "react-router-dom";
 import { Upload } from "lucide-react";
+import { BackButton } from "../shared/BackButton";
+import { apiFetch } from "../../utils/api";
 
 export default function UploadDataSceen() {
   const navigate = useNavigate();
@@ -27,6 +28,42 @@ export default function UploadDataSceen() {
 
     setFile(selected);
     setError("");
+
+    const formData = new FormData();
+    formData.append("file", selected);
+
+    console.log(formData);
+  };
+
+  const handleUploadFile = async () => {
+    if (!file) {
+      console.log({ type: "error", message: "Please choose a file first." });
+      // handle errors properly u div
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await apiFetch("/api/upload-hoists", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong during upload.");
+      }
+
+      setFile(null); // Clear selected file on success
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "error i wrote";
+      console.log({ type: "error", message: message });
+    } finally {
+      console.log("finished");
+    }
   };
 
   return (
@@ -70,6 +107,7 @@ export default function UploadDataSceen() {
           type="button"
           disabled={!file}
           className="w-full mt-3 flex-1 bg-[#006B2D] text-white py-2.5 rounded text-sm font-medium hover:bg-[#005824] cursor-pointer disabled:cursor-not-allowed"
+          onClick={handleUploadFile}
         >
           Upload
         </button>

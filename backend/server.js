@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const multer = require("multer");
 const path = require("path");
 const csv = require("csv-parser");
 const { toCamelCase } = require("./utils/camelCaseParser");
@@ -10,6 +11,8 @@ const pool = require("./db/db");
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("./middleware/authenticate");
+
+const upload = multer({ dest: "uploads/" });
 
 const app = express();
 app.use(express.json());
@@ -32,6 +35,144 @@ app.use((req, res, next) => {
   console.log(req.method, req.url);
   next();
 });
+
+app.post(
+  "/api/upload-hoists",
+  authenticateToken,
+  upload.single("file"),
+  async (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ error: "Please upload a CSV file." });
+    }
+
+    const normalizeKey = (str) => {
+      if (!str) return "";
+      return str
+        .toString()
+        .replace(/[`_\s-]/g, "") // backticks/underscores/spaces/hyphens
+        .toLowerCase();
+    };
+
+    const getCSVVal = (rowObject, targetKey) => {
+      const cleanTarget = normalizeKey(targetKey);
+      const actualKey = Object.keys(rowObject).find(
+        (k) => normalizeKey(k) === cleanTarget,
+      );
+      return actualKey ? rowObject[actualKey] : null;
+    };
+
+    const parseStr = (row, key) => {
+      const val = getCSVVal(row, key);
+      if (val === undefined || val === null || val.trim() === "") return null;
+      return val.trim();
+    };
+
+    const parseNum = (row, key) => {
+      const val = getCSVVal(row, key);
+      if (val === undefined || val === null || val.trim() === "") return null;
+      const parsed = parseInt(val, 10);
+      return isNaN(parsed) ? null : parsed;
+    };
+
+    const filePath = req.file.path;
+    const results = [];
+
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on("data", (data) => {
+        results.push([
+          parseStr(data, "manufacturer"),
+          parseStr(data, "model"),
+          parseStr(data, "hoist_vehicle_variant"),
+          parseStr(data, "min_start_date"),
+          parseStr(data, "max_end_date"),
+          parseStr(data, "hoist_status"),
+          parseNum(data, "measurement_e"),
+          parseNum(data, "measurement_o"),
+          parseNum(data, "max_vehicle_load"),
+          parseStr(data, "engine_ice"),
+          parseStr(data, "engine_full_ev"),
+          parseStr(data, "engine_hev"),
+          parseStr(data, "engine_mhev"),
+          parseStr(data, "engine_phev"),
+          parseStr(data, "hoist_side"),
+          parseStr(data, "a_frame"),
+          parseStr(data, "hinge_post_yoke"),
+          parseNum(data, "up_down_actuator_stroke"),
+          parseNum(data, "measurement_d"),
+          parseNum(data, "measurement_i"),
+          parseStr(data, "seat_notes"),
+          parseStr(data, "split_seats"),
+          parseNum(data, "measurement_k1"),
+          parseNum(data, "measurement_n"),
+          parseNum(data, "depth_with_seats_slid_forward"),
+          parseNum(data, "2nd_row_seats_folded_to_floor"),
+          parseNum(data, "measurement_k2"),
+          parseNum(data, "3rd_row_seats_folded_lip_to_floor"),
+          parseStr(data, "3rd_row_options"),
+          parseNum(data, "boot_floor_to_boot_lip"),
+          parseNum(data, "measurement_p"),
+          parseNum(data, "measurement_q"),
+          parseNum(data, "measurement_r"),
+          parseNum(data, "height_end_arm_to_ground"),
+          parseStr(data, "fitting_notes"),
+          parseStr(data, "false_floor_notes"),
+          parseStr(data, "hoist_fitting_pdf_filename"),
+        ]);
+      })
+      .on("end", async () => {
+        if (results.length === 0) {
+          fs.unlinkSync(filePath);
+          return res
+            .status(400)
+            .json({ error: "The uploaded CSV file is empty." });
+        }
+
+        const connection = await pool.getConnection(); // single connection
+        try {
+          await connection.beginTransaction();
+
+          await connection.query("TRUNCATE TABLE boot_hoists");
+
+          const sql = `
+                    INSERT INTO boot_hoists (
+                        manufacturer, model, hoist_vehicle_variant, min_start_date, max_end_date, 
+                        hoist_status, measurement_e, measurement_o, max_vehicle_load, engine_ice, 
+                        engine_full_ev, engine_hev, engine_mhev, engine_phev, hoist_side, 
+                        a_frame, hinge_post_yoke, up_down_actuator_stroke, measurement_d, measurement_i, 
+                        seat_notes, split_seats, measurement_k1, measurement_n, depth_with_seats_slid_forward, 
+                        \`2nd_row_seats_folded_to_floor\`, measurement_k2, \`3rd_row_seats_folded_lip_to_floor\`, 
+                        \`3rd_row_options\`, boot_floor_to_boot_lip, measurement_p, measurement_q, measurement_r, 
+                        height_end_arm_to_ground, fitting_notes, false_floor_notes, hoist_fitting_pdf_filename
+                    ) VALUES ?
+                `;
+
+          const [response] = await connection.query(sql, [results]);
+
+          //commit changes only if both truncate and insert succeed
+          await connection.commit();
+
+          fs.unlinkSync(filePath);
+
+          res.status(200).json({
+            message: "Boot hoists data successfully imported.",
+            insertedRows: response.affectedRows,
+          });
+        } catch (error) {
+          console.error("Database Error:", error);
+          if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+          res
+            .status(500)
+            .json({ error: "Failed to insert hoist data into the database." });
+        }
+      })
+      .on("error", (error) => {
+        console.error("CSV Parsing Error:", error);
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        res.status(500).json({ error: "Failed to parse the CSV file." });
+      });
+  },
+);
 
 /* READ users */
 app.get("/users", authenticateToken, async (req, res) => {

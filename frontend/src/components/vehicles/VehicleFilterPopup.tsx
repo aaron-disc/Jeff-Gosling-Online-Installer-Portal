@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, RotateCcw } from "lucide-react";
 import type { Vehicle } from "../../data/types";
 
 interface VehicleFilters {
@@ -78,8 +78,6 @@ export default function VehicleFilterPopup({
   ];
 
   if (!isOpen) return null;
-
-  console.log(localFilters.designStatus, localFilters.designStatus.length);
 
   return (
     <div
@@ -168,8 +166,22 @@ export default function VehicleFilterPopup({
 
           <div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="flex text-sm font-medium text-gray-700 mb-2 justify-between items-center">
                 Design Status
+                {localFilters.designStatus.length > 0 && (
+                  <button
+                    className="font-normal text-sm flex gap-1 cursor-pointer items-center"
+                    onClick={() => {
+                      setLocalFilters({
+                        ...localFilters,
+                        designStatus: [],
+                      });
+                    }}
+                  >
+                    Clear Filter
+                    <RotateCcw size={14}/>
+                  </button>
+                )}
               </label>
               <div className="space-y-2 overflow-y-auto border border-gray-300 rounded px-3 py-2.5">
                 {designStatuses.map((status) => (
