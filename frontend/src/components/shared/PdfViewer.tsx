@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { useVehicles } from "../../context/VehiclesContext";
 import { BackButton } from "./BackButton";
 import { downloadPdf } from "../../utils/downloadPdf";
 import { getBootHoistPdfPath } from "../../utils/pdfUrl";
 import { apiFetch } from "../../utils/api";
+import { fetchVehicle } from "../../data/vehicles";
+import type { Vehicle } from "../../data/types";
 
 export default function PdfViewer() {
   const navigate = useNavigate();
   const { vehicleId } = useParams<{ vehicleId: string }>();
   const { user } = useAuth();
-  const { vehicles, isLoadingVehicles } = useVehicles();
+  const [vehicleResult, setVehicleResult] = useState<{
+    id: string;
+    vehicle: Vehicle | null;
+  } | null>(null);
   const [pdfResult, setPdfResult] = useState<{
     path: string;
     url: string;
@@ -24,7 +28,29 @@ export default function PdfViewer() {
     }
   }, [user, navigate]);
 
-  const vehicle = vehicles.find((v) => v.id === Number(vehicleId));
+  useEffect(() => {
+    if (!vehicleId) return;
+
+    let cancelled = false;
+
+    fetchVehicle(vehicleId)
+      .then((data) => {
+        if (cancelled) return;
+        setVehicleResult({ id: vehicleId, vehicle: data });
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setVehicleResult({ id: vehicleId, vehicle: null });
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [vehicleId]);
+
+  const isCurrent = vehicleResult?.id === vehicleId;
+  const isLoadingVehicle = Boolean(vehicleId) && !isCurrent;
+  const vehicle = isCurrent ? vehicleResult?.vehicle : null;
   const pdfPath = vehicle ? getBootHoistPdfPath(vehicle) : null;
 
   useEffect(() => {
@@ -57,7 +83,7 @@ export default function PdfViewer() {
     return null;
   }
 
-  if (isLoadingVehicles) {
+  if (isLoadingVehicle) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <p className="text-sm text-gray-400">Loading installation guide...</p>

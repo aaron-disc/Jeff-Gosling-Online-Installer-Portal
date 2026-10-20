@@ -174,6 +174,47 @@ app.post(
   },
 );
 
+/* READ boot hoist list data */
+app.get("/hoists-list", authenticateToken, async (req, res) => {
+  try {
+    const query =
+      "SELECT boot_hoist_id, manufacturer, model, hoist_vehicle_variant, min_start_date, max_end_date, hoist_status, measurement_e, measurement_o, max_vehicle_load FROM boot_hoists";
+    const [result] = await pool.query(query);
+
+    if (!result[0]) {
+      return res
+        .status(500)
+        .json({ error: "Internal server error, failed to fetch" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Database error: ", error);
+    res.status(500).json({ error: "Interal server error..." });
+  }
+});
+
+/* READ individual boot hoist data */
+app.get("/hoist/:id", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const query = "SELECT * FROM boot_hoists WHERE boot_hoist_id = ?";
+    const [result] = await pool.query(query, [id]);
+
+    if (!result[0]) {
+      return res
+        .status(500)
+        .json({ error: "Internal server error, failed to fetch" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Database error: ", error);
+    res.status(500).json({ error: "Interal server error..." });
+  }
+});
+
 /* READ users */
 app.get("/users", authenticateToken, async (req, res) => {
   try {
@@ -443,14 +484,14 @@ app.patch("/change-password", authenticateToken, async (req, res) => {
 /* ---------------------------- */
 
 /* CREATE test user -- dont use */
-app.get("/api/test-register", authenticateToken, async (req, res) => {
-  /* const { email, password, is_admin = 0 } = req.body; */
+/* app.get("/api/test-register", authenticateToken, async (req, res) => {
+  // const { email, password, is_admin = 0 } = req.body;
 
   const email = "a@b.com";
   const password = "test";
   const is_admin = 1;
 
-  /* create proper email + password reqs  -- express validator perchance?? */
+  // create proper email + password reqs  -- express validator perchance?? 
   if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required" });
   }
@@ -468,42 +509,7 @@ app.get("/api/test-register", authenticateToken, async (req, res) => {
     console.error("Database error: ", error);
     res.status(500).json({ error: "Interal server error.." });
   }
-});
-
-/* READ boot hoist vehicle data from local csv*/
-app.get("/api/local-csv", authenticateToken, (req, res) => {
-  const results = [];
-
-  const filePath = path.join(__dirname, "/data/qryDISCHoistExport.csv");
-
-  // check if file exists
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).json({
-      error: `File path not found: attempted to find file at ${filePath}`,
-    });
-  }
-
-  // stream the file and pipe it into the CSV parser
-  fs.createReadStream(filePath)
-    .pipe(csv())
-    .on("data", (data) => results.push(data))
-    .on("end", () => {
-      const formattedResults = results.map((row) => {
-        const newRow = {};
-        Object.keys(row).forEach((key) => {
-          newRow[toCamelCase(key)] = row[key];
-        });
-        return newRow;
-      });
-
-      res.json(formattedResults);
-    })
-    .on("error", (error) => {
-      res
-        .status(500)
-        .json({ error: "Failed to parse local CSV", details: error.message });
-    });
-});
+}); */
 
 /* READ installation guide pdf from the pdf folder by file name */
 app.get("/api/pdf", authenticateToken, (req, res) => {

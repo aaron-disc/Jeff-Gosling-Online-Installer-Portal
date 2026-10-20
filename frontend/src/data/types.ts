@@ -1,3 +1,16 @@
+export interface ListVehicle {
+  id: number;
+  manufacturer: string;
+  model: string;
+  hoistVehicleVariant: string;
+  minStartDate: string;
+  maxEndDate: string;
+  hoistStatus: string;
+  measurementE: string;
+  measurementO: string;
+  maxVehicleLoad: string;
+}
+
 export interface Vehicle {
   id: number;
   manufacturer: string;

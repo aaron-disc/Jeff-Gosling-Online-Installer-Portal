@@ -1,21 +1,60 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useVehicles } from "../../context/VehiclesContext";
 import { BackButton } from "../shared/BackButton";
 import VehicleDetail from "../vehicles/VehicleDetail";
 import { downloadPdf } from "../../utils/downloadPdf";
+import { fetchVehicle } from "../../data/vehicles";
+import type { Vehicle } from "../../data/types";
+
+interface VehicleResult {
+  id: string;
+  vehicle: Vehicle | null;
+  error: string | null;
+}
 
 export default function VehicleDetailScreen() {
   const navigate = useNavigate();
   const { vehicleId } = useParams<{ vehicleId: string }>();
-  const { vehicles, isLoadingVehicles, vehiclesError } = useVehicles();
-  const vehicle = vehicles.find((v) => v.id === Number(vehicleId));
+  const [result, setResult] = useState<VehicleResult | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
 
-  if (isLoadingVehicles) {
+    if (!vehicleId) return;
+
+    let cancelled = false;
+
+    fetchVehicle(vehicleId)
+      .then((data) => {
+        if (cancelled) return;
+        setResult({ id: vehicleId, vehicle: data, error: null });
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        setResult({
+          id: vehicleId,
+          vehicle: null,
+          error: err instanceof Error ? err.message : "Something went wrong.",
+        });
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [vehicleId]);
+
+  const isCurrent = result?.id === vehicleId;
+  const isLoading = Boolean(vehicleId) && !isCurrent;
+  const error = !vehicleId
+    ? "Vehicle not found."
+    : isCurrent
+      ? result?.error
+      : null;
+  const vehicle = isCurrent ? result?.vehicle : null;
+
+  console.log(vehicle)
+
+  if (isLoading) {
     return (
       <div>
         <BackButton onClick={() => navigate("/vehicles")} style="mb-2" />
@@ -24,12 +63,12 @@ export default function VehicleDetailScreen() {
     );
   }
 
-  if (!vehicle) {
+  if (error || !vehicle) {
     return (
       <div>
         <BackButton onClick={() => navigate("/vehicles")} style="mb-2" />
         <p className="text-sm text-gray-400">
-          {vehiclesError ?? "Vehicle not found."}
+          {error ?? "Vehicle not found."}
         </p>
       </div>
     );
