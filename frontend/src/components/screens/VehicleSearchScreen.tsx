@@ -11,6 +11,7 @@ import VehicleFilterPopup from "../vehicles/VehicleFilterPopup";
 interface VehicleFilters {
   manufacturer: string;
   model: string;
+  designStatus: string[];
   maxVehicleLoad: string;
 }
 
@@ -21,7 +22,18 @@ function loadSavedFilters(): VehicleFilters | null {
   if (saved) {
     sessionStorage.removeItem(STORAGE_KEY);
     try {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      if (parsed && Array.isArray(parsed.designStatus)) {
+        return parsed as VehicleFilters;
+      }
+      // Backward compatibility for old format
+      if (parsed && typeof parsed.designStatus === "string") {
+        return {
+          ...parsed,
+          designStatus: parsed.designStatus ? [parsed.designStatus] : [],
+        };
+      }
+      return parsed;
     } catch {
       /* */
     }
@@ -35,7 +47,14 @@ export default function VehicleSearchScreen() {
   const { vehicles, isLoadingVehicles, vehiclesError } = useVehicles();
   const [vehicleFilters, setVehicleFilters] = useState<VehicleFilters>(() => {
     const saved = loadSavedFilters();
-    return saved || { manufacturer: "", model: "", maxVehicleLoad: "" };
+    return (
+      saved || {
+        manufacturer: "",
+        model: "",
+        designStatus: [],
+        maxVehicleLoad: "",
+      }
+    );
   });
   const [filterPopupOpen, setFilterPopupOpen] = useState(false);
   const [filterPopupKey, setFilterPopupKey] = useState(0);
@@ -43,6 +62,7 @@ export default function VehicleSearchScreen() {
   const isFiltered =
     vehicleFilters.manufacturer ||
     vehicleFilters.model ||
+    (vehicleFilters.designStatus && vehicleFilters.designStatus.length > 0) ||
     vehicleFilters.maxVehicleLoad !== "";
 
   const filteredVehicles = vehicles.filter(
@@ -50,6 +70,10 @@ export default function VehicleSearchScreen() {
       (!vehicleFilters.manufacturer ||
         v.manufacturer === vehicleFilters.manufacturer) &&
       (!vehicleFilters.model || v.model === vehicleFilters.model) &&
+      ((vehicleFilters.designStatus && vehicleFilters.designStatus.length === 0) ||
+        vehicleFilters.designStatus.some(
+          (status) => v.hoistStatus.toLowerCase() === status.toLowerCase(),
+        )) &&
       (!vehicleFilters.maxVehicleLoad ||
         Number(v.maxVehicleLoad.replace(/\D/g, "")) ===
           Number(vehicleFilters.maxVehicleLoad)),

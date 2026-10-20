@@ -5,6 +5,7 @@ import type { Vehicle } from "../../data/types";
 interface VehicleFilters {
   manufacturer: string;
   model: string;
+  designStatus: string[];
   maxVehicleLoad: string;
 }
 
@@ -23,7 +24,9 @@ export default function VehicleFilterPopup({
   onFilterChange,
   vehicles,
 }: VehicleFilterPopupProps) {
-  const [localFilters, setLocalFilters] = useState<VehicleFilters>({ ...filters });
+  const [localFilters, setLocalFilters] = useState<VehicleFilters>({
+    ...filters,
+  });
 
   const manufacturers = [
     ...new Set(vehicles.map((v) => v.manufacturer)),
@@ -38,17 +41,19 @@ export default function VehicleFilterPopup({
       ].sort()
     : [];
 
-  const handleManufacturerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setLocalFilters({
-      ...localFilters,
-      manufacturer: e.target.value,
-      model: "",
-    });
-  };
-
   const handleClearFilters = () => {
-    setLocalFilters({ manufacturer: "", model: "", maxVehicleLoad: "" });
-    onFilterChange({ manufacturer: "", model: "", maxVehicleLoad: "" });
+    setLocalFilters({
+      manufacturer: "",
+      model: "",
+      designStatus: [],
+      maxVehicleLoad: "",
+    });
+    onFilterChange({
+      manufacturer: "",
+      model: "",
+      designStatus: [],
+      maxVehicleLoad: "",
+    });
   };
 
   const handleApply = () => {
@@ -59,9 +64,22 @@ export default function VehicleFilterPopup({
   const hasActiveFilters =
     localFilters.manufacturer ||
     localFilters.model ||
+    (localFilters.designStatus && localFilters.designStatus.length > 0) ||
     localFilters.maxVehicleLoad !== "";
 
+  const designStatuses = [
+    "Complete",
+    "To Be Designed",
+    "Not Possible",
+    "To Be Assessed",
+    "See Notes",
+    "Investigation Req",
+    "Assumed Like",
+  ];
+
   if (!isOpen) return null;
+
+  console.log(localFilters.designStatus, localFilters.designStatus.length);
 
   return (
     <div
@@ -69,7 +87,7 @@ export default function VehicleFilterPopup({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl p-6.5 w-full max-w-md mx-4"
+        className="bg-white rounded-xl p-6.5 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-5">
@@ -82,6 +100,7 @@ export default function VehicleFilterPopup({
                   [
                     localFilters.manufacturer,
                     localFilters.model,
+                    localFilters.designStatus.length > 0,
                     localFilters.maxVehicleLoad !== "",
                   ].filter(Boolean).length
                 }{" "}
@@ -105,7 +124,13 @@ export default function VehicleFilterPopup({
             <select
               className="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006B2D]"
               value={localFilters.manufacturer}
-              onChange={handleManufacturerChange}
+              onChange={(e) =>
+                setLocalFilters({
+                  ...localFilters,
+                  manufacturer: e.target.value,
+                  model: "",
+                })
+              }
             >
               <option value="">All manufacturers</option>
               {manufacturers.map((m) => (
@@ -139,6 +164,47 @@ export default function VehicleFilterPopup({
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Design Status
+              </label>
+              <div className="space-y-2 overflow-y-auto border border-gray-300 rounded px-3 py-2.5">
+                {designStatuses.map((status) => (
+                  <label
+                    key={status}
+                    className="flex items-center gap-2 cursor-pointer text-sm text-gray-700"
+                  >
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-gray-300 text-[#006B2D] focus:ring-[#006B2D]"
+                      checked={localFilters.designStatus.includes(status)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setLocalFilters({
+                            ...localFilters,
+                            designStatus: [
+                              ...localFilters.designStatus,
+                              status,
+                            ],
+                          });
+                        } else {
+                          setLocalFilters({
+                            ...localFilters,
+                            designStatus: localFilters.designStatus.filter(
+                              (s) => s !== status,
+                            ),
+                          });
+                        }
+                      }}
+                    />
+                    <span>{status}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div>

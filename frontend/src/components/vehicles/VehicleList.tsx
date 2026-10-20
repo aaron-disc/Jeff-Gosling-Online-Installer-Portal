@@ -111,8 +111,6 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
     useState("none");
   const [sortOrder, setSortOrder] = useState<SortKey[]>([]);
 
-  console.log(sortOrder);
-
   const handleSortClick = (key: SortKey) => {
     const current =
       key === "openingHeight" ? sortOpeningHeight : sortHeightUnderSpreaderBar;
