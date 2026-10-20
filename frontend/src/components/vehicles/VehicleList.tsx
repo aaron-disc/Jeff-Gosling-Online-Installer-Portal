@@ -11,7 +11,7 @@ import {
   ChevronUp,
   ChevronsUpDown,
 } from "lucide-react";
-import type { Vehicle } from "../../data/types";
+import type { ListVehicle } from "../../data/types";
 
 interface StatusConfig {
   bg: string;
@@ -101,8 +101,8 @@ const vehicleListHeader: string[] = [
 ];
 
 interface VehicleListProps {
-  vehicles: Vehicle[];
-  onSelect: (vehicle: Vehicle) => void;
+  vehicles: ListVehicle[];
+  onSelect: (vehicle: ListVehicle) => void;
 }
 
 export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
@@ -134,7 +134,7 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
       return vehicles;
     }
 
-    const getValue = (vehicle: Vehicle, key: SortKey) =>
+    const getValue = (vehicle: ListVehicle, key: SortKey) =>
       key === "openingHeight"
         ? Number(vehicle.measurementE) || 0
         : Number(vehicle.measurementO) || 0;

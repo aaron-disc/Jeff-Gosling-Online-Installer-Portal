@@ -10,7 +10,7 @@ import {
   apiFetch,
   clearAuthToken,
   setAuthToken,
-  UNAUTHORIZED_EVENT,
+  UNAUTHORISED_EVENT,
 } from "../utils/api";
 
 interface User {
@@ -53,9 +53,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const handleUnauthorized = () => setUser(null);
-    window.addEventListener(UNAUTHORIZED_EVENT, handleUnauthorized);
+    window.addEventListener(UNAUTHORISED_EVENT, handleUnauthorized);
     return () =>
-      window.removeEventListener(UNAUTHORIZED_EVENT, handleUnauthorized);
+      window.removeEventListener(UNAUTHORISED_EVENT, handleUnauthorized);
   }, []);
 
   const login = useCallback(

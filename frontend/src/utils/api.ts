@@ -2,7 +2,7 @@ const API_BASE = `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}`
 
 const TOKEN_KEY = "jgAuthToken";
 
-export const UNAUTHORIZED_EVENT = "auth:unauthorized";
+export const UNAUTHORISED_EVENT = "auth:unauthorized";
 
 export function getApiBase(): string {
   return API_BASE;
@@ -38,7 +38,7 @@ export async function apiFetch(
 
   if (response.status === 401 && path !== "/login") {
     clearAuthToken();
-    window.dispatchEvent(new Event(UNAUTHORIZED_EVENT));
+    window.dispatchEvent(new Event(UNAUTHORISED_EVENT));
   }
 
   return response;

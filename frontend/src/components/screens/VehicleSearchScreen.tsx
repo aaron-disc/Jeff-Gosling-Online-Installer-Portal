@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
-import { useVehicles } from "../../context/VehiclesContext";
+import { fetchVehicles } from "../../data/vehicles";
+import type { ListVehicle } from "../../data/types";
 import { Funnel } from "lucide-react";
 
 import { BackButton } from "../shared/BackButton";
@@ -44,7 +45,10 @@ function loadSavedFilters(): VehicleFilters | null {
 export default function VehicleSearchScreen() {
   const navigate = useNavigate();
   const { selectedProduct } = useAppContext();
-  const { vehicles, isLoadingVehicles, vehiclesError } = useVehicles();
+  const [listState, setListState] = useState<{
+    vehicles: ListVehicle[];
+    error: string | null;
+  } | null>(null);
   const [vehicleFilters, setVehicleFilters] = useState<VehicleFilters>(() => {
     const saved = loadSavedFilters();
     return (
@@ -58,6 +62,31 @@ export default function VehicleSearchScreen() {
   });
   const [filterPopupOpen, setFilterPopupOpen] = useState(false);
   const [filterPopupKey, setFilterPopupKey] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetchVehicles()
+      .then((data) => {
+        if (cancelled) return;
+        setListState({ vehicles: data, error: null });
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setListState({
+          vehicles: [],
+          error: "Unable to load vehicles. Please try again.",
+        });
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const vehicles = listState?.vehicles ?? [];
+  const isLoadingVehicles = listState === null;
+  const vehiclesError = listState?.error ?? null;
 
   const isFiltered =
     vehicleFilters.manufacturer ||

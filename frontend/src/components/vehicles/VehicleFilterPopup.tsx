@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { X, RotateCcw } from "lucide-react";
-import type { Vehicle } from "../../data/types";
+import type { ListVehicle } from "../../data/types";
 
 interface VehicleFilters {
   manufacturer: string;
@@ -14,7 +14,7 @@ interface VehicleFilterPopupProps {
   onClose: () => void;
   filters: VehicleFilters;
   onFilterChange: (filters: VehicleFilters) => void;
-  vehicles: Vehicle[];
+  vehicles: ListVehicle[];
 }
 
 export default function VehicleFilterPopup({
