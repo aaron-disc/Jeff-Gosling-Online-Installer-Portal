@@ -50,8 +50,8 @@ export default function Header() {
 
   return (
     <div className="w-full">
-      <div className="max-w-360 w-full mx-auto px-6">
-        <div className="grid grid-cols-3 items-center">
+      <div className="max-w-350 w-full mx-auto px-6">
+        <div className="grid grid-cols-5 items-center">
           <div
             className="group shrink-0 cursor-pointer"
             onClick={() => navigate("/products")}
@@ -59,7 +59,7 @@ export default function Header() {
             <LogoGreen className="block group-hover:hidden" />
             <LogoYellow className="hidden group-hover:block" />
           </div>
-          <div className="max-sm:hidden place-self-center">
+          <div className="max-sm:hidden place-self-center col-span-3">
             <h1 className="text-3xl font-poppins font-semibold">
               Online Installation Portal
             </h1>

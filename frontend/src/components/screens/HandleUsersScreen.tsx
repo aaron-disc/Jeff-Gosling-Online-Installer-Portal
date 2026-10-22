@@ -162,7 +162,7 @@ export default function HandleUsersScreen() {
 
           {!isLoading && !error && (
             <button
-              className="flex-1 bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2 font-poppins cursor-pointer"
+              className="bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2 font-poppins cursor-pointer"
               onClick={() => {
                 setIsCreateUserOpen(true);
                 setCreateUserPopupKey((k) => k + 1);

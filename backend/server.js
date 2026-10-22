@@ -12,7 +12,20 @@ const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("./middleware/authenticate");
 
-const upload = multer({ dest: "uploads/" });
+const UPLOADS_DIR = path.join(__dirname, "uploads");
+
+/* multer only creates the destination folder once when the storage engine is
+   built, so recreate it per request in case it has been removed since startup */
+const ensureUploadsDir = (req, res, next) => {
+  fs.mkdir(UPLOADS_DIR, { recursive: true }, (error) => {
+    if (error) return next(error);
+    next();
+  });
+};
+
+const upload = multer({
+  storage: multer.diskStorage({ destination: UPLOADS_DIR }),
+});
 
 const app = express();
 app.use(express.json());
@@ -39,6 +52,7 @@ app.use((req, res, next) => {
 app.post(
   "/api/upload-hoists",
   authenticateToken,
+  ensureUploadsDir,
   upload.single("file"),
   async (req, res) => {
     if (!req.file) {
@@ -77,8 +91,38 @@ app.post(
     const filePath = req.file.path;
     const results = [];
 
-    fs.createReadStream(filePath)
-      .pipe(csv())
+    const source = fs.createReadStream(filePath);
+    const parser = csv();
+
+    /* release the read handle so the file is not locked on windows */
+    const closeSource = () =>
+      new Promise((resolve) => {
+        if (source.closed) {
+          resolve();
+          return;
+        }
+        source.once("close", resolve);
+        source.destroy();
+      });
+
+    /* multer stages the upload on disk -- always remove it once handled */
+    const removeTempFile = () =>
+      new Promise((resolve) => {
+        fs.unlink(filePath, (error) => {
+          if (error && error.code !== "ENOENT") {
+            console.error("Failed to remove uploaded file:", error);
+          }
+          resolve();
+        });
+      });
+
+    const cleanup = async () => {
+      await closeSource();
+      await removeTempFile();
+    };
+
+    source
+      .pipe(parser)
       .on("data", (data) => {
         results.push([
           parseStr(data, "manufacturer"),
@@ -122,14 +166,15 @@ app.post(
       })
       .on("end", async () => {
         if (results.length === 0) {
-          fs.unlinkSync(filePath);
+          await cleanup();
           return res
             .status(400)
             .json({ error: "The uploaded CSV file is empty." });
         }
 
-        const connection = await pool.getConnection(); // single connection
+        let connection;
         try {
+          connection = await pool.getConnection(); // single connection
           await connection.beginTransaction();
 
           await connection.query("TRUNCATE TABLE boot_hoists");
@@ -152,7 +197,7 @@ app.post(
           //commit changes only if both truncate and insert succeed
           await connection.commit();
 
-          fs.unlinkSync(filePath);
+          await cleanup();
 
           res.status(200).json({
             message: "Boot hoists data successfully imported.",
@@ -160,17 +205,29 @@ app.post(
           });
         } catch (error) {
           console.error("Database Error:", error);
-          if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+          await cleanup();
           res
             .status(500)
             .json({ error: "Failed to insert hoist data into the database." });
+        } finally {
+          if (connection) connection.release();
         }
       })
-      .on("error", (error) => {
+      .on("error", async (error) => {
         console.error("CSV Parsing Error:", error);
-        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-        res.status(500).json({ error: "Failed to parse the CSV file." });
+        await cleanup();
+        if (!res.headersSent) {
+          res.status(500).json({ error: "Failed to parse the CSV file." });
+        }
       });
+
+    source.on("error", async (error) => {
+      console.error("CSV Read Error:", error);
+      await cleanup();
+      if (!res.headersSent) {
+        res.status(500).json({ error: "Failed to parse the CSV file." });
+      }
+    });
   },
 );
 
@@ -537,6 +594,23 @@ app.get("/api/pdf", authenticateToken, (req, res) => {
   }
 
   res.sendFile(filePath);
+});
+
+/* JSON not found handler -- keeps every api reply parseable as json */
+app.use((req, res) => {
+  res.status(404).json({ error: "Not found." });
+});
+
+/* JSON error handler -- stops express from replying with an html error page
+   that the api client cannot parse */
+app.use((error, req, res, next) => {
+  console.error("Unhandled Error:", error);
+  if (res.headersSent) return next(error);
+
+  const status = error.status || 500;
+  const message = status < 500 ? error.message : "Internal server error.";
+
+  res.status(status).json({ error: message });
 });
 
 app.listen(process.env.PORT, () =>

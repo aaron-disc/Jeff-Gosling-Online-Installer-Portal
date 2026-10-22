@@ -1,7 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import { Car } from "lucide-react";
-import { PRODUCTS } from "../../data/products";
+
+const PRODUCTS = [
+  {
+    id: "boot-hoist",
+    label: "Boot Hoist",
+    description: "Vehicle boot hoist fitting instructions",
+  },
+];
 
 export default function ProductSelect() {
   const navigate = useNavigate();

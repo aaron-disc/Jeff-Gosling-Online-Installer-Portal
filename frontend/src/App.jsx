@@ -3,7 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { AppProvider } from "./context/AppContext";
 import ProtectedLayout from "./components/layout/ProtectedLayout";
 import LoginScreen from "./components/screens/LoginScreen";
-import ProductSelect from "./components/products/ProductSelect";
+import ProductSelect from "./components/screens/ProductSelectScreen";
 import VehicleSearchScreen from "./components/screens/VehicleSearchScreen";
 import VehicleDetailScreen from "./components/screens/VehicleDetailScreen";
 import UploadDataSceen from "./components/screens/UploadDataScreen";

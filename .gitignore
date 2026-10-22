@@ -1,6 +1,9 @@
 # Data
 *.pdf
 
+# Temporary upload staging
+backend/uploads/
+
 # Environment variables
 backend/.env
 backend/.env*
