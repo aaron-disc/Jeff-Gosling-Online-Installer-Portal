@@ -19,10 +19,19 @@ interface UploadProductDataProps {
   product: ProductInterface;
 }
 
+type MessageType = "none" | "success" | "error";
+
+interface UploadMessage {
+  text: string;
+  type: MessageType;
+  details: string[];
+}
+
 export default function UploadProductData({ product }: UploadProductDataProps) {
-  const [message, setMessage] = useState({
+  const [message, setMessage] = useState<UploadMessage>({
     text: "No file uploaded.",
     type: "none",
+    details: [],
   });
   const [isUploading, setIsUploading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -33,6 +42,7 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
     setMessage({
       text: "No file uploaded.",
       type: "none",
+      details: [],
     });
 
     if (!selected) {
@@ -40,6 +50,7 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
       setMessage({
         text: "Please select a file",
         type: "error",
+        details: [],
       });
       return;
     }
@@ -49,27 +60,30 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
       setMessage({
         text: "Please select a CSV file.",
         type: "error",
+        details: [],
       });
       if (fileInputRef.current) fileInputRef.current.value = "";
       return;
     }
 
-    if (selected.size > 10485760) {
+    if (selected.size > 5242880) {
       setFile(null);
       setMessage({
-        text: "File is too large. Maximum is 10 MB",
+        text: "File is too large. Maximum is 5 MB",
         type: "error",
+        details: [],
       });
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
     }
 
     setFile(selected);
     setMessage({
       text: "File ready for upload.",
       type: "none",
+      details: [],
     });
   };
-
-  console.log(message)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     processFile(e.target.files?.[0]);
@@ -82,18 +96,30 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
   };
 
   const handleUpload = async () => {
+    if (!product.endpoint) {
+      setMessage({
+        text: `Uploads are not available for ${product.label} yet.`,
+        type: "error",
+        details: [],
+      });
+      return;
+    }
+
+    if (!file) {
+      setMessage({
+        text: "Choose a file before uploading.",
+        type: "error",
+        details: [],
+      });
+      return;
+    }
+
     setMessage({
       text: "File Uploading...",
       type: "none",
+      details: [],
     });
     setIsUploading(true);
-
-    if (!file) {
-      console.log({ type: "error", message: "Please choose a file first." });
-      // handle errors properly u div
-      setIsUploading(false);
-      return;
-    }
 
     const formData = new FormData();
     formData.append("file", file);
@@ -104,22 +130,52 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
         body: formData,
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => null);
 
       if (!response.ok) {
-        throw new Error(data.error || "Something went wrong during upload.");
+        const details = Array.isArray(data?.errors)
+          ? data.errors.filter(
+              (issue: unknown): issue is string => typeof issue === "string",
+            )
+          : [];
+
+        const total =
+          typeof data?.totalErrors === "number"
+            ? data.totalErrors
+            : details.length;
+        const hidden = Math.max(total - details.length, 0);
+
+        setMessage({
+          text:
+            typeof data?.error === "string" && data.error
+              ? data.error
+              : "The file could not be uploaded. Please check it and try again.",
+          type: "error",
+          details:
+            hidden > 0
+              ? [
+                  ...details,
+                  `...and ${hidden} more problem${hidden === 1 ? "" : "s"}.`,
+                ]
+              : details,
+        });
+        return;
       }
 
       setMessage({
-        text: "File uploaded successfully.",
+        text:
+          typeof data?.message === "string" && data.message
+            ? data.message
+            : "File uploaded successfully.",
         type: "success",
+        details: [],
       });
       setFile(null);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "error i wrote";
+    } catch {
       setMessage({
-        text: message,
+        text: "Could not reach the server. Check your connection and try again.",
         type: "error",
+        details: [],
       });
     } finally {
       setIsUploading(false);
@@ -130,6 +186,7 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
     setMessage({
       text: "No file selected",
       type: "none",
+      details: [],
     });
     setFile(null);
   };
@@ -146,16 +203,14 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
       aria-labelledby={`upload-target-${product.id}`}
       className="font-poppins bg-white rounded-xl border border-gray-200 p-6 w-full"
     >
-      <button className="flex items-center justify-between gap-3 text-left w-full focus:outline-offset-4">
-        <div className="min-w-0">
-          <h2
-            id={`upload-target-${product.id}`}
-            className="text-xl font-semibold text-[#1d1d1b]"
-          >
-            {product.label}
-          </h2>
-        </div>
-      </button>
+      <div className="min-w-0 flex items-center justify-between gap-3 text-left w-full">
+        <h2
+          id={`upload-target-${product.id}`}
+          className="text-xl font-semibold text-[#1d1d1b]"
+        >
+          {product.label}
+        </h2>
+      </div>
 
       <div className="mt-3">
         <input
@@ -178,7 +233,7 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
               setIsDragging(false);
             }}
             onDrop={handleDrop}
-            className={`min-h-48.5 flex flex-col items-center justify-center rounded-xl border-2 border-dashed bg-white px-4 py-6 text-sm ${
+            className={`h-55.5 flex flex-col items-center justify-center rounded-xl border-2 border-dashed bg-white px-4 py-6 text-sm ${
               isDragging || file ? "border-gray-400" : "border-gray-300"
             }`}
           >
@@ -205,7 +260,7 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
             ) : (
               <>
                 <FilePlus size={40} strokeWidth={1.5} />
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-8 mb-3">
+                <div className="flex flex-col items-center justify-center gap-2 mt-8 mb-3">
                   <span className="text-gray-600">Drag and drop or</span>
                   <button
                     type="button"
@@ -216,7 +271,7 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
                     Choose file
                   </button>
                 </div>
-                <span className="text-gray-600 text-xs">CSV (max. 10 MB)</span>
+                <span className="text-gray-600 text-xs">CSV (max. 5 MB)</span>
               </>
             )}
           </div>
@@ -234,23 +289,34 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
             )}
             {isUploading ? "Uploading..." : "Upload"}
           </button>
-          <div className="bg-[#f3f4f6] border border-[#d1d5dc] py-2.25 px-2 rounded text-[15px] flex items-center">
-            <span>
-              {message.type === "none" ? (
-                <Info size={18} />
-              ) : message.type === "success" ? (
-                <Check size={18} color="#13A538" />
-              ) : (
-                message.type === "error" && (
+          <div
+            className="bg-[#f3f4f6] border border-[#d1d5dc] py-2.25 px-2 rounded text-[15px]"
+            role={message.type === "error" ? "alert" : "status"}
+          >
+            <div className="flex items-center">
+              <span>
+                {message.type === "none" ? (
+                  <Info size={18} />
+                ) : message.type === "success" ? (
+                  <Check size={18} color="#13A538" />
+                ) : (
                   <CircleX size={18} color="#e60a0a" />
-                )
-              )}
-            </span>
-            <p
-              className={`ml-4 ${message.type === "error" ? "text-[#e60a0a]" : message.type === "success" && "text-[#13A538]"} `}
-            >
-              {message.text}
-            </p>
+                )}
+              </span>
+              <p
+                className={`ml-4 ${message.type === "error" ? "text-[#e60a0a]" : message.type === "success" && "text-[#13A538]"} `}
+              >
+                {message.text}
+              </p>
+            </div>
+
+            {message.details.length > 0 && (
+              <ul className="mt-2 ml-8 list-disc text-sm text-[#1d1d1b] flex flex-col gap-1">
+                {message.details.map((detail, index) => (
+                  <li key={index}>{detail}</li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>

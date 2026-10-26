@@ -4,6 +4,9 @@ import {
   X,
   Clock,
   CircleQuestionMark,
+  Pen,
+  Search,
+  EqualApproximately,
   FileDown,
   FileSearchCorner,
 } from "lucide-react";
@@ -21,35 +24,54 @@ interface StatusConfig {
 }
 
 const getStatusConfig = (hoistStatus: string): StatusConfig => {
-  switch (hoistStatus) {
-    case "Complete":
+  switch (hoistStatus.toLowerCase()) {
+    case "complete":
       return {
         bg: "bg-[#13A538]",
-        text: "text-[#13A538]",
+        text: "text-white",
         icon: Check,
       };
-    case "Not Possible":
-      return {
-        bg: "bg-[#575756]",
-        text: "text-[#575756]",
-        icon: X,
-      };
-    case "To Be Designed":
+    case "to be designed":
       return {
         bg: "bg-[#F1C800]",
-        text: "text-[#F1C800]",
+        text: "text-[#3D3900]",
         icon: Clock,
       };
-    case "To Be Assessed":
+    case "not possible":
+      return {
+        bg: "bg-[#575756]",
+        text: "text-white",
+        icon: X,
+      };
+
+    case "to be assessed":
       return {
         bg: "bg-[#b0b8AD]",
-        text: "text-[#575756]",
+        text: "text-black",
         icon: CircleQuestionMark,
+      };
+    case "see notes":
+      return {
+        bg: "bg-[#00CCFF]",
+        text: "text-[#575756]",
+        icon: Pen,
+      };
+    case "investigation req":
+      return {
+        bg: "bg-[#E53E30]",
+        text: "text-white",
+        icon: Search,
+      };
+    case "assumed like":
+      return {
+        bg: "bg-[#e68702]",
+        text: "text-white",
+        icon: EqualApproximately,
       };
     default:
       return {
-        bg: "bg-gray-100",
-        text: "text-gray-900",
+        bg: "bg-[#b0b8AD]",
+        text: "text-[#575756]",
         icon: CircleQuestionMark,
       };
   }

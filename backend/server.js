@@ -6,6 +6,18 @@ const multer = require("multer");
 const path = require("path");
 const csv = require("csv-parser");
 const { toCamelCase } = require("./utils/camelCaseParser");
+const {
+  BOOT_HOIST_COLUMNS,
+  MAX_REPORTED_ISSUES,
+  REQUIRED_COLUMNS_FALLBACK,
+  convertValue,
+  describeDatabaseError,
+  getCSVVal,
+  isBlankRow,
+  typeFromDatabase,
+  validateHeaders,
+  validateRow,
+} = require("./utils/csvUploadValidation");
 
 const pool = require("./db/db");
 const argon2 = require("argon2");
@@ -14,8 +26,6 @@ const authenticateToken = require("./middleware/authenticate");
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
 
-/* multer only creates the destination folder once when the storage engine is
-   built, so recreate it per request in case it has been removed since startup */
 const ensureUploadsDir = (req, res, next) => {
   fs.mkdir(UPLOADS_DIR, { recursive: true }, (error) => {
     if (error) return next(error);
@@ -38,6 +48,73 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "2h";
 
+/* Cached so the schema is only read once per server run */
+let bootHoistSchema = null;
+
+/* Reads the boot_hoists table so the upload can tell the user which values
+   cannot be empty. Falls back to the built in column list when the schema
+   cannot be read. */
+const loadBootHoistSchema = async () => {
+  if (bootHoistSchema) return bootHoistSchema;
+
+  const fallback = {
+    required: REQUIRED_COLUMNS_FALLBACK,
+    columns: BOOT_HOIST_COLUMNS,
+  };
+
+  try {
+    const [rows] = await pool.query(
+      `SELECT COLUMN_NAME, IS_NULLABLE, DATA_TYPE, EXTRA
+         FROM INFORMATION_SCHEMA.COLUMNS
+        WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'boot_hoists'`,
+      [process.env.DB_NAME],
+    );
+
+    if (!rows.length) {
+      console.warn(
+        "boot_hoists columns not found, using the built in column list.",
+      );
+      bootHoistSchema = fallback;
+      return bootHoistSchema;
+    }
+
+    const dbTypes = new Map(
+      rows.map((row) => [
+        String(row.COLUMN_NAME).toLowerCase(),
+        String(row.DATA_TYPE).toLowerCase(),
+      ]),
+    );
+
+    /* a column that is not nullable cannot be left blank */
+    const required = rows
+      .filter(
+        (row) =>
+          row.IS_NULLABLE === "NO" &&
+          !String(row.EXTRA || "").includes("auto_increment"),
+      )
+      .map((row) => String(row.COLUMN_NAME).toLowerCase());
+
+    const columns = BOOT_HOIST_COLUMNS.map(({ column, type }) => ({
+      column,
+      type: typeFromDatabase(dbTypes.get(column)) || type,
+    }));
+
+    bootHoistSchema = {
+      required: required.length ? required : fallback.required,
+      columns,
+    };
+
+    return bootHoistSchema;
+  } catch (error) {
+    console.warn(
+      "Could not read the boot_hoists schema, using the built in column list:",
+      error.message,
+    );
+    bootHoistSchema = fallback;
+    return bootHoistSchema;
+  }
+};
+
 if (!JWT_SECRET) {
   throw new Error(
     "JWT_SECRET is not set. Add it to your environment before starting the server.",
@@ -59,37 +136,14 @@ app.post(
       return res.status(400).json({ error: "Please upload a CSV file." });
     }
 
-    const normalizeKey = (str) => {
-      if (!str) return "";
-      return str
-        .toString()
-        .replace(/[`_\s-]/g, "") // backticks/underscores/spaces/hyphens
-        .toLowerCase();
-    };
-
-    const getCSVVal = (rowObject, targetKey) => {
-      const cleanTarget = normalizeKey(targetKey);
-      const actualKey = Object.keys(rowObject).find(
-        (k) => normalizeKey(k) === cleanTarget,
-      );
-      return actualKey ? rowObject[actualKey] : null;
-    };
-
-    const parseStr = (row, key) => {
-      const val = getCSVVal(row, key);
-      if (val === undefined || val === null || val.trim() === "") return null;
-      return val.trim();
-    };
-
-    const parseNum = (row, key) => {
-      const val = getCSVVal(row, key);
-      if (val === undefined || val === null || val.trim() === "") return null;
-      const parsed = parseInt(val, 10);
-      return isNaN(parsed) ? null : parsed;
-    };
-
     const filePath = req.file.path;
     const results = [];
+    const issues = [];
+    let headerIssues = [];
+    let totalIssues = 0;
+    let lineNumber = 1; /* the header is line 1 */
+
+    const schema = await loadBootHoistSchema();
 
     const source = fs.createReadStream(filePath);
     const parser = csv();
@@ -123,46 +177,25 @@ app.post(
 
     source
       .pipe(parser)
+      .on("headers", (headers) => {
+        headerIssues = validateHeaders(headers, schema.required);
+      })
       .on("data", (data) => {
-        results.push([
-          parseStr(data, "manufacturer"),
-          parseStr(data, "model"),
-          parseStr(data, "hoist_vehicle_variant"),
-          parseStr(data, "min_start_date"),
-          parseStr(data, "max_end_date"),
-          parseStr(data, "hoist_status"),
-          parseNum(data, "measurement_e"),
-          parseNum(data, "measurement_o"),
-          parseNum(data, "max_vehicle_load"),
-          parseStr(data, "engine_ice"),
-          parseStr(data, "engine_full_ev"),
-          parseStr(data, "engine_hev"),
-          parseStr(data, "engine_mhev"),
-          parseStr(data, "engine_phev"),
-          parseStr(data, "hoist_side"),
-          parseStr(data, "a_frame"),
-          parseStr(data, "hinge_post_yoke"),
-          parseNum(data, "up_down_actuator_stroke"),
-          parseNum(data, "measurement_d"),
-          parseNum(data, "measurement_i"),
-          parseStr(data, "seat_notes"),
-          parseStr(data, "split_seats"),
-          parseNum(data, "measurement_k1"),
-          parseNum(data, "measurement_n"),
-          parseNum(data, "depth_with_seats_slid_forward"),
-          parseNum(data, "2nd_row_seats_folded_to_floor"),
-          parseNum(data, "measurement_k2"),
-          parseNum(data, "3rd_row_seats_folded_lip_to_floor"),
-          parseStr(data, "3rd_row_options"),
-          parseNum(data, "boot_floor_to_boot_lip"),
-          parseNum(data, "measurement_p"),
-          parseNum(data, "measurement_q"),
-          parseNum(data, "measurement_r"),
-          parseNum(data, "height_end_arm_to_ground"),
-          parseStr(data, "fitting_notes"),
-          parseStr(data, "false_floor_notes"),
-          parseStr(data, "hoist_fitting_pdf_filename"),
-        ]);
+        lineNumber += 1;
+
+        /* skip blank lines so they are not reported as empty rows */
+        if (isBlankRow(data)) return;
+
+        results.push(data);
+
+        const rowIssues = validateRow(data, lineNumber, schema);
+        totalIssues += rowIssues.length;
+
+        if (issues.length < MAX_REPORTED_ISSUES) {
+          issues.push(
+            ...rowIssues.slice(0, MAX_REPORTED_ISSUES - issues.length),
+          );
+        }
       })
       .on("end", async () => {
         if (results.length === 0) {
@@ -172,27 +205,52 @@ app.post(
             .json({ error: "The uploaded CSV file is empty." });
         }
 
+        /* a missing column makes every row look empty, so only report the
+           missing columns */
+        if (headerIssues.length > 0) {
+          await cleanup();
+          return res.status(400).json({
+            error:
+              "The CSV could not be uploaded because it does not have the expected columns.",
+            errors: headerIssues,
+            totalErrors: headerIssues.length,
+          });
+        }
+
+        if (totalIssues > 0) {
+          await cleanup();
+          return res.status(400).json({
+            error:
+              "The CSV could not be uploaded because some values are not valid.",
+            errors: issues.slice(0, MAX_REPORTED_ISSUES),
+            totalErrors: totalIssues,
+          });
+        }
+
         let connection;
         try {
           connection = await pool.getConnection(); // single connection
           await connection.beginTransaction();
 
-          await connection.query("TRUNCATE TABLE boot_hoists");
+          await connection.query("DELETE FROM boot_hoists");
+
+          const columnNames = BOOT_HOIST_COLUMNS.map(({ column }) =>
+            /^\d/.test(column) ? `\`${column}\`` : column,
+          ).join(", ");
 
           const sql = `
                     INSERT INTO boot_hoists (
-                        manufacturer, model, hoist_vehicle_variant, min_start_date, max_end_date, 
-                        hoist_status, measurement_e, measurement_o, max_vehicle_load, engine_ice, 
-                        engine_full_ev, engine_hev, engine_mhev, engine_phev, hoist_side, 
-                        a_frame, hinge_post_yoke, up_down_actuator_stroke, measurement_d, measurement_i, 
-                        seat_notes, split_seats, measurement_k1, measurement_n, depth_with_seats_slid_forward, 
-                        \`2nd_row_seats_folded_to_floor\`, measurement_k2, \`3rd_row_seats_folded_lip_to_floor\`, 
-                        \`3rd_row_options\`, boot_floor_to_boot_lip, measurement_p, measurement_q, measurement_r, 
-                        height_end_arm_to_ground, fitting_notes, false_floor_notes, hoist_fitting_pdf_filename
+                        ${columnNames}
                     ) VALUES ?
                 `;
 
-          const [response] = await connection.query(sql, [results]);
+          const values = results.map((row) =>
+            BOOT_HOIST_COLUMNS.map(({ column, type }) =>
+              convertValue(getCSVVal(row, column), type),
+            ),
+          );
+
+          const [response] = await connection.query(sql, [values]);
 
           //commit changes only if both truncate and insert succeed
           await connection.commit();
@@ -205,10 +263,24 @@ app.post(
           });
         } catch (error) {
           console.error("Database Error:", error);
+
+          if (connection) {
+            try {
+              await connection.rollback();
+            } catch (rollbackError) {
+              console.error("Rollback Error:", rollbackError);
+            }
+          }
+
           await cleanup();
-          res
-            .status(500)
-            .json({ error: "Failed to insert hoist data into the database." });
+
+          const described = describeDatabaseError(error);
+
+          res.status(described ? described.status : 500).json({
+            error: described
+              ? described.error
+              : "Failed to insert hoist data into the database. Please try again.",
+          });
         } finally {
           if (connection) connection.release();
         }

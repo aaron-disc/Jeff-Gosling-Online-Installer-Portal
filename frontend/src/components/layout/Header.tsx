@@ -51,20 +51,21 @@ export default function Header() {
   return (
     <div className="w-full">
       <div className="max-w-350 w-full mx-auto px-6">
-        <div className="grid grid-cols-5 items-center">
-          <div
-            className="group shrink-0 cursor-pointer"
+        <div className="grid lg:grid-cols-3 grid-cols-2 items-center">
+          <button
+            className="group cursor-pointer w-60"
+            disabled={location.pathname === "/products"}
             onClick={() => navigate("/products")}
           >
             <LogoGreen className="block group-hover:hidden" />
             <LogoYellow className="hidden group-hover:block" />
-          </div>
-          <div className="max-sm:hidden place-self-center col-span-3">
-            <h1 className="text-3xl font-poppins font-semibold">
+          </button>
+          <div className="max-lg:hidden place-self-center">
+            <h1 className="text-3xl font-poppins font-semibold text-center">
               Online Installation Portal
             </h1>
           </div>
-          <div className="flex items-center gap-5 shrink-0 justify-self-end">
+          <div className="flex items-center gap-5 justify-self-end">
             <div className="relative" ref={dropdownRef}>
               <button
                 aria-label="Profile Dropdown"

@@ -126,7 +126,7 @@ export default function VehicleSearchScreen() {
           />
 
           <button
-            className={`md:w-135 w-full ml-auto px-4 py-2.5 text-sm text-left flex items-center justify-between cursor-pointer hover:bg-gray-100 rounded focus:outline-2 focus:outline-[#006B2D] ${isFiltered ? "outline-2 outline-[#006B2D]" : "outline outline-black"}`}
+            className={`md:w-100 lg:w-135 w-full ml-auto px-4 py-2.5 text-sm text-left flex items-center justify-between cursor-pointer hover:bg-gray-100 rounded focus:outline-2 focus:outline-[#006B2D] ${isFiltered ? "outline-2 outline-[#006B2D]" : "outline outline-black"}`}
             onClick={() => {
               setFilterPopupOpen(true);
               setFilterPopupKey((k) => k + 1);
