@@ -14,15 +14,21 @@ export default function ProductSelect() {
   const navigate = useNavigate();
   const { setSelectedProduct } = useAppContext();
 
-  const handleSelect = (product: { id: string; label: string; description: string; }) => {
+  const handleSelect = (product: {
+    id: string;
+    label: string;
+    description: string;
+  }) => {
     setSelectedProduct(product);
     navigate("/vehicles");
   };
 
   return (
     <div>
-      <h1 className="text-xl font-medium text-gray-900 mb-2">Select product</h1>
-      <p className="text-sm text-gray-500 mb-6">
+      <h1 className="text-[40px] font-semibold text-[#1d1d1b] mb-2">
+        Select product
+      </h1>
+      <p className="text-base text-[#575756] mb-6">
         Welcome to the Jeff Gosling online installation portal. Here we provide
         key information and fitting instructions for our products. This portal
         is regularly updated but as vehicles are changing daily and we are

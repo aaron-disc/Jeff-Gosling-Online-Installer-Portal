@@ -52,13 +52,11 @@ export default function VehicleDetailScreen() {
       : null;
   const vehicle = isCurrent ? result?.vehicle : null;
 
-  console.log(vehicle)
-
   if (isLoading) {
     return (
       <div>
-        <BackButton onClick={() => navigate("/vehicles")} style="mb-2" />
-        <p className="text-sm text-gray-400">Loading vehicle...</p>
+        <BackButton onClick={() => navigate("/vehicles")} style="mb-4" />
+        <p className="text-base text-[#575756] text-center mt-20">Loading vehicle...</p>
       </div>
     );
   }
@@ -66,8 +64,8 @@ export default function VehicleDetailScreen() {
   if (error || !vehicle) {
     return (
       <div>
-        <BackButton onClick={() => navigate("/vehicles")} style="mb-2" />
-        <p className="text-sm text-gray-400">
+        <BackButton onClick={() => navigate("/vehicles")} style="mb-4" />
+        <p className="text-base text-[#575756] text-center mt-20">
           {error ?? "Vehicle not found."}
         </p>
       </div>

@@ -1,9 +1,17 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { setLastRoute } from "../../utils/lastRoute";
 import Header from "./Header";
 
 export default function ProtectedLayout() {
   const { user } = useAuth();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!user) return;
+    setLastRoute(`${location.pathname}${location.search}${location.hash}`);
+  }, [location, user]);
 
   if (!user) {
     return <Navigate to="/login" replace />;

@@ -111,16 +111,16 @@ export default function VehicleSearchScreen() {
   return (
     <div>
       <BackButton onClick={() => navigate("/products")} style="mb-2" />
-      <div className="md:flex md:gap-6 md:mb-3">
+      <div className="sm:flex sm:gap-6 sm:mb-3">
         <h1 className="text-[40px] font-semibold text-[#1d1d1b] font-poppins">
           {selectedProduct?.label || "Boot Hoist"}
         </h1>
-        <div className="md:pt-0 pt-4 pb-1.5 self-center ml-auto">
+        <div className="sm:pt-0 pt-4 pb-1.5 self-center ml-auto">
           <button
-            className="w-full bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-5 rounded transition-colors flex items-center justify-center gap-10 font-poppins cursor-pointer disabled:hover:cursor-not-allowed"
+            className=" bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-5 rounded transition-colors flex items-center justify-center gap-10 font-poppins cursor-pointer disabled:hover:cursor-not-allowed"
             onClick={() => {
-              setFilterPopupKey((k) => k + 1);
               setFilterPopupOpen(true);
+              setFilterPopupKey((k) => k + 1);
             }}
           >
             <span>Filter vehicles</span>

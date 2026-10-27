@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { AppProvider } from "./context/AppContext";
 import ProtectedLayout from "./components/layout/ProtectedLayout";
@@ -10,6 +10,7 @@ import UploadDataSceen from "./components/screens/UploadDataScreen";
 import HandleUsersScreen from "./components/screens/HandleUsersScreen";
 import ProfileScreen from "./components/screens/ProfileScreen";
 import PdfViewer from "./components/shared/PdfViewer";
+import NotFoundScreen from "./components/screens/NotFoundScreen";
 
 export default function App() {
   return (
@@ -30,7 +31,7 @@ export default function App() {
               <Route path="/profile" element={<ProfileScreen />} />
             </Route>
             <Route path="/vehicles/:vehicleId/pdf" element={<PdfViewer />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="*" element={<NotFoundScreen />} />
           </Routes>
         </AppProvider>
       </AuthProvider>
