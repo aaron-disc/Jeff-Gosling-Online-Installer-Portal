@@ -146,6 +146,17 @@ export default function HandleUsersScreen() {
           Handle Users
         </h1>
         <div className="md:pt-0 pt-4 pb-1.5 self-center ml-auto">
+          {!isLoading && !error && (
+            <button
+              className="bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2 font-poppins cursor-pointer"
+              onClick={() => {
+                setIsCreateUserOpen(true);
+                setCreateUserPopupKey((k) => k + 1);
+              }}
+            >
+              Create User
+            </button>
+          )}
           <CreateUserPopup
             key={createUserPopupKey}
             isOpen={isCreateUserOpen}
@@ -159,18 +170,6 @@ export default function HandleUsersScreen() {
             onDeleteUser={handleDeleteUser}
             onClose={() => setIsDeleteUserOpen(false)}
           />
-
-          {!isLoading && !error && (
-            <button
-              className="bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2 font-poppins cursor-pointer"
-              onClick={() => {
-                setIsCreateUserOpen(true);
-                setCreateUserPopupKey((k) => k + 1);
-              }}
-            >
-              Create User
-            </button>
-          )}
         </div>
       </div>
 

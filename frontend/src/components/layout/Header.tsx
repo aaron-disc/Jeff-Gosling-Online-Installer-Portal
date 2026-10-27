@@ -53,6 +53,8 @@ export default function Header() {
       <div className="max-w-350 w-full mx-auto px-6">
         <div className="grid lg:grid-cols-3 grid-cols-2 items-center">
           <button
+            aria-label="Logo button to home"
+            role="button"
             className="group cursor-pointer w-60"
             disabled={location.pathname === "/products"}
             onClick={() => navigate("/products")}

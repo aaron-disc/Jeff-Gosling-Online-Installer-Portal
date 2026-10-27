@@ -97,7 +97,7 @@ const labelFor = (column) =>
       if (/^\d/.test(word)) return word;
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
-    .join(" ");
+    .join("");
 
 const isNumericValue = (value) => {
   const cleaned = String(value).trim().replace(/,/g, "");
@@ -142,8 +142,6 @@ const isDateValue = (value) => {
 };
 
 const isMaxVehicleLoadValue = (value) => {
-  console.log(value)
-
   const ACCEPTED_VALUES = ["100*", "150*", "100", "150"];
   if (!ACCEPTED_VALUES.includes(value)) {
     return false;
@@ -309,8 +307,6 @@ module.exports = {
   describeDatabaseError,
   getCSVVal,
   isBlankRow,
-  labelFor,
-  normaliseKey,
   typeFromDatabase,
   validateHeaders,
   validateRow,

@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SlidersHorizontal } from "lucide-react";
 import { useAppContext } from "../../context/AppContext";
 import { fetchVehicles } from "../../data/vehicles";
 import type { ListVehicle } from "../../data/types";
-import { Funnel } from "lucide-react";
-
 import { BackButton } from "../shared/BackButton";
-import VehicleList from "../vehicles/VehicleList";
 import VehicleFilterPopup from "../vehicles/VehicleFilterPopup";
+import VehicleList from "../vehicles/VehicleList";
 
 interface VehicleFilters {
   manufacturer: string;
@@ -88,23 +87,24 @@ export default function VehicleSearchScreen() {
   const isLoadingVehicles = listState === null;
   const vehiclesError = listState?.error ?? null;
 
-  const isFiltered =
-    vehicleFilters.manufacturer ||
-    vehicleFilters.model ||
-    (vehicleFilters.designStatus && vehicleFilters.designStatus.length > 0) ||
-    vehicleFilters.maxVehicleLoad !== "";
+  const filtersCount =
+    +!!vehicleFilters.manufacturer +
+    +!!vehicleFilters.model +
+    +(vehicleFilters.designStatus.length > 0) +
+    +(vehicleFilters.maxVehicleLoad !== "");
 
   const filteredVehicles = vehicles.filter(
     (v) =>
       (!vehicleFilters.manufacturer ||
         v.manufacturer === vehicleFilters.manufacturer) &&
       (!vehicleFilters.model || v.model === vehicleFilters.model) &&
-      ((vehicleFilters.designStatus && vehicleFilters.designStatus.length === 0) ||
+      ((vehicleFilters.designStatus &&
+        vehicleFilters.designStatus.length === 0) ||
         vehicleFilters.designStatus.some(
           (status) => v.hoistStatus.toLowerCase() === status.toLowerCase(),
         )) &&
       (!vehicleFilters.maxVehicleLoad ||
-        Number(v.maxVehicleLoad.replace(/\D/g, "")) ===
+        Number(v.maxVehicleLoad?.replace(/\D/g, "")) ===
           Number(vehicleFilters.maxVehicleLoad)),
   );
 
@@ -113,9 +113,29 @@ export default function VehicleSearchScreen() {
       <BackButton onClick={() => navigate("/products")} style="mb-2" />
       <div className="md:flex md:gap-6 md:mb-3">
         <h1 className="text-[40px] font-semibold text-[#1d1d1b] font-poppins">
-          {selectedProduct?.label}
+          {selectedProduct?.label || "Boot Hoist"}
         </h1>
         <div className="md:pt-0 pt-4 pb-1.5 self-center ml-auto">
+          <button
+            className="w-full bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-5 rounded transition-colors flex items-center justify-center gap-10 font-poppins cursor-pointer disabled:hover:cursor-not-allowed"
+            onClick={() => {
+              setFilterPopupKey((k) => k + 1);
+              setFilterPopupOpen(true);
+            }}
+          >
+            <span>Filter vehicles</span>
+
+            <div className="flex items-center gap-2">
+              <span className="relative">
+                <SlidersHorizontal size={19} />
+                {filtersCount > 0 && (
+                  <span className="absolute -top-2 -right-2.5 bg-[#13A538] text-white text-xs rounded-full size-4 flex items-center justify-center ">
+                    {filtersCount}
+                  </span>
+                )}
+              </span>
+            </div>
+          </button>
           <VehicleFilterPopup
             key={filterPopupKey}
             isOpen={filterPopupOpen}
@@ -124,33 +144,6 @@ export default function VehicleSearchScreen() {
             onFilterChange={setVehicleFilters}
             vehicles={vehicles}
           />
-
-          <button
-            className={`md:w-100 lg:w-135 w-full ml-auto px-4 py-2.5 text-sm text-left flex items-center justify-between cursor-pointer hover:bg-gray-100 rounded focus:outline-2 focus:outline-[#006B2D] ${isFiltered ? "outline-2 outline-[#006B2D]" : "outline outline-black"}`}
-            onClick={() => {
-              setFilterPopupOpen(true);
-              setFilterPopupKey((k) => k + 1);
-            }}
-          >
-            <span
-              className={
-                isFiltered ? "text-[#006B2D] font-medium" : "text-gray-600"
-              }
-            >
-              Filter vehicles
-            </span>
-            <div className="flex items-center gap-2 ">
-              {isFiltered && (
-                <span className="bg-[#006B2D] text-white text-xs px-2 py-0.5 rounded">
-                  {filteredVehicles.length}{" "}
-                  {filteredVehicles.length === 1 ? "Vehicle" : "Vehicles"}
-                </span>
-              )}
-              <span>
-                <Funnel size={16} color="#1E2939" />
-              </span>
-            </div>
-          </button>
         </div>
       </div>
 

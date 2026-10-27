@@ -49,7 +49,7 @@ const getStatusConfig = (hoistStatus: string): StatusConfig => {
     case "see notes":
       return {
         bg: "bg-[#00CCFF]",
-        text: "text-[#575756]",
+        text: "text-black",
         icon: Pen,
       };
     case "investigation req":
@@ -164,11 +164,14 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
                 if (header === "Opening Height (mm)") {
                   return (
                     <th
-                      className="text-left text-sm font-medium text-gray-900 py-3 px-4 hover:cursor-pointer"
+                      className="text-sm font-medium text-gray-900 py-3 px-4 hover:cursor-pointer"
                       key={i}
                       onClick={() => handleSortClick("openingHeight")}
                     >
-                      <div className="flex gap-1">
+                      <button
+                        className="flex gap-1 text-left hover:cursor-pointer"
+                        aria-labelledby="Sort by Opening Height"
+                      >
                         {header}
                         {sortOpeningHeight === "desc" ? (
                           <ChevronDown className="size-5 shrink-0 self-center" />
@@ -177,7 +180,7 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
                         ) : (
                           <ChevronsUpDown className="size-5 shrink-0 self-center" />
                         )}
-                      </div>
+                      </button>
                     </th>
                   );
                 }
@@ -185,11 +188,14 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
                 if (header === "Height Under Spreader Bar (mm)") {
                   return (
                     <th
-                      className="text-left text-sm font-medium text-gray-900 py-3 px-4 hover:cursor-pointer"
+                      className="text-sm font-medium text-gray-900 py-3 px-4 hover:cursor-pointer"
                       key={i}
                       onClick={() => handleSortClick("heightUnderSpreaderBar")}
                     >
-                      <div className="flex gap-1">
+                      <button
+                        className="flex gap-1 text-left hover:cursor-pointer"
+                        aria-labelledby="Sort by Height Under Spreader Bar"
+                      >
                         {header}
                         {sortHeightUnderSpreaderBar === "desc" ? (
                           <ChevronDown className="size-5 shrink-0 self-center" />
@@ -198,7 +204,7 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
                         ) : (
                           <ChevronsUpDown className="size-5 shrink-0 self-center" />
                         )}
-                      </div>
+                      </button>
                     </th>
                   );
                 }

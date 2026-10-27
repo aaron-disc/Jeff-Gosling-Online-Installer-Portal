@@ -120,7 +120,7 @@ export default function VehicleDetail({
           </p>
         </div>
         <span
-          className={`inline-flex items-center gap-1.5 text-base px-3 py-1.5 rounded font-medium shrink-0 ${status.text}`}
+          className={`inline-flex items-center gap-1.5 text-base px-3 py-1.5 rounded font-medium shrink-0 text-black`}
         >
           <StatusIcon size={16} /> {vehicle.hoistStatus}
         </span>
@@ -138,7 +138,7 @@ export default function VehicleDetail({
             ] as [string, string][]
           ).map(([label, value]) => (
             <div key={label}>
-              <dt className="text-[13px] sm:text-[13px] md:text-sm text-gray-400">
+              <dt className="text-[13px] sm:text-[13px] md:text-sm text-[#575756]">
                 {label}
               </dt>
               <dd className="text-[15px] sm:text-[15px] md:text-base text-gray-900 font-medium">

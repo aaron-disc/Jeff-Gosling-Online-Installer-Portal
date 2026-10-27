@@ -250,8 +250,9 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
                     type="button"
                     onClick={handleClearFile}
                     disabled={isUploading}
+                    aria-disabled={isUploading}
                     aria-label={`Remove ${file.name}`}
-                    className="transition-transform translate-y-0.5 ml-4 shrink-0 cursor-pointer text-gray-500 hover:text-gray-900 outline-black outline-offset-4 focus:outline-2 rounded disabled:cursor-not-allowed"
+                    className="transition-transform translate-y-0.5 ml-4 shrink-0 cursor-pointer text-gray-500 hover:text-gray-900 outline-black outline-offset-1 focus:outline-2 rounded disabled:cursor-not-allowed"
                   >
                     <Trash2 size={18} />
                   </button>
@@ -266,6 +267,7 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isUploading}
+                    aria-disabled={isUploading}
                     className="w-full sm:w-auto border border-[#d1d5dc] rounded px-8 py-2.5 min-w-37 text-sm font-medium text-gray-700 flex items-center justify-center cursor-pointer hover:bg-[#f3f4f6] focus:bg-[#f3f4f6]"
                   >
                     Choose file
@@ -280,6 +282,7 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
             type="button"
             onClick={handleUpload}
             disabled={!file || isUploading}
+            aria-disabled={!file || isUploading}
             className="w-full bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-8 rounded transition-colors flex items-center justify-center gap-2 font-poppins cursor-pointer disabled:hover:cursor-not-allowed"
           >
             {isUploading ? (
