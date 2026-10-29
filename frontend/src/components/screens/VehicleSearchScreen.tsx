@@ -148,7 +148,7 @@ export default function VehicleSearchScreen() {
       </div>
 
       {isLoadingVehicles ? (
-        <p className="text-lg text-center mt-20 text-gray-600">
+        <p className="text-lg text-center mt-20 text-[#575756]">
           Loading vehicles...
         </p>
       ) : vehiclesError ? (
@@ -165,7 +165,7 @@ export default function VehicleSearchScreen() {
           }}
         />
       ) : (
-        <p className="text-lg text-center mt-20 text-gray-600">
+        <p className="text-lg text-center mt-20 text-[#575756]">
           No vehicles found.
         </p>
       )}

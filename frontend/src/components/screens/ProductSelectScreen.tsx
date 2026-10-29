@@ -25,7 +25,7 @@ export default function ProductSelect() {
 
   return (
     <div>
-      <h1 className="text-[40px] font-semibold text-[#1d1d1b] mb-2">
+      <h1 className="text-[40px] font-semibold font-poppins text-[#1d1d1b] mb-2">
         Select product
       </h1>
       <p className="text-base text-[#575756] mb-6">

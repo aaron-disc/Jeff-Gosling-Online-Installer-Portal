@@ -85,7 +85,7 @@ export default function PdfViewer() {
 
   if (isLoadingVehicle) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#ebedea]">
         <p className="text-sm text-gray-400">Loading installation guide...</p>
       </div>
     );
@@ -93,8 +93,9 @@ export default function PdfViewer() {
 
   if (!vehicle) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <p className="text-sm text-gray-400">Vehicle not found.</p>
+      <div className="min-h-screen flex flex-col gap-6 items-center justify-center bg-[#ebedea]">
+        <BackButton onClick={() => navigate("/vehicles")}/>
+        <p className="text-base text-gray-400">Vehicle not found.</p>
       </div>
     );
   }
@@ -104,7 +105,7 @@ export default function PdfViewer() {
 
   if (hasError) {
     return (
-      <div className="min-h-screen flex flex-col bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-[#ebedea]">
         <div className="flex items-center gap-3 px-5 py-3 bg-white border-b border-gray-200">
           <BackButton onClick={() => navigate(`/vehicles/${vehicle.id}`)} />
           <span className="font-medium text-gray-900">
@@ -112,7 +113,7 @@ export default function PdfViewer() {
             - Installation Guide
           </span>
         </div>
-        <div className="flex-1 flex items-center justify-center text-gray-500 text-sm">
+        <div className="flex-1 flex items-center justify-center text-gray-500 text-base">
           No installation guide available for this vehicle.
         </div>
       </div>

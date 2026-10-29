@@ -183,7 +183,6 @@ app.post(
       .on("data", (data) => {
         lineNumber += 1;
 
-        /* skip blank lines so they are not reported as empty rows */
         if (isBlankRow(data)) return;
 
         results.push(data);
@@ -205,8 +204,6 @@ app.post(
             .json({ error: "The uploaded CSV file is empty." });
         }
 
-        /* a missing column makes every row look empty, so only report the
-           missing columns */
         if (headerIssues.length > 0) {
           await cleanup();
           return res.status(400).json({
@@ -334,13 +331,13 @@ app.get("/hoist/:id", authenticateToken, async (req, res) => {
     if (!result[0]) {
       return res
         .status(500)
-        .json({ error: "Internal server error, failed to fetch" });
+        .json({ error: "Vehicle does not exist." });
     }
 
     res.status(200).json(result);
   } catch (error) {
     console.error("Database error: ", error);
-    res.status(500).json({ error: "Interal server error..." });
+    res.status(500).json({ error: "Interal server error" });
   }
 });
 
@@ -359,7 +356,7 @@ app.get("/users", authenticateToken, async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     console.error("Database error: ", error);
-    res.status(500).json({ error: "Interal server error..." });
+    res.status(500).json({ error: "Interal server error" });
   }
 });
 

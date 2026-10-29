@@ -62,6 +62,18 @@ const getStatusConfig = (hoistStatus: string): StatusConfig => {
         text: "text-white",
         icon: Search,
       };
+    case "investigation rqd":
+      return {
+        bg: "bg-[#E53E30]",
+        text: "text-white",
+        icon: Search,
+      };
+    case "investigation required":
+      return {
+        bg: "bg-[#E53E30]",
+        text: "text-white",
+        icon: Search,
+      };
     case "assumed like":
       return {
         bg: "bg-[#e68702]",

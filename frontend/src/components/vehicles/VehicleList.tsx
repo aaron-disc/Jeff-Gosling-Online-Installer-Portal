@@ -7,9 +7,9 @@ import {
   EqualApproximately,
   Search,
   Pen,
-  ChevronDown,
-  ChevronUp,
-  ChevronsUpDown,
+  MoveUp,
+  MoveDown,
+  MoveVertical
 } from "lucide-react";
 import type { ListVehicle } from "../../data/types";
 
@@ -48,11 +48,23 @@ const getStatusConfig = (hoistStatus: string): StatusConfig => {
       };
     case "see notes":
       return {
-        bg: "bg-[#00CCFF]",
+        bg: "bg-[#c5e5ed]",
         text: "text-black",
         icon: Pen,
       };
+    case "investigation rqd":
+      return {
+        bg: "bg-[#E53E30]",
+        text: "text-white",
+        icon: Search,
+      };
     case "investigation req":
+      return {
+        bg: "bg-[#E53E30]",
+        text: "text-white",
+        icon: Search,
+      };
+    case "investigation required":
       return {
         bg: "bg-[#E53E30]",
         text: "text-white",
@@ -174,11 +186,20 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
                       >
                         {header}
                         {sortOpeningHeight === "desc" ? (
-                          <ChevronDown className="size-5 shrink-0 self-center" />
+                          <MoveDown
+                            className="size-6 shrink-0 self-center"
+                            color="#13A538"
+                          />
                         ) : sortOpeningHeight === "asc" ? (
-                          <ChevronUp className="size-5 shrink-0 self-center" />
+                          <MoveUp
+                            className="size-6 shrink-0 self-center"
+                            color="#13A538"
+                          />
                         ) : (
-                          <ChevronsUpDown className="size-5 shrink-0 self-center" />
+                          <MoveVertical
+                            className="size-6 shrink-0 self-center"
+                            color="#13A538"
+                          />
                         )}
                       </button>
                     </th>
@@ -198,11 +219,20 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
                       >
                         {header}
                         {sortHeightUnderSpreaderBar === "desc" ? (
-                          <ChevronDown className="size-5 shrink-0 self-center" />
+                          <MoveDown
+                            className="size-6 shrink-0 self-center"
+                            color="#13A538"
+                          />
                         ) : sortHeightUnderSpreaderBar === "asc" ? (
-                          <ChevronUp className="size-5 shrink-0 self-center" />
+                          <MoveUp
+                            className="size-6 shrink-0 self-center"
+                            color="#13A538"
+                          />
                         ) : (
-                          <ChevronsUpDown className="size-5 shrink-0 self-center" />
+                          <MoveVertical
+                            className="size-6 shrink-0 self-center"
+                            color="#13A538"
+                          />
                         )}
                       </button>
                     </th>

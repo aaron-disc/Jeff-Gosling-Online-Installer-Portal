@@ -20,13 +20,14 @@ export default function App() {
           <Routes>
             <Route path="/login" element={<LoginScreen />} />
             <Route element={<ProtectedLayout />}>
+              <Route path="" element={<ProductSelect />} />
               <Route path="/products" element={<ProductSelect />} />
               <Route path="/vehicles" element={<VehicleSearchScreen />} />
               <Route
                 path="/vehicles/:vehicleId"
                 element={<VehicleDetailScreen />}
               />
-              <Route path="/upload-data" element={ <UploadDataSceen/> } />
+              <Route path="/upload-data" element={<UploadDataSceen />} />
               <Route path="/handle-users" element={<HandleUsersScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
             </Route>

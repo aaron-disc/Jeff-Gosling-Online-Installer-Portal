@@ -49,9 +49,9 @@ export default function LoginForm({
               Forgot Password
             </button>
           </div>
-
+          {/* w-full bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-8 rounded transition-colors flex items-center justify-center gap-2 font-poppins cursor-pointer disabled:hover:cursor-not-allowed */}
           <button
-            className="w-full py-2.5 my-5 bg-[#006B2D] hover:bg-[#F1C800] focus:bg-[#F1C800] text-white hover:text-[#006B2D] focus:text-[#006B2D] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer text-xl font-poppins disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full py-2.5 my-5 bg-[#006B2D] hover:bg-[#005824] focus:bg-[#005824] text-white shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer text-xl font-poppins disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={onSubmit}
             disabled={isLoading}
           >

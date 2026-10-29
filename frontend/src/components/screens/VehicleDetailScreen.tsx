@@ -65,7 +65,7 @@ export default function VehicleDetailScreen() {
     return (
       <div>
         <BackButton onClick={() => navigate("/vehicles")} style="mb-4" />
-        <p className="text-base text-[#575756] text-center mt-20">
+        <p className="text-base text-red-600 text-center mt-20">
           {error ?? "Vehicle not found."}
         </p>
       </div>

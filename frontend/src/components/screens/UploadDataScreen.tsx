@@ -38,7 +38,7 @@ export default function UploadDataScreen() {
         </h1>
       </div>
 
-      <p className="text-base text-gray-600 mb-4">
+      <p className="text-base text-[#575756] mb-4">
         Upload the CSV data for each product below. Each upload replaces the
         data currently held for that product.
       </p>
