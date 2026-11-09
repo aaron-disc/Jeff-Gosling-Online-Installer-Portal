@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useState, useRef } from "react";
 import { apiFetch } from "../../utils/api";
+import { useAuth } from "../../context/AuthContext";
 
 interface ProductInterface {
   id: string;
@@ -28,6 +29,7 @@ interface UploadMessage {
 }
 
 export default function UploadProductData({ product }: UploadProductDataProps) {
+  const { user } = useAuth();
   const [message, setMessage] = useState<UploadMessage>({
     text: "No file selected.",
     type: "none",
@@ -161,6 +163,17 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
         });
         return;
       }
+
+      apiFetch("/create-log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category: "Data",
+          actor: user?.email,
+          action: "UPDATED",
+          target: product.label,
+        }),
+      }).catch(() => {});
 
       setMessage({
         text:

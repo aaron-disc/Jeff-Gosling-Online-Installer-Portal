@@ -10,7 +10,7 @@ export default function UploadDataScreen() {
     {
       id: "boot_hoist",
       label: "Boot Hoist",
-      endpoint: "/api/upload-hoists",
+      endpoint: "/upload-hoists",
     },
     {
       id: "hand_controls",

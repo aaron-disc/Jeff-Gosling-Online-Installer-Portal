@@ -5,6 +5,7 @@ import UserList from "../users/UserList";
 import CreateUserPopup, { type NewUser } from "../users/CreateUserPopup";
 import DeleteUserPopup from "../users/DeleteUserPopup";
 import { apiFetch } from "../../utils/api";
+import { useAuth } from "../../context/AuthContext";
 
 export interface User {
   email: string;
@@ -25,6 +26,7 @@ function isAbortError(err: unknown): boolean {
 }
 
 export default function HandleUsersScreen() {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -104,6 +106,17 @@ export default function HandleUsersScreen() {
       throw new Error(message);
     }
 
+    apiFetch("/create-log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        category: "Users",
+        actor: user?.email,
+        action: "CREATED",
+        target: email,
+      }),
+    }).catch(() => {});
+
     try {
       await loadUsers();
     } catch {
@@ -111,7 +124,7 @@ export default function HandleUsersScreen() {
     }
   };
 
-  const handleDeleteUser = async ({ id }: { id: number }): Promise<void> => {
+  const handleDeleteUser = async ({ id, email }: { id: number, email: string }): Promise<void> => {
     let response: Response;
 
     try {
@@ -123,6 +136,17 @@ export default function HandleUsersScreen() {
     if (!response.ok) {
       throw new Error("Error deleting user. Please try again.");
     }
+
+    apiFetch("/create-log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        category: "Users",
+        actor: user?.email,
+        action: "DELETED",
+        target: email,
+      }),
+    }).catch(() => {});
 
     setIsDeleteUserOpen(false);
 
@@ -167,8 +191,8 @@ export default function HandleUsersScreen() {
           <DeleteUserPopup
             user={deleteUserTarget}
             isOpen={isDeleteUserOpen}
-            onDeleteUser={handleDeleteUser}
             onClose={() => setIsDeleteUserOpen(false)}
+            onDeleteUser={handleDeleteUser}
           />
         </div>
       </div>

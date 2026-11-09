@@ -1,36 +1,16 @@
+import { useEffect, useState } from "react";
 import { BackButton } from "../shared/BackButton";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../../utils/api";
 
-interface LogEntry {
-  id: number;
-  timestamp: string;
+interface Log {
+  event_logs_id: number;
   category: string;
+  event_actor: string;
+  event_action: string;
+  event_target: string;
+  created_at: string;
 }
-
-const dummyLogs: LogEntry[] = [
-  {
-    id: 1,
-    timestamp: "2026-11-09T09:14:00",
-    category: "Users",
-  },
-  /*   {
-    id: 2,
-    timestamp: "2026-11-09T10:02:00",
-    category: "Users",
-  },
-  {
-    id: 3,
-    timestamp: "2026-11-09T10:35:00",
-    category: "Users",
-  },
-  {
-    id: 4,
-    timestamp: "2026-11-09T11:20:00",
-    category: "Users",
-  }, */
-];
-
-// const logListHeader: string[] = ["Time", "category", "User", "Details"];
 
 function formatTimestamp(isoDate: string): string {
   const parsed = new Date(isoDate);
@@ -46,8 +26,59 @@ function formatTimestamp(isoDate: string): string {
   });
 }
 
+function LogDescription({ log }: { log: Log }) {
+  switch (log.category.toLowerCase()) {
+    case "users":
+      return (
+        <p className="text-base">
+          <b className="text-[#006B2D]">{log.event_actor}</b> {log.event_action}{" "}
+          the user <b className="text-[#006B2D]">{log.event_target}</b>
+        </p>
+      );
+    case "data":
+      return (
+        <p className="text-base">
+          <b className="text-[#006B2D]">{log.event_actor}</b> {log.event_action}{" "}
+          data for <b className="text-[#006B2D]">{log.event_target}</b>
+        </p>
+      );
+    default:
+      return <>mate...</>;
+  }
+}
+
 export default function LogsScreen() {
   const navigate = useNavigate();
+  const [logs, setLogs] = useState<Log[]>([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function fetchLogs() {
+      try {
+        const response = await apiFetch("/logs", {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setLogs(data);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        console.error("Unable to fetch logs:", error);
+      }
+    }
+
+    fetchLogs();
+
+    return () => controller.abort();
+  }, []);
 
   return (
     <div>
@@ -62,7 +93,7 @@ export default function LogsScreen() {
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-300">
-              {["Time", "Category", ""].map((header) => (
+              {["Time", "Category"].map((header) => (
                 <th
                   className="text-left text-sm font-medium text-gray-900 py-3 px-4"
                   key={header}
@@ -73,20 +104,17 @@ export default function LogsScreen() {
             </tr>
           </thead>
           <tbody>
-            {dummyLogs.map((log) => (
+            {logs.map((log) => (
               <tr
-                key={log.id}
+                key={log.event_logs_id}
                 className="text-[14px] text-left border-b border-gray-200 bg-[#EBEDEA] hover:bg-[#e2e2e2]"
               >
                 <td className="text-nowrap px-4 py-3">
-                  {formatTimestamp(log.timestamp)}
+                  {formatTimestamp(log.created_at)}
                 </td>
                 <td className="px-4 py-3">{log.category}</td>
-                <td className="ml-auto px-4 py-3 text-base">
-                  <p>
-                    <b className="text-[#006B2D]">admin@test.com</b> created the
-                    user <b className="text-[#006B2D]">user@test.com</b>
-                  </p>
+                <td className="px-4 py-3 text-nowrap">
+                  <LogDescription log={log} />
                 </td>
               </tr>
             ))}
@@ -96,10 +124,3 @@ export default function LogsScreen() {
     </div>
   );
 }
-
-/*  <br />
-                    <b className="text-[#006B2D]">admin@test.com</b> deleted the
-                    user <b className="text-[#006B2D]">user@test.com</b>
-                    <br />
-                    <b className="text-[#006B2D]">admin@test.com</b>{" "}
-                    updated the data for <b className="text-[#006B2D]">Boot Hoist</b> */
