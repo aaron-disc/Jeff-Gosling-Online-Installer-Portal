@@ -29,7 +29,7 @@ interface UploadMessage {
 
 export default function UploadProductData({ product }: UploadProductDataProps) {
   const [message, setMessage] = useState<UploadMessage>({
-    text: "No file uploaded.",
+    text: "No file selected.",
     type: "none",
     details: [],
   });
@@ -40,7 +40,7 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
 
   const processFile = (selected: File | undefined) => {
     setMessage({
-      text: "No file uploaded.",
+      text: "No file selected.",
       type: "none",
       details: [],
     });

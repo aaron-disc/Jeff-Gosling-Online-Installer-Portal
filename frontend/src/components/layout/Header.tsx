@@ -43,6 +43,11 @@ export default function Header() {
     navigate("/handle-users");
   };
 
+  const handleOpenLogs = () => {
+    setDropdownOpen(false);
+    navigate("/logs")
+  }
+
   const handleOpenProfile = () => {
     setDropdownOpen(false);
     navigate("/profile");
@@ -95,6 +100,15 @@ export default function Header() {
                       onClick={handleOpenHandleUsers}
                     >
                       Handle Users
+                    </button>
+                  )}
+                  {user?.isAdmin && location.pathname !== "/logs" && (
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
+                      disabled={location.pathname === "/logs"}
+                      onClick={handleOpenLogs}
+                    >
+                      Logs
                     </button>
                   )}
                   {location.pathname !== "/profile" && (

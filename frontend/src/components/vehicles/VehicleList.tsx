@@ -277,7 +277,7 @@ export default function VehicleList({ vehicles, onSelect }: VehicleListProps) {
                   <td className="text-nowrap">{vehicle.maxEndDate || "—"}</td>
                   <td>
                     <span
-                      className={`min-w-35 inline-flex gap-1.5 text-xs px-2 py-1.5 rounded font-medium text-nowrap ${status.bg} ${status.text}`}
+                      className={`w-35 inline-flex gap-1.5 text-xs px-2 py-1.5 rounded font-medium text-nowrap ${status.bg} ${status.text}`}
                     >
                       <StatusIcon size={14} />
                       <span className="text-center grow">

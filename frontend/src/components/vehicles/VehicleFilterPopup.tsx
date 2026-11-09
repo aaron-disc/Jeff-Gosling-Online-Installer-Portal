@@ -73,7 +73,7 @@ export default function VehicleFilterPopup({
     "Not Possible",
     "To Be Assessed",
     "See Notes",
-    "Investigation Req",
+    "Investigation Rqd",
     "Assumed Like",
   ];
 
@@ -179,7 +179,7 @@ export default function VehicleFilterPopup({
                     }}
                   >
                     Clear Filter
-                    <RotateCcw size={14}/>
+                    <RotateCcw size={14} />
                   </button>
                 )}
               </label>
