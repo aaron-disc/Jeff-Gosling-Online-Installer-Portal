@@ -2,20 +2,37 @@ import type { Vehicle } from "../data/types";
 import { apiFetch } from "./api";
 import { getBootHoistPdfPath } from "./pdfUrl";
 
-export async function downloadPdf(vehicle: Vehicle): Promise<void> {
+export async function downloadPdf(
+  vehicle: Vehicle,
+  actor: string,
+): Promise<void> {
   const pdfPath = getBootHoistPdfPath(vehicle);
   if (!pdfPath) return;
+
   const response = await apiFetch(pdfPath);
   if (!response.ok) {
     throw new Error("Unable to download the installation guide.");
   }
+
   const blob = await response.blob();
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
+
   a.href = url;
   a.download = `${vehicle.manufacturer}_${vehicle.model}_Installation_Guide.pdf`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+
+  apiFetch("/create-log", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      category: "Downloads",
+      actor,
+      action: "DOWNLOADED",
+      target: `${vehicle.manufacturer} ${vehicle.model} ${vehicle.hoistVehicleVariant}`,
+    }),
+  }).catch(() => {});
 }

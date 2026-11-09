@@ -4,6 +4,7 @@ import { BackButton } from "../shared/BackButton";
 import VehicleDetail from "../vehicles/VehicleDetail";
 import { downloadPdf } from "../../utils/downloadPdf";
 import { fetchVehicle } from "../../data/vehicles";
+import { useAuth } from "../../context/AuthContext";
 import type { Vehicle } from "../../data/types";
 
 interface VehicleResult {
@@ -14,6 +15,7 @@ interface VehicleResult {
 
 export default function VehicleDetailScreen() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { vehicleId } = useParams<{ vehicleId: string }>();
   const [result, setResult] = useState<VehicleResult | null>(null);
 
@@ -78,7 +80,7 @@ export default function VehicleDetailScreen() {
       <VehicleDetail
         vehicle={vehicle}
         onViewPdf={() => navigate(`/vehicles/${vehicle.id}/pdf`)}
-        onDownloadPdf={() => downloadPdf(vehicle)}
+        onDownloadPdf={() => downloadPdf(vehicle, user?.email ?? "")}
       />
     </div>
   );

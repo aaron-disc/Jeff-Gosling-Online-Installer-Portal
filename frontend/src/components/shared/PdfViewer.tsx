@@ -131,7 +131,7 @@ export default function PdfViewer() {
           </span>
           <button
             className="min-[500px]:ml-auto py-1.5 w-fit px-10 max-h-11.25 bg-[#006B2D] hover:bg-[#005824] text-white shadow-[0px_2px_4px_rgba(0,0,0,0.25)] rounded transition-colors cursor-pointer font-poppins sm:text-[18px] text-sm text-nowrap"
-            onClick={() => downloadPdf(vehicle)}
+            onClick={() => downloadPdf(vehicle, user?.email ?? "")}
           >
             Download PDF
           </button>

@@ -42,8 +42,16 @@ function LogDescription({ log }: { log: Log }) {
           data for <b className="text-[#006B2D]">{log.event_target}</b>
         </p>
       );
+    case "downloads":
+      return (
+        <p className="text-base">
+          <b className="text-[#006B2D]">{log.event_actor}</b> {log.event_action}{" "}
+          the pdf instructions for{" "}
+          <b className="text-[#006B2D]">{log.event_target}</b>
+        </p>
+      );
     default:
-      return <>mate...</>;
+      return <p className="text-base">unknown log...</p>;
   }
 }
 
