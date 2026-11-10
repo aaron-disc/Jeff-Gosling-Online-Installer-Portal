@@ -6,6 +6,7 @@ import { downloadPdf } from "../../utils/downloadPdf";
 import { fetchVehicle } from "../../data/vehicles";
 import { useAuth } from "../../context/AuthContext";
 import type { Vehicle } from "../../data/types";
+import { apiFetch } from "../../utils/api";
 
 interface VehicleResult {
   id: string;
@@ -58,7 +59,9 @@ export default function VehicleDetailScreen() {
     return (
       <div>
         <BackButton onClick={() => navigate("/vehicles")} style="mb-4" />
-        <p className="text-base text-[#575756] text-center mt-20">Loading vehicle...</p>
+        <p className="text-base text-[#575756] text-center mt-20">
+          Loading vehicle...
+        </p>
       </div>
     );
   }
@@ -79,7 +82,19 @@ export default function VehicleDetailScreen() {
       <BackButton onClick={() => navigate("/vehicles")} style="mb-4" />
       <VehicleDetail
         vehicle={vehicle}
-        onViewPdf={() => navigate(`/vehicles/${vehicle.id}/pdf`)}
+        onViewPdf={() => {
+          navigate(`/vehicles/${vehicle.id}/pdf`);
+          apiFetch("/create-log", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              category: "Pdfs",
+              actor: user?.email,
+              action: "VIEWED",
+              target: `${vehicle.manufacturer} ${vehicle.model} ${vehicle.hoistVehicleVariant}`,
+            }),
+          });
+        }}
         onDownloadPdf={() => downloadPdf(vehicle, user?.email ?? "")}
       />
     </div>

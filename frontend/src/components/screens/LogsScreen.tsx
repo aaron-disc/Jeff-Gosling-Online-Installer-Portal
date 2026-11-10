@@ -39,10 +39,10 @@ function LogDescription({ log }: { log: Log }) {
       return (
         <p className="text-base">
           <b className="text-[#006B2D]">{log.event_actor}</b> {log.event_action}{" "}
-          data for <b className="text-[#006B2D]">{log.event_target}</b>
+          the data for <b className="text-[#006B2D]">{log.event_target}</b>
         </p>
       );
-    case "downloads":
+    case "pdfs":
       return (
         <p className="text-base">
           <b className="text-[#006B2D]">{log.event_actor}</b> {log.event_action}{" "}
@@ -51,7 +51,11 @@ function LogDescription({ log }: { log: Log }) {
         </p>
       );
     default:
-      return <p className="text-base">unknown log...</p>;
+      return (
+        <p className="text-base">
+          unknown log : {log?.event_actor} - {log?.event_target}
+        </p>
+      );
   }
 }
 

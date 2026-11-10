@@ -29,7 +29,7 @@ export async function downloadPdf(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      category: "Downloads",
+      category: "Pdfs",
       actor,
       action: "DOWNLOADED",
       target: `${vehicle.manufacturer} ${vehicle.model} ${vehicle.hoistVehicleVariant}`,
