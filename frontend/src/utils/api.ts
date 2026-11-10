@@ -1,3 +1,5 @@
+import { endSession } from "./session";
+
 const API_BASE = `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}`;
 
 const TOKEN_KEY = "jgAuthToken";
@@ -37,6 +39,7 @@ export async function apiFetch(
   });
 
   if (response.status === 401 && path !== "/login") {
+    void endSession("timeout", token);
     clearAuthToken();
     window.dispatchEvent(new Event(UNAUTHORISED_EVENT));
   }

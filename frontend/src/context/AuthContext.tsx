@@ -9,9 +9,11 @@ import {
 import {
   apiFetch,
   clearAuthToken,
+  getAuthToken,
   setAuthToken,
   UNAUTHORISED_EVENT,
 } from "../utils/api";
+import { endSession } from "../utils/session";
 
 interface User {
   email: string;
@@ -106,6 +108,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const logout = useCallback(() => {
+    void endSession("logout", getAuthToken());
     clearAuthToken();
     localStorage.removeItem(USER_KEY);
     setUser(null);

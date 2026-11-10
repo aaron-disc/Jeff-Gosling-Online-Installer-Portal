@@ -77,7 +77,6 @@ export default function LogsScreen() {
         }
 
         const data = await response.json();
-        console.log(data);
         setLogs(data);
       } catch (error) {
         if (error instanceof DOMException && error.name === "AbortError") {

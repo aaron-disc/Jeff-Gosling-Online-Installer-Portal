@@ -3,10 +3,12 @@ const express = require("express");
 const cors = require("cors");
 const { JWT_SECRET } = require("./config/auth");
 const authRoutes = require("./routes/auth");
+const sessionRoutes = require("./routes/sessions");
 const userRoutes = require("./routes/users");
 const logRoutes = require("./routes/logs");
 const hoistRoutes = require("./routes/hoists");
 const pdfRoutes = require("./routes/pdfs");
+const { closeExpiredSessions } = require("./services/sessionStore");
 
 if (!JWT_SECRET) {
   throw new Error(
@@ -24,6 +26,7 @@ app.use((req, res, next) => {
 });
 
 app.use(authRoutes);
+app.use(sessionRoutes);
 app.use(userRoutes);
 app.use(logRoutes);
 app.use(hoistRoutes);
@@ -45,6 +48,26 @@ app.use((error, req, res, next) => {
 
   res.status(status).json({ error: message });
 });
+
+const SESSION_SWEEP_INTERVAL_MS = 60 * 1000;
+
+async function runSessionSweep() {
+  try {
+    await closeExpiredSessions();
+  } catch (error) {
+    console.warn("Session expiry sweep failed:", error.message);
+  }
+}
+
+async function startSessionTracking() {
+  await runSessionSweep();
+
+  const timer = setInterval(runSessionSweep, SESSION_SWEEP_INTERVAL_MS);
+
+  if (typeof timer.unref === "function") timer.unref();
+}
+
+startSessionTracking();
 
 app.listen(process.env.PORT, () =>
   console.log(`Server running on port ${process.env.PORT}`),

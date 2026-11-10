@@ -3,6 +3,7 @@ const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const pool = require("../db/db");
 const { JWT_SECRET, JWT_EXPIRES_IN } = require("../config/auth");
+const { createSession } = require("../services/sessionStore");
 
 const router = express.Router();
 
@@ -34,11 +35,20 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid email or password." });
     }
 
+    let session = null;
+
+    try {
+      session = await createSession(user.email);
+    } catch (error) {
+      console.warn("Unable to create session record:", error.message);
+    }
+
     const token = jwt.sign(
       {
         id: user.id,
         email: user.email,
         isAdmin: user.is_admin == true,
+        ...(session ? { sid: session.userSessionsId } : {}),
       },
       JWT_SECRET,
       { expiresIn: JWT_EXPIRES_IN },
@@ -47,6 +57,7 @@ router.post("/login", async (req, res) => {
     return res.status(200).json({
       message: "Login successful.",
       token,
+      session,
       user: {
         email: user.email,
         isAdmin: user.is_admin == true,
