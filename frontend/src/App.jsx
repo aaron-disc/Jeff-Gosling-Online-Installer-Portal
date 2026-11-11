@@ -10,7 +10,8 @@ import VehicleDetailScreen from "./components/screens/VehicleDetailScreen";
 import UploadDataSceen from "./components/screens/UploadDataScreen";
 import HandleUsersScreen from "./components/screens/HandleUsersScreen";
 import ProfileScreen from "./components/screens/ProfileScreen";
-import LogsScreen from "./components/screens/LogsScreen";
+import LogsScreen from "./components/screens/ActivityLogScreen";
+import UserSessionsScreen from "./components/screens/UserSessionsScreen";
 import PdfViewer from "./components/shared/PdfViewer";
 import NotFoundScreen from "./components/screens/NotFoundScreen";
 
@@ -33,6 +34,7 @@ export default function App() {
                 <Route path="/upload-data" element={<UploadDataSceen />} />
                 <Route path="/handle-users" element={<HandleUsersScreen />} />
                 <Route path="/logs" element={<LogsScreen />} />
+                <Route path="/sessions" element={<UserSessionsScreen />} />
               </Route>
               <Route path="/profile" element={<ProfileScreen />} />
             </Route>

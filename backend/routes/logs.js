@@ -23,8 +23,28 @@ router.get("/logs", authenticateToken, async (req, res) => {
   }
 });
 
+/* READ session logs */
+router.get("/sessions", authenticateToken, async (req, res) => {
+  try {
+    const query = "SELECT * FROM user_sessions ORDER BY user_sessions_id DESC";
+    const [result] = await pool.query(query);
+
+    if (!result[0]) {
+      return res
+        .status(500)
+        .json({ error: "Internal server error, failed to fetch" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Database error: ", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/* CREATE log */
 router.post("/create-log", authenticateToken, async (req, res) => {
-    const { category, actor, action, target } = req.body;
+  const { category, actor, action, target } = req.body;
 
   try {
     const query =

@@ -96,7 +96,7 @@ export default function LogsScreen() {
       <BackButton onClick={() => navigate(-1)} style="mb-2" />
       <div className="md:flex md:gap-6 md:mb-3">
         <h1 className="text-[40px] font-semibold text-[#1d1d1b] font-poppins">
-          Logs
+          Activity Log
         </h1>
       </div>
 

@@ -45,9 +45,12 @@ function toSessionObject(row) {
 }
 
 async function createSession(userEmail) {
+  const expirySeconds = durationToSeconds(JWT_EXPIRES_IN);
+
   const [result] = await pool.execute(
-    "INSERT INTO user_sessions (user_email, login_at) VALUES (?, NOW())",
-    [userEmail],
+    `INSERT INTO user_sessions (user_email, login_at, expires_at)
+     VALUES (?, NOW(), TIMESTAMPADD(SECOND, ?, NOW()))`,
+    [userEmail, expirySeconds],
   );
 
   const [rows] = await pool.execute(SELECT_SESSION_SQL, [result.insertId]);
@@ -88,16 +91,16 @@ async function endSession(userSessionsId, reason, expiresAtUnix) {
 }
 
 async function closeExpiredSessions() {
-  const expirySeconds = durationToSeconds(JWT_EXPIRES_IN);
-
   const [result] = await pool.execute(
     `UPDATE user_sessions
-        SET logout_at = TIMESTAMPADD(SECOND, ?, login_at),
-            duration_seconds = ?,
+        SET logout_at = expires_at,
+            duration_seconds = GREATEST(
+              TIMESTAMPDIFF(SECOND, login_at, expires_at),
+              0
+            ),
             end_reason = 'timeout'
       WHERE logout_at IS NULL
-        AND TIMESTAMPADD(SECOND, ?, login_at) <= NOW()`,
-    [expirySeconds, expirySeconds, expirySeconds],
+        AND expires_at <= NOW()`,
   );
 
   return result.affectedRows;

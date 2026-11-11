@@ -49,7 +49,7 @@ app.use((error, req, res, next) => {
   res.status(status).json({ error: message });
 });
 
-const SESSION_SWEEP_INTERVAL_MS = 60 * 1000;
+const SESSION_SWEEP_INTERVAL_MS = 3 * 60 * 60 * 1000;
 
 async function runSessionSweep() {
   try {

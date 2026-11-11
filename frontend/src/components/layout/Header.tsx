@@ -33,26 +33,6 @@ export default function Header() {
     navigate("/login", { replace: true });
   };
 
-  const handleOpenUploadData = () => {
-    setDropdownOpen(false);
-    navigate("/upload-data");
-  };
-
-  const handleOpenHandleUsers = () => {
-    setDropdownOpen(false);
-    navigate("/handle-users");
-  };
-
-  const handleOpenLogs = () => {
-    setDropdownOpen(false);
-    navigate("/logs")
-  }
-
-  const handleOpenProfile = () => {
-    setDropdownOpen(false);
-    navigate("/profile");
-  };
-
   return (
     <div className="w-full">
       <div className="max-w-350 w-full mx-auto px-6">
@@ -88,7 +68,10 @@ export default function Header() {
                     <button
                       className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
                       disabled={location.pathname === "/upload-data"}
-                      onClick={handleOpenUploadData}
+                      onClick={() => {
+                        setDropdownOpen(false);
+                        navigate("/upload-data");
+                      }}
                     >
                       Upload Data
                     </button>
@@ -97,7 +80,10 @@ export default function Header() {
                     <button
                       className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
                       disabled={location.pathname === "/handle-users"}
-                      onClick={handleOpenHandleUsers}
+                      onClick={() => {
+                        setDropdownOpen(false);
+                        navigate("/handle-users");
+                      }}
                     >
                       Handle Users
                     </button>
@@ -106,16 +92,34 @@ export default function Header() {
                     <button
                       className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
                       disabled={location.pathname === "/logs"}
-                      onClick={handleOpenLogs}
+                      onClick={() => {
+                        setDropdownOpen(false);
+                        navigate("/logs");
+                      }}
                     >
-                      Logs
+                      Activity Log
+                    </button>
+                  )}
+                  {user?.isAdmin && location.pathname !== "/sessions" && (
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
+                      disabled={location.pathname === "/sessions"}
+                      onClick={() => {
+                        setDropdownOpen(false);
+                        navigate("/sessions");
+                      }}
+                    >
+                      User Sessions
                     </button>
                   )}
                   {location.pathname !== "/profile" && (
                     <button
                       className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 rounded-md"
                       disabled={location.pathname === "/profile"}
-                      onClick={handleOpenProfile}
+                      onClick={() => {
+                        setDropdownOpen(false);
+                        navigate("/profile");
+                      }}
                     >
                       Profile
                     </button>
