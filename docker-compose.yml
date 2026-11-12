@@ -47,6 +47,10 @@ services:
       DB_PASSWORD: paramHmac_147 # Aligned with MYSQL_ROOT_PASSWORD
       DB_NAME: jg_db # Aligned with MYSQL_DATABASE
       DB_PORT: 3306
+      JWT_SECRET: 4062f6dbb956e614993a9ef5f5e2c4327b7bba1cc39ea270
+      JWT_ACCESS_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      CORS_ORIGIN: http://localhost,http://127.0.0.1
     depends_on:
       db:
         condition: service_healthy

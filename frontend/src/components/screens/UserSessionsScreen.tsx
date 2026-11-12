@@ -116,16 +116,15 @@ export default function UserSessionsScreen() {
                   {formatTimestamp(session.login_at)}
                 </td>
                 <td className="text-nowrap px-4 py-3">
-                  {session?.logout_at ? formatTimestamp(session.logout_at) : ""}
+                  {session?.logout_at && formatTimestamp(session.logout_at)}
                 </td>
                 <td className="px-4 py-3">
-                  {session?.duration_seconds ? (
+                  {session?.duration_seconds && (
                     <FormatSeconds totalSeconds={session?.duration_seconds} />
-                  ) : (
-                    ""
                   )}
                 </td>
-                <td className="px-4 py-3">{session.end_reason}</td>
+                <td className="px-4 py-3">{session?.end_reason}</td>
+                <td className="px-4 py-3"></td>
               </tr>
             ))}
           </tbody>

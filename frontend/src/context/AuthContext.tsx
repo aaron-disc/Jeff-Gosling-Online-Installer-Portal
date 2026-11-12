@@ -11,9 +11,11 @@ import {
   clearAuthToken,
   getAuthToken,
   setAuthToken,
+  refreshAuthToken,
   UNAUTHORISED_EVENT,
+  type RefreshResult,
 } from "../utils/api";
-import { endSession } from "../utils/session";
+import { logoutSession } from "../utils/session";
 
 interface User {
   email: string;
@@ -25,6 +27,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
+  isInitialising: boolean;
   login: (
     email: string,
     password: string,
@@ -47,14 +50,54 @@ function loadStoredUser(): User | null {
   }
 }
 
+function clearStoredUser(): void {
+  localStorage.removeItem(USER_KEY);
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(() =>
-    localStorage.getItem("jgAuthToken") ? loadStoredUser() : null,
-  );
+  const [user, setUser] = useState<User | null>(() => loadStoredUser());
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitialising, setIsInitialising] = useState(true);
 
   useEffect(() => {
-    const handleUnauthorized = () => setUser(null);
+    let cancelled = false;
+
+    const initialise = async () => {
+      if (!getAuthToken() && !loadStoredUser()) {
+        setIsInitialising(false);
+        return;
+      }
+
+      let refreshed: RefreshResult | null;
+      try {
+        refreshed = await refreshAuthToken();
+      } catch {
+        refreshed = null;
+      }
+
+      if (cancelled) return;
+
+      if (refreshed) {
+        localStorage.setItem(USER_KEY, JSON.stringify(refreshed.user));
+        setUser(refreshed.user);
+      }
+
+      setIsInitialising(false);
+    };
+
+    void initialise();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      clearAuthToken();
+      clearStoredUser();
+      setUser(null);
+    };
     window.addEventListener(UNAUTHORISED_EVENT, handleUnauthorized);
     return () =>
       window.removeEventListener(UNAUTHORISED_EVENT, handleUnauthorized);
@@ -76,7 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!res.ok) {
           setUser(null);
           clearAuthToken();
-          localStorage.removeItem(USER_KEY);
+          clearStoredUser();
           if (res.status === 401) {
             return { user: null, error: "Invalid email or password." };
           }
@@ -108,14 +151,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const logout = useCallback(() => {
-    void endSession("logout", getAuthToken());
+    void logoutSession();
     clearAuthToken();
-    localStorage.removeItem(USER_KEY);
+    clearStoredUser();
     setUser(null);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, isInitialising, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

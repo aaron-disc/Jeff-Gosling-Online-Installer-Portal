@@ -1,5 +1,5 @@
 const pool = require("../db/db");
-const { JWT_EXPIRES_IN } = require("../config/auth");
+const { JWT_REFRESH_EXPIRES_IN } = require("../config/auth");
 
 const SELECT_SESSION_SQL = `
   SELECT user_sessions_id, user_email, login_at, logout_at, duration_seconds, end_reason
@@ -45,7 +45,7 @@ function toSessionObject(row) {
 }
 
 async function createSession(userEmail) {
-  const expirySeconds = durationToSeconds(JWT_EXPIRES_IN);
+  const expirySeconds = durationToSeconds(JWT_REFRESH_EXPIRES_IN);
 
   const [result] = await pool.execute(
     `INSERT INTO user_sessions (user_email, login_at, expires_at)

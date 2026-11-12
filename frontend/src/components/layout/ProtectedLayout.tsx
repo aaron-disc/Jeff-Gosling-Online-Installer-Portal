@@ -5,13 +5,17 @@ import { setLastRoute } from "../../utils/lastRoute";
 import Header from "./Header";
 
 export default function ProtectedLayout() {
-  const { user } = useAuth();
+  const { user, isInitialising } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
     if (!user) return;
     setLastRoute(`${location.pathname}${location.search}${location.hash}`);
   }, [location, user]);
+
+  if (isInitialising) {
+    return <div className="min-h-screen bg-[#EBEDEA]" />;
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;

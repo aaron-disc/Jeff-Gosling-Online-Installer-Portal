@@ -2,6 +2,7 @@ const express = require("express");
 const argon2 = require("argon2");
 const pool = require("../db/db");
 const authenticateToken = require("../middleware/authenticate");
+const { revokeAllUserRefreshTokens } = require("../services/refreshTokenStore");
 const {
   MIN_PASSWORD_LENGTH,
   MAX_PASSWORD_LENGTH,
@@ -207,6 +208,15 @@ router.patch("/change-password", authenticateToken, async (req, res) => {
         success: false,
         error: "Failed to update password.",
       });
+    }
+
+    try {
+      await revokeAllUserRefreshTokens(id);
+    } catch (error) {
+      console.warn(
+        "Unable to revoke refresh tokens after password change:",
+        error.message,
+      );
     }
 
     return res.status(200).json({

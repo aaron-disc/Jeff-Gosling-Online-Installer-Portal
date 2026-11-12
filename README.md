@@ -28,7 +28,11 @@ DB_NAME=jg_db
 DB_PORT=3306
 PORT=5000
 JWT_SECRET= <= a long, random secret used to sign login tokens
-JWT_EXPIRES_IN=2h <= how long a login token stays valid, optional (defaults to 2h)
+JWT_ACCESS_EXPIRES_IN=15m <= how long an access token stays valid, optional (defaults to 15m)
+JWT_REFRESH_EXPIRES_IN=7d <= how long a refresh token (sign in session) stays valid, optional (defaults to 7d)
+JWT_REFRESH_SECRET= <= optional, a separate secret used to sign refresh tokens (falls back to JWT_SECRET)
+CORS_ORIGIN=http://localhost:5173,http://localhost <= comma separated list of frontend origins allowed to call the api, optional
+COOKIE_SECURE=true <= optional, set to true only when the site is served over https
 
 #### Running frontend
 

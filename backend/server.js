@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const { JWT_SECRET } = require("./config/auth");
 const authRoutes = require("./routes/auth");
 const sessionRoutes = require("./routes/sessions");
@@ -9,6 +10,7 @@ const logRoutes = require("./routes/logs");
 const hoistRoutes = require("./routes/hoists");
 const pdfRoutes = require("./routes/pdfs");
 const { closeExpiredSessions } = require("./services/sessionStore");
+const { deleteExpiredRefreshTokens } = require("./services/refreshTokenStore");
 
 if (!JWT_SECRET) {
   throw new Error(
@@ -16,9 +18,22 @@ if (!JWT_SECRET) {
   );
 }
 
+const DEFAULT_CORS_ORIGINS = [
+  "http://localhost:5173",
+  "http://localhost",
+  "http://127.0.0.1",
+  "http://127.0.0.1:5173",
+];
+
+const corsOrigins = (process.env.CORS_ORIGIN || DEFAULT_CORS_ORIGINS.join(","))
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({ origin: corsOrigins, credentials: true }));
 
 app.use((req, res, next) => {
   console.log(req.method, req.url);
@@ -56,6 +71,12 @@ async function runSessionSweep() {
     await closeExpiredSessions();
   } catch (error) {
     console.warn("Session expiry sweep failed:", error.message);
+  }
+
+  try {
+    await deleteExpiredRefreshTokens();
+  } catch (error) {
+    console.warn("Refresh token cleanup failed:", error.message);
   }
 }
 

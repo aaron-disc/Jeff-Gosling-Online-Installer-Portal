@@ -20,7 +20,10 @@ function authenticateToken(req, res, next) {
     return next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
-      return res.status(401).json({ error: "Session expired. Please sign in again." });
+      return res.status(401).json({
+        error: "Session expired. Please sign in again.",
+        code: "TOKEN_EXPIRED",
+      });
     }
     return res.status(401).json({ error: "Invalid authentication token." });
   }
