@@ -5,6 +5,10 @@
 backend/uploads/
 
 # Environment variables
+.env
+.env*
+frontend/.env
+frontend/.env*
 backend/.env
 backend/.env*
 

@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { BackButton } from "../shared/BackButton";
+import { SlidersHorizontal } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../../utils/api";
+import ActivityLogFilterPopup, {
+  type ActivityLogFilters,
+} from "../logs/ActivityLogFilterPopup";
 
 interface Log {
   event_logs_id: number;
@@ -62,13 +66,46 @@ function LogDescription({ log }: { log: Log }) {
 export default function LogsScreen() {
   const navigate = useNavigate();
   const [logs, setLogs] = useState<Log[]>([]);
+  const [isFilterPopupOpen, setIsFilterPopupOpen] = useState(false);
+  const [filterPopupKey, setFilterPopupKey] = useState(0);
+  const [filters, setFilters] = useState<ActivityLogFilters>({
+    category: "",
+    actor: "",
+    startDate: "",
+    endDate: "",
+  });
+
+  const activeFilterCount = [
+    filters.category,
+    filters.actor,
+    filters.startDate,
+    filters.endDate,
+  ].filter(Boolean).length;
 
   useEffect(() => {
     const controller = new AbortController();
 
     async function fetchLogs() {
+      let url = "/logs?";
+
+      Object.entries(filters).forEach(([key, value]) => {
+        let dbVal = value;
+
+        if (key === "startDate") {
+          dbVal += "T00:00:00:000Z";
+        }
+
+        if (key === "endDate") {
+          dbVal += "T23:59:59:999Z";
+        }
+
+        if (value !== "") {
+          url += `${key}=${dbVal}&`;
+        }
+      });
+
       try {
-        const response = await apiFetch("/logs", {
+        const response = await apiFetch(url, {
           signal: controller.signal,
         });
 
@@ -89,7 +126,7 @@ export default function LogsScreen() {
     fetchLogs();
 
     return () => controller.abort();
-  }, []);
+  }, [filters]);
 
   return (
     <div>
@@ -98,7 +135,39 @@ export default function LogsScreen() {
         <h1 className="text-[40px] font-semibold text-[#1d1d1b] font-poppins">
           Activity Log
         </h1>
+        <div className="sm:pt-0 pt-4 pb-1.5 self-center ml-auto">
+          <button
+            className="ml-auto bg-[#006B2D] hover:bg-[#005824] text-white text-[15px] font-medium py-2.5 px-5 rounded transition-colors flex items-center justify-center gap-10 font-poppins cursor-pointer disabled:hover:cursor-not-allowed"
+            onClick={() => {
+              setIsFilterPopupOpen(true);
+              setFilterPopupKey((key) => key + 1);
+            }}
+          >
+            <span>Filter activity</span>
+
+            <div className="flex items-center gap-2">
+              <span className="relative">
+                <SlidersHorizontal size={19} />
+
+                {activeFilterCount > 0 && (
+                  <span className="absolute -top-2 -right-2.5 bg-[#13A538] text-white text-xs rounded-full size-4 flex items-center justify-center ">
+                    {activeFilterCount}
+                  </span>
+                )}
+              </span>
+            </div>
+          </button>
+        </div>
       </div>
+
+      <ActivityLogFilterPopup
+        key={filterPopupKey}
+        isOpen={isFilterPopupOpen}
+        onClose={() => setIsFilterPopupOpen(false)}
+        filters={filters}
+        onFilterChange={setFilters}
+        logs={logs}
+      />
 
       <div className="overflow-x-auto font-poppins">
         <table className="w-full">

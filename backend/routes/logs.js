@@ -6,9 +6,41 @@ const router = express.Router();
 
 /* READ logs */
 router.get("/logs", authenticateToken, async (req, res) => {
+  const { startDate, endDate, category, actor } = req.query;
+
+  let query = "SELECT * FROM event_logs";
+
+  const conditions = [];
+  const values = [];
+
+  if (startDate) {
+    conditions.push("created_at >= ?");
+    values.push(startDate);
+  }
+
+  if (endDate) {
+    conditions.push("created_at <= ?");
+    values.push(endDate);
+  }
+
+  if (category) {
+    conditions.push("category = ?");
+    values.push(category);
+  }
+
+  if (actor) {
+    conditions.push("event_actor = ?");
+    values.push(actor);
+  }
+
+  if (conditions.length > 0) {
+    query += " WHERE " + conditions.join(" AND ");
+  }
+
+  query += " ORDER BY created_at DESC";
+
   try {
-    const query = "SELECT * FROM event_logs ORDER BY created_at DESC";
-    const [result] = await pool.query(query);
+    const [result] = await pool.query(query, values);
 
     if (!result[0]) {
       return res

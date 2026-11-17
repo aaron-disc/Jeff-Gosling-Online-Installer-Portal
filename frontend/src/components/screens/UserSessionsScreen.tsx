@@ -124,7 +124,6 @@ export default function UserSessionsScreen() {
                   )}
                 </td>
                 <td className="px-4 py-3">{session?.end_reason}</td>
-                <td className="px-4 py-3"></td>
               </tr>
             ))}
           </tbody>
