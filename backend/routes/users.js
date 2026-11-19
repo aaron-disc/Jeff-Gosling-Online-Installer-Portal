@@ -60,7 +60,7 @@ router.post("/create-user", authenticateToken, async (req, res) => {
 
   if (password.length < MIN_PASSWORD_LENGTH) {
     return res.status(400).json({
-      error: `Password must at least ${MIN_PASSWORD_LENGTH} characters.`,
+      error: `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`,
     });
   }
 
@@ -151,12 +151,6 @@ router.patch("/change-password", authenticateToken, async (req, res) => {
   if (newPassword.length > MAX_PASSWORD_LENGTH) {
     return res.status(400).json({
       error: `New password must be at most ${MAX_PASSWORD_LENGTH} characters.`,
-    });
-  }
-
-  if (currentPassword.length > MAX_PASSWORD_LENGTH) {
-    return res.status(400).json({
-      error: "Current password is too long.",
     });
   }
 

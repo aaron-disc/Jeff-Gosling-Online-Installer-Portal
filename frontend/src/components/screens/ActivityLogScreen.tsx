@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../../utils/api";
 import ActivityLogFilterPopup, {
   type ActivityLogFilters,
-} from "../logs/ActivityLogFilterPopup";
+} from "../log/ActivityLogFilterPopup";
 
 interface Log {
   event_logs_id: number;

@@ -26,7 +26,7 @@ function formatTimestamp(isoDate: string): string {
   });
 }
 
-function FormatSeconds({ totalSeconds }: { totalSeconds: number }) {
+export function FormatSeconds({ totalSeconds }: { totalSeconds: number }) {
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
 

@@ -108,7 +108,7 @@ export default function VehicleFilterPopup({
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 cursor-pointer"
+            className="text-black hover:text-[#13A538] cursor-pointer"
           >
             <X size={20} />
           </button>

@@ -23,11 +23,9 @@ async function issueRefreshToken(sessionId, userId) {
     [jti, sessionId, userId, lifetimeSeconds],
   );
 
-  return jwt.sign(
-    { id: userId, sid: sessionId, jti },
-    JWT_REFRESH_SECRET,
-    { expiresIn: lifetimeSeconds },
-  );
+  return jwt.sign({ id: userId, sid: sessionId, jti }, JWT_REFRESH_SECRET, {
+    expiresIn: lifetimeSeconds,
+  });
 }
 
 async function findRefreshTokenRecord(

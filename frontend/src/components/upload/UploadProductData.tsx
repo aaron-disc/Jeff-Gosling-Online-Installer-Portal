@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useState, useRef } from "react";
 import { apiFetch } from "../../utils/api";
+import { formatFileSize } from "../../utils/formatFileSize";
 import { useAuth } from "../../context/AuthContext";
 
 interface ProductInterface {
@@ -203,12 +204,6 @@ export default function UploadProductData({ product }: UploadProductDataProps) {
     });
     setFile(null);
   };
-
-  function formatFileSize(bytes: number): string {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-  }
 
   return (
     <section
