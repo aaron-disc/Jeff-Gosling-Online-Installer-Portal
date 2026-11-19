@@ -40,7 +40,7 @@ router.get("/logs", authenticateToken, async (req, res) => {
   query += " ORDER BY created_at DESC";
 
   try {
-    const [result] = await pool.query(query, values);
+    const [result] = await pool.execute(query, values);
 
     if (!result[0]) {
       return res

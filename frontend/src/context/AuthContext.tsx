@@ -93,14 +93,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const handleUnauthorized = () => {
+    const handleUnauthorised = () => {
       clearAuthToken();
       clearStoredUser();
       setUser(null);
     };
-    window.addEventListener(UNAUTHORISED_EVENT, handleUnauthorized);
+    window.addEventListener(UNAUTHORISED_EVENT, handleUnauthorised);
     return () =>
-      window.removeEventListener(UNAUTHORISED_EVENT, handleUnauthorized);
+      window.removeEventListener(UNAUTHORISED_EVENT, handleUnauthorised);
   }, []);
 
   const login = useCallback(

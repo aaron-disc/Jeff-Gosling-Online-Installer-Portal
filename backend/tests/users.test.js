@@ -24,6 +24,10 @@ const authToken = jwt.sign(
   { id: 1, email: "admin@example.com", isAdmin: true },
   "test-secret",
 );
+const nonAdminToken = jwt.sign(
+  { id: 2, email: "user@example.com", isAdmin: false },
+  "test-secret",
+);
 
 describe("GET /users", () => {
   beforeEach(() => {
@@ -79,6 +83,18 @@ describe("GET /users", () => {
 
     expect(response.status).toBe(401);
     expect(response.body).toEqual({ error: "Authentication required." });
+    expect(query).not.toHaveBeenCalled();
+  });
+
+  it("returns 403 if the authenticated user is not an admin", async () => {
+    const query = vi.spyOn(pool, "query").mockResolvedValue([[]]);
+
+    const response = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${nonAdminToken}`);
+
+    expect(response.status).toBe(403);
+    expect(response.body).toEqual({ error: "Administrator access required." });
     expect(query).not.toHaveBeenCalled();
   });
 });
@@ -229,6 +245,25 @@ describe("POST /create-user", () => {
     expect(response.body).toEqual({ error: "Authentication required." });
     expect(execute).not.toHaveBeenCalled();
   });
+
+  it("returns 403 if the authenticated user is not an admin", async () => {
+    const execute = vi.spyOn(pool, "execute").mockResolvedValue([[]]);
+    const hash = vi.spyOn(argon2, "hash").mockResolvedValue("hashed-password");
+
+    const response = await request(app)
+      .post("/create-user")
+      .set("Authorization", `Bearer ${nonAdminToken}`)
+      .send({
+        email: "new@user.com",
+        password: "newuserpassword",
+        isAdmin: true,
+      });
+
+    expect(response.status).toBe(403);
+    expect(response.body).toEqual({ error: "Administrator access required." });
+    expect(execute).not.toHaveBeenCalled();
+    expect(hash).not.toHaveBeenCalled();
+  });
 });
 
 describe("DELETE /delete-user/:id", () => {
@@ -278,6 +313,20 @@ describe("DELETE /delete-user/:id", () => {
     ]);
   });
 
+  it("returns 403 if the authenticated user is not an admin", async () => {
+    const execute = vi
+      .spyOn(pool, "execute")
+      .mockResolvedValue([{ affectedRows: 1 }]);
+
+    const response = await request(app)
+      .delete("/delete-user/1")
+      .set("Authorization", `Bearer ${nonAdminToken}`);
+
+    expect(response.status).toBe(403);
+    expect(response.body).toEqual({ error: "Administrator access required." });
+    expect(execute).not.toHaveBeenCalled();
+  });
+
   it("returns 401 when no authentication token is provided", async () => {
     const execute = vi.spyOn(pool, "execute");
 
@@ -294,7 +343,7 @@ describe("PATCH /change-password", () => {
     vi.restoreAllMocks();
   });
 
-  it("returns 200 after changing the password", async () => {
+  it("returns 200 after changing the authenticated user's password", async () => {
     const execute = vi
       .spyOn(pool, "execute")
       .mockResolvedValueOnce([[{ password_hash: "currentpasswordhash" }]])
@@ -314,7 +363,6 @@ describe("PATCH /change-password", () => {
         currentPassword: "currentpassword",
         newPassword: "newpassword",
         confirmPassword: "newpassword",
-        id: 1,
       });
 
     expect(response.status).toBe(200);
@@ -378,8 +426,8 @@ describe("PATCH /change-password", () => {
     expect(execute).not.toHaveBeenCalled();
   });
 
-  it("returns 400 if the request id is invalid", async () => {
-    const execute = vi.spyOn(pool, "execute");
+  it("returns 403 if the request id does not match the authenticated user", async () => {
+    const execute = vi.spyOn(pool, "execute").mockResolvedValue([[]]);
 
     const response = await request(app)
       .patch("/change-password")
@@ -388,12 +436,12 @@ describe("PATCH /change-password", () => {
         currentPassword: "currentpassword",
         newPassword: "newpassword",
         confirmPassword: "newpassword",
-        id: -1,
+        id: 2,
       });
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(403);
     expect(response.body).toEqual({
-      error: "A valid user id is required.",
+      error: "You can only change your own password.",
     });
     expect(execute).not.toHaveBeenCalled();
   });
@@ -458,10 +506,8 @@ describe("PATCH /change-password", () => {
     expect(execute).not.toHaveBeenCalled();
   });
 
-  it("returns 400 if the user doesn't exist by id", async () => {
-    const execute = vi
-      .spyOn(pool, "execute")
-      .mockResolvedValue([{ affectedRows: 0 }]);
+  it("returns 404 if the authenticated user doesn't exist", async () => {
+    const execute = vi.spyOn(pool, "execute").mockResolvedValue([[]]);
 
     const response = await request(app)
       .patch("/change-password")
@@ -470,7 +516,6 @@ describe("PATCH /change-password", () => {
         currentPassword: "currentpassword",
         newPassword: "newpassword",
         confirmPassword: "newpassword",
-        id: 1000,
       });
 
     expect(response.status).toBe(404);
@@ -480,7 +525,7 @@ describe("PATCH /change-password", () => {
     expect(execute).toHaveBeenCalledOnce();
     expect(execute).toHaveBeenCalledWith(
       "SELECT password_hash FROM users WHERE id = ?",
-      [1000],
+      [1],
     );
   });
 

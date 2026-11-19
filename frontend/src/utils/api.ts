@@ -2,7 +2,7 @@ const API_BASE = `${import.meta.env.VITE_SERVER_IP}${import.meta.env.VITE_PORT}`
 
 const TOKEN_KEY = "jgAuthToken";
 
-export const UNAUTHORISED_EVENT = "auth:unauthorized";
+export const UNAUTHORISED_EVENT = "auth:unauthorised";
 
 export interface AuthUser {
   email: string;

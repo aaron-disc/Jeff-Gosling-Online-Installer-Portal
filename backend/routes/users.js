@@ -2,6 +2,7 @@ const express = require("express");
 const argon2 = require("argon2");
 const pool = require("../db/db");
 const authenticateToken = require("../middleware/authenticate");
+const authoriseAdmin = require("../middleware/authoriseAdmin");
 const { revokeAllUserRefreshTokens } = require("../services/refreshTokenStore");
 const {
   MIN_PASSWORD_LENGTH,
@@ -12,7 +13,7 @@ const {
 const router = express.Router();
 
 /* READ users */
-router.get("/users", authenticateToken, async (req, res) => {
+router.get("/users", authenticateToken, authoriseAdmin, async (req, res) => {
   try {
     const query = "SELECT email, is_admin, created_at, id FROM users";
     const [result] = await pool.query(query);
@@ -31,96 +32,112 @@ router.get("/users", authenticateToken, async (req, res) => {
 });
 
 /* CREATE new user */
-router.post("/create-user", authenticateToken, async (req, res) => {
-  const { email, password, isAdmin } = req.body;
+router.post(
+  "/create-user",
+  authenticateToken,
+  authoriseAdmin,
+  async (req, res) => {
+    const { email, password, isAdmin } = req.body;
 
-  /* email + password validation - 400 response */
-  if (
-    typeof email !== "string" ||
-    typeof password !== "string" ||
-    email === "" ||
-    password === ""
-  ) {
-    return res.status(400).json({
-      error: "Email and password are required.",
-    });
-  }
-
-  if (!EMAIL_PATTERN.test(email.trim())) {
-    return res.status(400).json({
-      error: "Email must be a valid address.",
-    });
-  }
-
-  if (password.length > MAX_PASSWORD_LENGTH) {
-    return res.status(400).json({
-      error: `Password must be at most ${MAX_PASSWORD_LENGTH} characters.`,
-    });
-  }
-
-  if (password.length < MIN_PASSWORD_LENGTH) {
-    return res.status(400).json({
-      error: `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`,
-    });
-  }
-
-  try {
-    const emailExistsQuery =
-      "SELECT COUNT(*) as count FROM users WHERE email = ?";
-    const [rows] = await pool.execute(emailExistsQuery, [email]);
-
-    if (rows[0].count > 0) {
+    /* email + password validation - 400 response */
+    if (
+      typeof email !== "string" ||
+      typeof password !== "string" ||
+      email === "" ||
+      password === ""
+    ) {
       return res.status(400).json({
-        error: "Email already in use.",
+        error: "Email and password are required.",
       });
     }
 
-    const passwordHash = await argon2.hash(password, {
-      type: argon2.argon2id,
-    });
-    const createUserQuery =
-      "INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, ?)";
+    if (!EMAIL_PATTERN.test(email.trim())) {
+      return res.status(400).json({
+        error: "Email must be a valid address.",
+      });
+    }
 
-    await pool.execute(createUserQuery, [email, passwordHash, isAdmin]);
-    res.status(201).json({ message: "User created successfully" });
-  } catch (error) {
-    console.error("Database error: ", error);
-    res.status(500).json({ error: "Interal server error.." });
-  }
-});
+    if (password.length > MAX_PASSWORD_LENGTH) {
+      return res.status(400).json({
+        error: `Password must be at most ${MAX_PASSWORD_LENGTH} characters.`,
+      });
+    }
+
+    if (password.length < MIN_PASSWORD_LENGTH) {
+      return res.status(400).json({
+        error: `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`,
+      });
+    }
+
+    try {
+      const emailExistsQuery =
+        "SELECT COUNT(*) as count FROM users WHERE email = ?";
+      const [rows] = await pool.execute(emailExistsQuery, [email]);
+
+      if (rows[0].count > 0) {
+        return res.status(400).json({
+          error: "Email already in use.",
+        });
+      }
+
+      const passwordHash = await argon2.hash(password, {
+        type: argon2.argon2id,
+      });
+      const createUserQuery =
+        "INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, ?)";
+
+      await pool.execute(createUserQuery, [email, passwordHash, isAdmin]);
+      res.status(201).json({ message: "User created successfully" });
+    } catch (error) {
+      console.error("Database error: ", error);
+      res.status(500).json({ error: "Interal server error.." });
+    }
+  },
+);
 
 /* DELETE user by id */
-router.delete("/delete-user/:id", authenticateToken, async (req, res) => {
-  const { id } = req.params;
+router.delete(
+  "/delete-user/:id",
+  authenticateToken,
+  authoriseAdmin,
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    const query = "DELETE FROM users WHERE id = ?";
+    try {
+      const query = "DELETE FROM users WHERE id = ?";
 
-    const [result] = await pool.execute(query, [id]);
+      const [result] = await pool.execute(query, [id]);
 
-    if (result.affectedRows === 0) {
+      if (result.affectedRows === 0) {
+        return res.status(500).json({
+          success: false,
+          message: "Failed to find user",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: "User deleted successfully.",
+      });
+    } catch (error) {
+      console.error("Database Error:", error);
       return res.status(500).json({
         success: false,
-        message: "Failed to find user",
+        message: "Internal server error occurred.",
       });
     }
-
-    return res.status(200).json({
-      success: true,
-      message: "User deleted successfully.",
-    });
-  } catch (error) {
-    console.error("Database Error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error occurred.",
-    });
-  }
-});
+  },
+);
 
 /* UPDATE user passowrd */
 router.patch("/change-password", authenticateToken, async (req, res) => {
-  const { currentPassword, newPassword, confirmPassword, id } = req.body ?? {};
+  const {
+    currentPassword,
+    newPassword,
+    confirmPassword,
+    id: requestedId,
+  } = req.body ?? {};
+  const id = req.user?.id;
 
   /* type + exists validation -- 400 response */
   if (
@@ -138,7 +155,13 @@ router.patch("/change-password", authenticateToken, async (req, res) => {
   }
 
   if (!Number.isInteger(id) || id <= 0) {
-    return res.status(400).json({ error: "A valid user id is required." });
+    return res.status(401).json({ error: "Authentication required." });
+  }
+
+  if (requestedId !== undefined && requestedId !== id) {
+    return res
+      .status(403)
+      .json({ error: "You can only change your own password." });
   }
 
   /* password strength validation */
